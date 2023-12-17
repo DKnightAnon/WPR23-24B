@@ -24,6 +24,7 @@ namespace WPR23_24B.Chat.Hubs
         public override async Task OnConnectedAsync()
         {
             TotalViews++;
+            await Clients.All.SendAsync("updateTotalViews", TotalViews);
             
         }
 
