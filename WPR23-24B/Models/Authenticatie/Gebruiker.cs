@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace WPR23_24B.Models.Authenticatie
@@ -17,7 +16,7 @@ namespace WPR23_24B.Models.Authenticatie
 
         [Required(ErrorMessage = "Een Emailadres moet ingevuld worden.")]
         [EmailAddress]
-        public string Email {  get; set; }
+        public override string Email {  get; set; }
 
         [Required]
         //RegularExpression limits the allowed inputs to the specified characters
