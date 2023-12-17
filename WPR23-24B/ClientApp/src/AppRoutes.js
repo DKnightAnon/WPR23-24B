@@ -1,3 +1,4 @@
+import { Chat } from "./components/Chat/Chat";
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
@@ -14,7 +15,11 @@ const AppRoutes = [
   {
     path: '/fetch-data',
     element: <FetchData />
-  }
+    },
+    {
+        path: '/chatfunctie',
+        element: <Chat/>
+    }
 ];
 
 export default AppRoutes;
