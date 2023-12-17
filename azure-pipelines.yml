@@ -32,6 +32,9 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
+    - script: dir $(System.DefaultWorkingDirectory)
+    - script: dir $(System.DefaultWorkingDirectory)/xxx/yyy
 
 
 #Publish artifacts to Azure Pipelines
@@ -59,6 +62,9 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: true
+    - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
+    - script: dir $(System.DefaultWorkingDirectory)
+    - script: dir $(System.DefaultWorkingDirectory)/xxx/yyy
 
 - task: AzureWebApp@1
   inputs:
@@ -67,3 +73,6 @@ steps:
     appName: 'WPR23-24B'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
+    - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
+    - script: dir $(System.DefaultWorkingDirectory)
+    - script: dir $(System.DefaultWorkingDirectory)/xxx/yyy
