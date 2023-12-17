@@ -53,12 +53,12 @@ steps:
 
 #Deploy webApp with Azure Web App task
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
+#- script: dotnet build --configuration $(buildConfiguration)
+#  displayName: 'dotnet build $(buildConfiguration)'
+#- task: DotNetCoreCLI@2
+#  inputs:
+#    command: 'publish'
+#    publishWebProjects: true
 
 - task: AzureWebApp@1
   inputs:
