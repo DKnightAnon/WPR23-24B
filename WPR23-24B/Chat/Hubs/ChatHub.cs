@@ -21,7 +21,7 @@ namespace WPR23_24B.Chat.Hubs
         ///  If a client connects to the hub, this method is executed. It increments the parameter
         /// </summary>
         /// <returns></returns>
-        public override async Task OnConnectedAsync()
+        public async Task newUserAccess()
         {
             TotalViews++;
             await Clients.All.SendAsync("updateTotalViews", TotalViews);
@@ -38,10 +38,10 @@ namespace WPR23_24B.Chat.Hubs
             throw new NotImplementedException();
         }
 
-        public async Task SendChatMessage(string user, string message) 
-        {
-           await Clients.All.SendAsync("ReceiveMessage", user, message);
-        }
+        //public async Task SendChatMessage(string user, string message) 
+        //{
+        //   await Clients.All.SendAsync("ReceiveMessage", user, message);
+        //}
 
         public async Task SendTyping(object sender)
         {

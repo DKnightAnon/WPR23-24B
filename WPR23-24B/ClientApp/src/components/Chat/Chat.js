@@ -1,8 +1,40 @@
 import React, { Component } from 'react';
 
-import * as signalR from "@microsoft/signalr";
+//import * as signalR from '@microsoft/signalr';
+const signalR = require("@microsoft/signalr");
 
-function Chat () {
+export default function Chat () {
+
+    //Make connection
+    const connectionUserCount = new signalR.HubConnectionBuilder().withUrl("/hubs/chatHub").build();
+
+    //Define methods
+    connectionUserCount.on("updateTotalViews", (value) => {
+        var newCountSpan = document.getElementById("totalViewsCounter")
+        newCountSpan.innerText = value.toString();
+    }
+    );
+
+    //Notify hub
+    function newUserAccess()
+    {
+        connectionUserCount.send("newUserAccess");
+    }
+
+    //Start connection
+    function fulfilled()
+    {
+        //Do something on start
+        console.log("Connection to hub succeeded!");
+    }
+
+    function rejected()
+    {
+        //Do something on failure
+        console.log("Connection to hub failed!");
+    }
+
+    connectionUserCount.start().then(fulfilled, rejected);
 
 
     return(
@@ -20,4 +52,3 @@ function Chat () {
     )
 }
 
-export default Chat;
