@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Models.Authenticatie
 {
@@ -17,10 +18,8 @@ namespace WPR23_24B.Models.Authenticatie
         [Required(ErrorMessage = "Website moet ingevuld worden.")]
         [Url]
         public string Website { get; set; }
-
         public string TrackingID { get; set; }
-        public List<Contactpersoon_Bedrijf> Contactpersonen { get; set; }
-
+        
         public void UpdateProfile(string nieuweLocatie, string nieuweWebsite)
         {
             Locatie = nieuweLocatie;
@@ -29,5 +28,15 @@ namespace WPR23_24B.Models.Authenticatie
 
         // TODO:
         // Voeg andere methode of properties voor Bedrijf
+
+        //Navigation properties
+
+        //Navigatie voor de 1 op veel relatie met onderzoek. Namespace/ class
+        public List<Onderzoek.Onderzoek> Onderzoeken { get; set; }
+
+        //Relatie met contactpersoon
+        public List<Contactpersoon_Bedrijf> Contactpersonen { get; set; }
+
+
     }
 }
