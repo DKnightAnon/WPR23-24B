@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Models.Onderzoek;
@@ -14,15 +15,17 @@ namespace WPR23_24B.Controllers
     public class OnderzoekResultaatsController : ControllerBase
     {
         private readonly OnderzoekResultaatContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public OnderzoekResultaatsController(OnderzoekResultaatContext context)
+        public OnderzoekResultaatsController(OnderzoekResultaatContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/OnderzoekResultaats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OnderzoekResultaat>>> GetOnderzoekResultaat()
+        public async Task<ActionResult<IEnumerable<OnderzoekResultaat>>> GetAllOnderzoekResultaat()
         {
           if (_context.OnderzoekResultaat == null)
           {
@@ -33,7 +36,7 @@ namespace WPR23_24B.Controllers
 
         // GET: api/OnderzoekResultaats/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OnderzoekResultaat>> GetOnderzoekResultaat(int id)
+        public async Task<ActionResult<OnderzoekResultaat>> GetOnderzoekResultaatAtId(int id)
         {
           if (_context.OnderzoekResultaat == null)
           {
@@ -52,7 +55,7 @@ namespace WPR23_24B.Controllers
         // PUT: api/OnderzoekResultaats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOnderzoekResultaat(int id, OnderzoekResultaat onderzoekResultaat)
+        public async Task<IActionResult> PutOnderzoekResultaatAtId(int id, OnderzoekResultaat onderzoekResultaat)
         {
             if (id != onderzoekResultaat.OnderzoekResultaatId)
             {

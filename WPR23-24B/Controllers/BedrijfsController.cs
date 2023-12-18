@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Data;
@@ -15,26 +16,18 @@ namespace WPR23_24B.Controllers
     public class BedrijfsController : ControllerBase
     {
         private readonly BedrijfsContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BedrijfsController(BedrijfsContext context)
+
+        public BedrijfsController(BedrijfsContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
-        }
-
-        // GET: api/Bedrijfs
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bedrijf>>> GetBedrijf()
-        {
-          if (_context.Bedrijf == null)
-          {
-              return NotFound();
-          }
-            return await _context.Bedrijf.ToListAsync();
+            _userManager = userManager;
         }
 
         // GET: api/Bedrijfs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bedrijf>> GetBedrijf(int id)
+        public async Task<ActionResult<Bedrijf>> GetBedrijfAtId(int id)
         {
           if (_context.Bedrijf == null)
           {
@@ -49,6 +42,20 @@ namespace WPR23_24B.Controllers
 
             return bedrijf;
         }
+
+        // GET: api/Bedrijfs
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Bedrijf>>> GetAllBedrijven()
+        {
+            var allBedrijven = await _context.Bedrijf.ToListAsync();
+                
+            if(allBedrijven== null || allBedrijven.Count() == 0){
+                return NotFound();
+            }
+
+            return allBedrijven;
+        }
+            
 
         // PUT: api/Bedrijfs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -98,7 +105,7 @@ namespace WPR23_24B.Controllers
 
         // DELETE: api/Bedrijfs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBedrijf(int id)
+        public async Task<IActionResult> DeleteBedrijfAtId(int id)
         {
             if (_context.Bedrijf == null)
             {
@@ -121,4 +128,9 @@ namespace WPR23_24B.Controllers
             return (_context.Bedrijf?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
+
+
+
+
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Models.Medisch;
@@ -14,15 +15,17 @@ namespace WPR23_24B.Controllers
     public class HulpmiddelsController : ControllerBase
     {
         private readonly HulpmiddelContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HulpmiddelsController(HulpmiddelContext context)
+        public HulpmiddelsController(HulpmiddelContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Hulpmiddels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hulpmiddel>>> GetHulpmiddel()
+        public async Task<ActionResult<IEnumerable<Hulpmiddel>>> GetAllHulpmiddel()
         {
           if (_context.Hulpmiddel == null)
           {
@@ -33,7 +36,7 @@ namespace WPR23_24B.Controllers
 
         // GET: api/Hulpmiddels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hulpmiddel>> GetHulpmiddel(int id)
+        public async Task<ActionResult<Hulpmiddel>> GetHulpmiddelAtId(int id)
         {
           if (_context.Hulpmiddel == null)
           {
@@ -83,7 +86,7 @@ namespace WPR23_24B.Controllers
         // POST: api/Hulpmiddels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Hulpmiddel>> PostHulpmiddel(Hulpmiddel hulpmiddel)
+        public async Task<ActionResult<Hulpmiddel>> PostNewHulpmiddel(Hulpmiddel hulpmiddel)
         {
           if (_context.Hulpmiddel == null)
           {
