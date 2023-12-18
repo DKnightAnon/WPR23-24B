@@ -13,7 +13,15 @@ export class Counter extends Component {
     this.setState({
       currentCount: this.state.currentCount + 1
     });
-  }
+    }
+
+  decrementCounter() {
+        this.setState({ currentCount: this.state.currentCount - 1 });
+    }
+
+    resetCounter() {
+        this.setState({ currentCount: this.state.currentCount = 0 })
+    }
 
   render() {
     return (
@@ -24,7 +32,9 @@ export class Counter extends Component {
 
         <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
 
-        <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
+            <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
+            <button className="btn btn-secondary" onClick={this.resetCounter}>Increment</button>
+            <button className="btn btn-tertiary" onClick={this.decrementCounter}>Increment</button>
       </div>
     );
   }

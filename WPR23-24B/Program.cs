@@ -9,6 +9,20 @@ builder.Services.AddControllersWithViews();
 //Voeg SignalR toe voor chatfunctionaliteit
 builder.Services.AddSignalR();
 
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:44413/")
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST")
+                .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,12 +30,12 @@ if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    app.UseCors(x => 
-        x.AllowAnyMethod()
-         .AllowAnyHeader()
-         .SetIsOriginAllowed(origin=>true)
-         .AllowCredentials()
-       );
+    //app.UseCors(x => 
+    //    x.AllowAnyMethod()
+    //     .AllowAnyHeader()
+    //     .SetIsOriginAllowed(origin=>true)
+    //     .AllowCredentials()
+    //   );
 
 }
 
@@ -36,8 +50,11 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html");
 
+app.UseCors();
+
 //Map de klas ChatHub naar URI website/chatHub
-app.MapHub<ChatHub>("hubs/chatHub");
-app.MapHub<OnderzoekHub>("hubs/onderzoek");
+app.UseEndpoints(endpoints =>
+    { endpoints.MapHub<ChatHub>("/hubs/chathub"); }
+    );
 
 app.Run();

@@ -28,6 +28,11 @@ namespace WPR23_24B.Chat.Hubs
             
         }
 
+        public override async Task OnConnectedAsync() 
+        {
+            await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId} has joined!");
+        }
+
         public async Task OnRoomJoin(ChatRoom room)
         {
             throw new NotImplementedException();
@@ -48,6 +53,10 @@ namespace WPR23_24B.Chat.Hubs
             await Clients.Others.SendAsync("typing", sender);
         }
 
+        public async Task SendMessage() 
+        {
+            await Clients.All.SendAsync("SendMessage", "testmessage");
+        }
 
 
     }
