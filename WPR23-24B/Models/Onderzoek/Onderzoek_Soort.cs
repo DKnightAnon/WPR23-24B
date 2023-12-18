@@ -13,6 +13,8 @@ namespace WPR23_24B.Models.Onderzoek
         [Required(ErrorMessage = "Een naam voor het onderzoekstype moet ingevuld worden.")]
         public string Naam { get; set; }
 
-        // public List<Onderzoek_Soort_Link> OnderzoekSoortLinks { get; set; }
+        
+
+
     }
 }

@@ -26,10 +26,14 @@ namespace WPR23_24B.Models.Onderzoek
 
         // Navigation properties
         public List<OnderzoekResultaat> Resultaten { get; set; }
-        public Bedrijf Bedrijf { get; set; }
-        public int BedrijfId { get; set; }
+    
 
         // Relationship with Onderzoek_soort
         public List<Onderzoek_Soort> OnderzoekSoorten { get; set; }
+
+        //Relationship with Onderzoek_Resultaat 
+        public List<OnderzoekResultaat> OnderzoekResultaten { get; set; }
+
+       
     }
 }
