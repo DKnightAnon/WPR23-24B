@@ -53,11 +53,20 @@ namespace WPR23_24B.Chat.Hubs
             await Clients.Others.SendAsync("typing", sender);
         }
 
-        public async Task SendMessage() 
+        //public async Task SendMessage() 
+        //{
+        //    await Clients.All.SendAsync("SendMessage", "testmessage");
+        //}
+
+        public async Task Send(string name, string message)
         {
-            await Clients.All.SendAsync("SendMessage", "testmessage");
+            // Call the broadcastMessage method to update clients.
+            await Clients.All.SendAsync("broadcastMessage", name, message);
         }
 
-
+        public async Task SendMessage(ChatMessage message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", message);
+        }
     }
 }

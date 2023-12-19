@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\components\Chat\ChatInput\" />
     <Folder Include="Data\" />
   </ItemGroup>
 

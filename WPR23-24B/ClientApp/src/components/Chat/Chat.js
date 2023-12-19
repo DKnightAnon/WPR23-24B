@@ -1,57 +1,69 @@
-import React from 'react';
+"use strict";
+import React, { useState, useEffect, useRef } from 'react';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-/*const signalR = require("@microsoft/signalr");*/
+import ChatWindow from './ChatWindow/ChatWindow';
+import ChatInput from './ChatInput/ChatInput';
 
 const Chat = () => {
+    const [connection, setConnection] = useState(null);
+    const [chat, setChat] = useState([]);
+    const latestChat = useRef(null);
 
-    //Make connection
-    //https://localhost:44443
-    const connectionUserCount = new HubConnectionBuilder().withUrl("https://localhost:5057/hubs/chathub").build();
-    const userCount = 0;
+    latestChat.current = chat;
 
-    //Define methods
-    connectionUserCount.on("updateTotalViews", (value) => {
-        userCount = value;
-        //var newCountSpan = document.getElementById("totalViewsCounter")
-        //newCountSpan.innerText = value.toString();
+    useEffect(() => {
+        const newConnection = new HubConnectionBuilder()
+            .withUrl("https://localhost:7180/hubs/chathub")
+            .withAutomaticReconnect()
+            .build();
+
+        setConnection(newConnection);
+    }, []);
+
+    useEffect(() => {
+        if (connection) {
+            connection.start()
+                .then(result => {
+                    console.log('Connected!');
+
+                    connection.on('ReceiveMessage', message => {
+                        const updatedChat = [...latestChat.current];
+                        updatedChat.push(message);
+
+                        setChat(updatedChat);
+                    });
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
+    }, [connection]);
+
+    const sendMessage = async (user, message) => {
+        const chatMessage = {
+            user: user,
+            message: message
+        };
+
+        if (connection.connectionStarted) {
+            try {
+                await connection.send('SendMessage', chatMessage);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        else {
+            alert('No connection to server yet.');
+        }
     }
-    );
-
-    //Notify hub
-    function newUserAccess() {
-        connectionUserCount.send("newUserAccess");
-    }
-
-    //Start connection
-    function fulfilled() {
-        //Do something on start
-        console.log("Connection to hub succeeded!");
-        newUserAccess();
-    }
-
-    function rejected() {
-        //Do something on failure
-        console.log("Connection to hub failed!");
-    }
-
-    connectionUserCount.start().then(fulfilled, rejected);
-
 
     return (
-        <div>Here goes chat
-
-            <p>testing</p>
-            <div class="Container">
-                <div class="col-3">Total Views: </div>
-                <div class="col-4">
-                    <span id="totalViewsCounter">{userCount}</span>
-                </div>
-            </div>
+        <div>
+            <ChatInput sendMessage={sendMessage} />
+            <hr />
+            <ChatWindow chat={chat} />
         </div>
-
-
-    )
-}
+    );
+};
 
 export default Chat;
