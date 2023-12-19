@@ -30,7 +30,7 @@ namespace WPR23_24B.Chat.Hubs
 
         public override async Task OnConnectedAsync() 
         {
-            await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId} has joined!");
+            await Clients.All.SendAsync("UserJoinMessage", $"{Context.ConnectionId} has joined!");
         }
 
         public async Task OnRoomJoin(ChatRoom room)
@@ -67,6 +67,11 @@ namespace WPR23_24B.Chat.Hubs
         public async Task SendMessage(ChatMessage message)
         {
             await Clients.All.SendAsync("ReceiveMessage", message);
+        }
+
+        public async Task SendToAll(string name, string message) 
+        {
+            await Clients.All.SendAsync("sendToAll", name, message);
         }
     }
 }
