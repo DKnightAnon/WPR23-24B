@@ -23,7 +23,7 @@ namespace WPR23_24B.Controllers
             _userManager = userManager;
         }
 
-        // GET: api/OnderzoekResultaats
+        // GET: Get voor alle onderzoeksresultaten
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OnderzoekResultaat>>> GetAllOnderzoekResultaat()
         {
@@ -34,7 +34,7 @@ namespace WPR23_24B.Controllers
             return await _context.OnderzoekResultaat.ToListAsync();
         }
 
-        // GET: api/OnderzoekResultaats/5
+        // GET: Voor onderzoeksresultaat at id 
         [HttpGet("{id}")]
         public async Task<ActionResult<OnderzoekResultaat>> GetOnderzoekResultaatAtId(int id)
         {
@@ -49,11 +49,10 @@ namespace WPR23_24B.Controllers
                 return NotFound();
             }
 
-            return onderzoekResultaat;
+            return Ok(onderzoekResultaat);
         }
 
-        // PUT: api/OnderzoekResultaats/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: bijwerken van een bestaand resultaat 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOnderzoekResultaatAtId(int id, OnderzoekResultaat onderzoekResultaat)
         {
@@ -80,11 +79,10 @@ namespace WPR23_24B.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
-        // POST: api/OnderzoekResultaats
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: posten van een nieuw resultaat 
         [HttpPost]
         public async Task<ActionResult<OnderzoekResultaat>> PostOnderzoekResultaat(OnderzoekResultaat onderzoekResultaat)
         {

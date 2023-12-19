@@ -23,40 +23,45 @@ namespace WPR23_24B.Controllers
             _userManager = userManager;
         }
 
-        // GET: api/Hulpmiddels
+
+        // GET: Alle hulpmiddelen
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Hulpmiddel>>> GetAllHulpmiddel()
         {
+            //Controleer of hulpmiddel leeg is 
           if (_context.Hulpmiddel == null)
           {
               return NotFound();
           }
+          // Haal alle hulpmiddelen op in een lijst
             return await _context.Hulpmiddel.ToListAsync();
         }
 
-        // GET: api/Hulpmiddels/5
+        // GET: Hulpmiddel op basis van Id
         [HttpGet("{id}")]
         public async Task<ActionResult<Hulpmiddel>> GetHulpmiddelAtId(int id)
         {
+            // Controleer of hulpmiddel leeg is 
           if (_context.Hulpmiddel == null)
           {
               return NotFound();
           }
             var hulpmiddel = await _context.Hulpmiddel.FindAsync(id);
 
-            if (hulpmiddel == null)
+            // Kijk of er een overeenkomend hulpmiddel is 
+            if (hulpmiddel == null )
             {
-                return NotFound();
+                return NotFound($"Geen hulpmiddel gevonden met het id {id}." );
             }
-
-            return hulpmiddel;
+            //http Ok
+            return Ok(hulpmiddel);
         }
 
-        // PUT: api/Hulpmiddels/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: Bijwerken van een hulpmiddel
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHulpmiddel(int id, Hulpmiddel hulpmiddel)
         {
+            // Overeenkomst bekijken tussen id en id van hulpmiddel
             if (id != hulpmiddel.Id)
             {
                 return BadRequest();
@@ -66,11 +71,13 @@ namespace WPR23_24B.Controllers
 
             try
             {
+                //Sla wijzigingen op 
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HulpmiddelExists(id))
+                //Kijk of het hulpmiddel nog bestaat 
+                if (!_context.Hulpmiddel.Any(b => b.Id == id))
                 {
                     return NotFound();
                 }
@@ -80,11 +87,11 @@ namespace WPR23_24B.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
+        
         }
 
-        // POST: api/Hulpmiddels
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: nieuwe hulpmiddelen toevoegen 
         [HttpPost]
         public async Task<ActionResult<Hulpmiddel>> PostNewHulpmiddel(Hulpmiddel hulpmiddel)
         {
@@ -98,7 +105,7 @@ namespace WPR23_24B.Controllers
             return CreatedAtAction("GetHulpmiddel", new { id = hulpmiddel.Id }, hulpmiddel);
         }
 
-        // DELETE: api/Hulpmiddels/5
+        // DELETE: verwijderen van een bestaand hulpmiddel 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHulpmiddel(int id)
         {
@@ -112,6 +119,7 @@ namespace WPR23_24B.Controllers
                 return NotFound();
             }
 
+            // Verwijdert de beperking en slaat de wijzigingen op in de database
             _context.Hulpmiddel.Remove(hulpmiddel);
             await _context.SaveChangesAsync();
 
