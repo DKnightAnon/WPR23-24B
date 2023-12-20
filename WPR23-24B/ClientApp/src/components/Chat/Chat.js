@@ -1,72 +1,82 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
 
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-/*const signalR = require("@microsoft/signalr");*/
+/*"use strict";*/
+import React, { useState, useEffect, useRef } from 'react';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+
+import * as SignalR from '@microsoft/signalr'; 
+
+import ChatWindow from './ChatWindow/ChatWindow';
+import ChatInput from './ChatInput/ChatInput';
 
 const Chat = () => {
-
-    //Make connection
-    //https://localhost:44443
-
     const [connection, setConnection] = useState(null);
+    const [chat, setChat] = useState([]);
+    const latestChat = useRef(null);
+
+    latestChat.current = chat;
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
+                      //url has to be a http://localhost 
             .withUrl("http://localhost:5057/hubs/chathub")
             .withAutomaticReconnect()
+            //.configureLogging()
             .build();
 
         setConnection(newConnection);
     }, []);
 
-    const connectionUserCount = new HubConnectionBuilder().withUrl("https://localhost:5057/hubs/chathub").build();
-    const userCount = 0;
-    //const [viewCount, setViewCount] = 0;
+    
 
-    //Define methods
-    connectionUserCount.on("updateTotalViews", (value) => {
-        userCount = value;
-        //var newCountSpan = document.getElementById("totalViewsCounter")
-        //newCountSpan.innerText = value.toString();
+    useEffect(() => {
+        if (connection) {
+            connection.start(  /*this doesnt print for some reason*/ function () { console.log('Starting Connection...') })
+                .then(result => {
+                    console.log('Connected!');
+                    connection.on('ReceiveMessage', message => {
+                        const updatedChat = [...latestChat.current];
+                        updatedChat.push(message);
+
+                        setChat(updatedChat);
+                    });
+
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
+    }, [connection]);
+
+    const sendMessage = async (user, message) => {
+        const chatMessage = {
+            user: user,
+            message: message
+        };
+
+        //for some reason the if statement here was preventing the connection.
+
+        //At this point the hub is not in the 'Disconnected' state. Maybe like in postman details about the connection has to be sent?
+        //connection.start();
+
+        //if (connection.connectionStarted) {
+            try {
+                await connection.invoke('SendMessage', chatMessage);
+            }
+            catch (e) {
+                console.log(e);
+            }
+     //   }
+        //else {
+        //    console.log("If you see this, something went wrong with the connection.");
+        //    //alert('No connection to server yet.');
+        //}
     }
-    );
-
-    //Notify hub
-    function newUserAccess() {
-        connectionUserCount.send("newUserAccess");
-    }
-
-    //Start connection
-    function fulfilled() {
-        //Do something on start
-        console.log("Connection to hub succeeded!");
-        newUserAccess();
-    }
-
-    function rejected() {
-        //Do something on failure
-        console.log("Connection to hub failed!");
-    }
-
-    connectionUserCount.start().then(fulfilled, rejected);
-
 
     return (
-        <div>Here goes chat
-
-            <p>testing</p>
-            <div class="Container">
-                <div class="col-3">Total Views: </div>
-                <div class="col-4">
-                    <span id="totalViewsCounter">{userCount}</span>
-                    <p></p>
-                </div>
-            </div>
+        <div>
+            <ChatInput sendMessage={sendMessage} />
+            <hr />
+            <ChatWindow chat={chat} />
         </div>
-
-
-    )
-}
+    );
+};
 
 export default Chat;
