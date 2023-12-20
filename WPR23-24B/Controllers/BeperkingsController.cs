@@ -86,11 +86,11 @@ namespace WPR23_24B.Controllers
                 return NotFound();
             }
 
-            return beperking;
+            return Ok(beperking);
         }
 
         // Haalt Beperkingen op die zijn gekoppeld aan de gebruiker via GebruikerList.
-        [HttpGet("{id}")]
+        [HttpGet("gebruiker/{gebruikerId}")]
         public async Task<ActionResult<Beperking>> GetBeperkingenVanGebruiker(string gebruikerId)
         {
             // Zoek de gebruiker op basis van het opgegeven gebruikerId
