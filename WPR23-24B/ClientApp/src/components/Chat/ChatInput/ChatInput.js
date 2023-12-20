@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-const ChatInput = (props) => {
+                                   //props are a catch-all for passed in paramteres. Think of it as a list. You can call props.[paramater] to retrieve something.
+export default function ChatInput (props)  {
     const [user, setUser] = useState('');
     const [message, setMessage] = useState('');
 
@@ -28,6 +29,7 @@ const ChatInput = (props) => {
 
     return (
         <form
+        //this is called automatically by the button tag because it is in a form? research this.
             onSubmit={onSubmit}>
             <label htmlFor="user">User:</label>
             <br />
@@ -51,4 +53,3 @@ const ChatInput = (props) => {
     )
 };
 
-export default ChatInput;

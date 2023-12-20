@@ -1,10 +1,19 @@
 import React from 'react';
+import { useState } from 'react';
 
-const Message = (props) => (
-    <div style={{ background: "#eee", borderRadius: '5px', padding: '0 10px' }}>
-        <p><strong>{props.user}</strong> says:</p>
-        <p>{props.message}</p>
-    </div>
-);
 
-export default Message;
+
+
+export default function Message(props)  {
+
+
+
+
+    return(
+        <div className="chat-message-box" style={{ background: "#eee", borderRadius: '5px', padding: '0 10px' }}>
+            <p><strong>{props.user}</strong> Time Goes Here</p>
+            <p>{props.message}</p>
+        </div>
+    );
+}
+

@@ -66,12 +66,15 @@ namespace WPR23_24B.Chat.Hubs
 
         public async Task SendMessage(ChatMessage message)
         {
+            //trigger every client that has an implementation for a ReceiveMessage method.
             await Clients.All.SendAsync("ReceiveMessage", message);
+            Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {DateTime.UtcNow}");
         }
 
         public async Task SendToAll(string name, string message) 
         {
             await Clients.All.SendAsync("sendToAll", name, message);
+            
         }
     }
 }

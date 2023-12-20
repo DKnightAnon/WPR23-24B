@@ -2,7 +2,7 @@ import React from 'react';
 
 import Message from './Message/Message';
 
-const ChatWindow = (props) => {
+export default function ChatWindow(props) {
     const chat = props.chat
         .map(m => <Message
             key={Date.now() * Math.random()}
@@ -16,4 +16,3 @@ const ChatWindow = (props) => {
     )
 };
 
-export default ChatWindow;

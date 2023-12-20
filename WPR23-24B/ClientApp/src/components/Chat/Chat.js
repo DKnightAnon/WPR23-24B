@@ -8,7 +8,7 @@ import * as SignalR from '@microsoft/signalr';
 import ChatWindow from './ChatWindow/ChatWindow';
 import ChatInput from './ChatInput/ChatInput';
 
-const Chat = () => {
+export default function Chat() {
     const [connection, setConnection] = useState(null);
     const [chat, setChat] = useState([]);
     const latestChat = useRef(null);
@@ -26,7 +26,17 @@ const Chat = () => {
         setConnection(newConnection);
     }, []);
 
-    
+    function getTime() {
+        var time = new Date();
+        var year = time.getFullYear();
+        var month = (time.getMonth() + 1);
+        var day = time.getDate()
+        var hour = time.getHours()
+        var minute = time.getMinutes();
+        var format = year + "-" + month + "-" + day + " - " + hour + ":" + minute;
+        var date = format.toString();
+        return date;
+    }
 
     useEffect(() => {
         if (connection) {
@@ -45,10 +55,14 @@ const Chat = () => {
         }
     }, [connection]);
 
+    //This method is called by the submit button in ChatInput.js
     const sendMessage = async (user, message) => {
+        //props received from ChatInput is converted into an object
         const chatMessage = {
             user: user,
             message: message
+
+
         };
 
         //for some reason the if statement here was preventing the connection.
@@ -57,7 +71,8 @@ const Chat = () => {
         //connection.start();
 
         //if (connection.connectionStarted) {
-            try {
+        try {
+                //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter. 
                 await connection.invoke('SendMessage', chatMessage);
             }
             catch (e) {
@@ -79,4 +94,3 @@ const Chat = () => {
     );
 };
 
-export default Chat;
