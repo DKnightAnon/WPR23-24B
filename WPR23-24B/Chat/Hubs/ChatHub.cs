@@ -33,6 +33,11 @@ namespace WPR23_24B.Chat.Hubs
             await Clients.All.SendAsync("UserJoinMessage", $"{Context.ConnectionId} has joined!");
         }
 
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            await Clients.All.SendAsync("UserLeftMessage", $"{Context.ConnectionId} has left!");
+        }
+
         public async Task OnRoomJoin(ChatRoom room)
         {
             throw new NotImplementedException();

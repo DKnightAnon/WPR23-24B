@@ -49,6 +49,9 @@ export default function Chat() {
 
                         setChat(updatedChat);
                     });
+                    connection.on("UserJoinMessage", content => {
+                        console.log(content);
+                    });
 
                 })
                 .catch(e => console.log('Connection failed: ', e));
