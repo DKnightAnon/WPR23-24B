@@ -28,19 +28,38 @@ namespace WPR23_24B.Chat.Hubs
             
         }
 
+
+
+        /// <summary>
+        /// Method that is called when a user opens a react component that implements signalr.
+        /// </summary>
+        /// <returns></returns>
         public override async Task OnConnectedAsync() 
         {
             await Clients.All.SendAsync("UserJoinMessage", $"{Context.ConnectionId} has joined!");
+            TotalViews++;
+            await Clients.All.SendAsync("UserChange", TotalViews ); 
+
         }
 
+        /// <summary>
+        /// Method that is called when a user disconnects from a chat. 
+        /// This is usually done by either exiting the website or reloading on any non-chat page.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            await Clients.All.SendAsync("UserLeftMessage", $"{Context.ConnectionId} has left!");
+            await Clients.All.SendAsync("UserLeftMessage", $"A user has left!");
+            TotalViews--;
+            await Clients.All.SendAsync("UserChange", TotalViews);
         }
 
         public async Task OnRoomJoin(ChatRoom room)
         {
             throw new NotImplementedException();
+           // await Groups.AddToGroupAsync(Context.ConnectionId, ro)
+
         }
 
         public async Task SendChatMessage(Gebruiker gebruiker, ChatBericht bericht, ChatRoom room)
@@ -69,11 +88,27 @@ namespace WPR23_24B.Chat.Hubs
             await Clients.All.SendAsync("broadcastMessage", name, message);
         }
 
+
+
+
         public async Task SendMessage(ChatMessage message)
         {
             //trigger every client that has an implementation for a ReceiveMessage method.
             await Clients.All.SendAsync("ReceiveMessage", message);
             Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {DateTime.UtcNow}");
+
+        }
+
+
+        /// <summary>
+        /// Method to send a chatmessage to a specified group. The basis for group-based chatting.
+        /// </summary>
+        /// <param name="groupname"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public async Task SendMessageToGroup(string groupname, ChatMessage message) 
+        {
+            await Clients.Group(groupname).SendAsync("ReceiveGroupMessage",message);
         }
 
         public async Task SendToAll(string name, string message) 

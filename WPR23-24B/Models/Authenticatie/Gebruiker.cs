@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using WPR23_24B.Chat;
 
 namespace WPR23_24B.Models.Authenticatie
 {
@@ -28,5 +29,6 @@ namespace WPR23_24B.Models.Authenticatie
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
+        public ICollection<ChatRoom> Gesprekken {  get; set; }
     }
 }

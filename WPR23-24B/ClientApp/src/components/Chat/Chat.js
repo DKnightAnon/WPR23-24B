@@ -12,6 +12,7 @@ export default function Chat() {
     const [connection, setConnection] = useState(null);
     const [chat, setChat] = useState([]);
     const latestChat = useRef(null);
+    const [userCount, setUserCount] = useState(0);
 
     latestChat.current = chat;
 
@@ -38,6 +39,9 @@ export default function Chat() {
         return date;
     }
 
+
+
+
     useEffect(() => {
         if (connection) {
             connection.start(  /*this doesnt print for some reason*/ function () { console.log('Starting Connection...') })
@@ -51,7 +55,12 @@ export default function Chat() {
                     });
                     connection.on("UserJoinMessage", content => {
                         console.log(content);
+                       
                     });
+                    connection.on("UserLeftMessage", content => {
+                        console.log("A user left!");
+                    });
+                    connection.on("UserChange", content => { setUserCount(content); })
 
                 })
                 .catch(e => console.log('Connection failed: ', e));
@@ -92,6 +101,7 @@ export default function Chat() {
         <div>
             <ChatInput sendMessage={sendMessage} />
             <hr />
+            <p>Amount of connected users : {userCount}</p>
             <ChatWindow chat={chat} />
         </div>
     );

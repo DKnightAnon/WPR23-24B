@@ -17,6 +17,8 @@ namespace WPR23_24B.Chat
         [Required]
         public Gebruiker verzender { get; set; }
 
+        public ChatRoom room { get; set; }
+
         public ChatBericht() 
         {
             postedAt = DateTime.UtcNow;
