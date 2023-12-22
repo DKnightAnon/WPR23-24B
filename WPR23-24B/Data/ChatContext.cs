@@ -19,4 +19,5 @@ public class ChatContext : DbContext
         modelBuilder.Entity<Gebruiker>().HasMany(e => e.Gesprekken).WithMany(e => e.gebruikers).UsingEntity<ChatDeelnemer>();
     }
         public DbSet<WPR23_24B.Chat.ChatBericht> ChatBericht { get; set; } = default!;
+        public DbSet<Gebruiker> Gebruiker { get; set; }
     }

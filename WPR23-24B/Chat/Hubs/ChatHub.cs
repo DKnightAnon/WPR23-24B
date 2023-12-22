@@ -94,8 +94,11 @@ namespace WPR23_24B.Chat.Hubs
         public async Task SendMessage(ChatMessage message)
         {
             //trigger every client that has an implementation for a ReceiveMessage method.
-            await Clients.All.SendAsync("ReceiveMessage", message);
-            Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {DateTime.UtcNow}");
+            //message.TimeStamp = DateTime.UtcNow;
+
+            //Timestamp wasn't arriving at client. Circumvented this by sending an anonymous type.
+            await Clients.All.SendAsync("ReceiveMessage", new {user = message.User, message = message.Message, timestamp = message.TimeStamp});
+            //Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {message.TimeStamp}");
 
         }
 

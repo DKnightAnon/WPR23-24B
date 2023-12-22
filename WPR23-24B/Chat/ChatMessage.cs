@@ -6,6 +6,6 @@
 
         public string Message { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
     }
 }

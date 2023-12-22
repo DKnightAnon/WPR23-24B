@@ -5,8 +5,12 @@ using WPR23_24B.Chat;
 
 namespace WPR23_24B.Models.Authenticatie
 {
+
     public class Gebruiker : IdentityUser
+
     {
+
+
         [Required(ErrorMessage ="Een naam moet ingevuld worden.")]
         [StringLength(50)]
         public string Voornaam { get; set; }

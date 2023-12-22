@@ -27,18 +27,6 @@ export default function Chat() {
         setConnection(newConnection);
     }, []);
 
-    function getTime() {
-        var time = new Date();
-        var year = time.getFullYear();
-        var month = (time.getMonth() + 1);
-        var day = time.getDate()
-        var hour = time.getHours()
-        var minute = time.getMinutes();
-        var format = year + "-" + month + "-" + day + " - " + hour + ":" + minute;
-        var date = format.toString();
-        return date;
-    }
-
 
 
 
@@ -68,11 +56,12 @@ export default function Chat() {
     }, [connection]);
 
     //This method is called by the submit button in ChatInput.js
-    const sendMessage = async (user, message) => {
+    const sendMessage = async (user, message, timestamp) => {
         //props received from ChatInput is converted into an object
         const chatMessage = {
             user: user,
-            message: message
+            message: message,
+            timestamp: timestamp
 
 
         };

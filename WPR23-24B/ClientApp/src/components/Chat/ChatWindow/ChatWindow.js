@@ -7,7 +7,9 @@ export default function ChatWindow(props) {
         .map(m => <Message
             key={Date.now() * Math.random()}
             user={m.user}
-            message={m.message} />);
+            message={m.message}
+            timestamp={m.timestamp}
+        />);
 
     return (
         <div>
