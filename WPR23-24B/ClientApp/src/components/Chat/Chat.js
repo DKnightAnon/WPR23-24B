@@ -7,6 +7,7 @@ import * as SignalR from '@microsoft/signalr';
 
 import ChatWindow from './ChatWindow/ChatWindow';
 import ChatInput from './ChatInput/ChatInput';
+import TestgroupChatInput from './ChatInput/ChatInput';
 
 export default function Chat() {
     const [connection, setConnection] = useState(null);
@@ -41,6 +42,12 @@ export default function Chat() {
 
                         setChat(updatedChat);
                     });
+                    connection.on('ReceiveGroupMessage', message => {
+                        const updatedChat = [...latestChat.current];
+                        updatedChat.push(message);
+
+                        setChat(updatedChat);
+                    });
                     connection.on("UserJoinMessage", content => {
                         console.log(content);
                        
@@ -49,6 +56,8 @@ export default function Chat() {
                         console.log("A user left!");
                     });
                     connection.on("UserChange", content => { setUserCount(content); })
+
+                    connection.on("RoomNotification", content => {console.log(content) })
 
                 })
                 .catch(e => console.log('Connection failed: ', e));
@@ -86,12 +95,39 @@ export default function Chat() {
         //}
     }
 
+    const sendTestgroupMessage = async (user, message) => {
+        const chatMessage = {
+            user: user,
+            message: message
+        };
+        try {
+            //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter. 
+            await connection.invoke('SendMessage', chatMessage);
+        }
+        catch (e) {
+            console.log(e);
+        } }
+
+    const joinTestGroup = async () => {
+        try { await connection.invoke("JoinRoom","testgroup")}
+        catch (e) {console.log(e) }
+    }
+    const leaveTestGroup = async () => {
+        try { await connection.invoke("LeaveRoom", "testgroup") }
+        catch (e) { console.log(e) }
+    }
+
     return (
         <div>
             <ChatInput sendMessage={sendMessage} />
             <hr />
+            <p><strong>TestGroupChat</strong></p>
+            <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
+            <hr />
+            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>
             <p>Amount of connected users : {userCount}</p>
             <ChatWindow chat={chat} />
+
         </div>
     );
 };

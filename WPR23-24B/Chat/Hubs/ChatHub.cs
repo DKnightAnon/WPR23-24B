@@ -30,6 +30,8 @@ namespace WPR23_24B.Chat.Hubs
 
 
 
+ //Connections
+
         /// <summary>
         /// Method that is called when a user opens a react component that implements signalr.
         /// </summary>
@@ -54,6 +56,30 @@ namespace WPR23_24B.Chat.Hubs
             TotalViews--;
             await Clients.All.SendAsync("UserChange", TotalViews);
         }
+
+
+
+        public async Task JoinRoom(string roomname) 
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomname);
+            string message = $"{Context.ConnectionId} has joined the group {roomname}.";
+
+            await Clients.Group(roomname).SendAsync("RoomNotification", message);
+            Console.WriteLine(message);
+        }
+
+        public async Task LeaveRoom(string roomname)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomname);
+
+            string message = $"{Context.ConnectionId} has left the group {roomname}.";
+
+            await Clients.Group(roomname).SendAsync("RoomNotification", message);
+            Console.WriteLine(message);
+        }
+
+
+
 
         public async Task OnRoomJoin(ChatRoom room)
         {
@@ -97,9 +123,18 @@ namespace WPR23_24B.Chat.Hubs
             //message.TimeStamp = DateTime.UtcNow;
 
             //Timestamp wasn't arriving at client. Circumvented this by sending an anonymous type.
-            await Clients.All.SendAsync("ReceiveMessage", new {user = message.User, message = message.Message, timestamp = message.TimeStamp});
+            await Clients.All.SendAsync("ReceiveMessage", 
+                new {user = message.User, message = message.Message, timestamp = message.TimeStamp}
+                );
             //Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {message.TimeStamp}");
 
+        }
+
+        public async Task SendGroupMessage(ChatMessage message, string roomname) 
+        {
+            await Clients.Group(roomname).SendAsync("ReceiveGroupMessage",
+                 new { user = message.User, message = message.Message, timestamp = message.TimeStamp }
+                );
         }
 
 
