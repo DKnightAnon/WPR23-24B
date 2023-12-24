@@ -1,0 +1,128 @@
+/* Stylesheet voor de Poppins-lettertypeimport */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+/* Algemene opmaak voor het hele document */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    /* Verwijder de standaardmarge */
+    overflow: hidden;
+    /* Verberg de overloop van het lichaam */
+}
+
+/*------------ Logincontainer ------------*/
+
+.box-area {
+    width: 930px;
+    position: relative;
+    z-index: 1;
+    /* Zorg ervoor dat de login-container boven de achtergrond staat */
+}
+
+/*------------ Rechterbox ------------*/
+
+.right-box {
+    padding: 40px 30px 40px 40px;
+}
+
+/*------------ Aangepaste aanduiding ------------*/
+
+::placeholder {
+    font-size: 16px;
+}
+
+/* Afgeronde hoeken voor herbruikbaarheid */
+.rounded-4 {
+    border-radius: 20px;
+}
+
+.rounded-5 {
+    border-radius: 30px;
+}
+
+/*------------ Voor kleine schermen ------------*/
+
+@media only screen and (max-width: 768px) {
+    .box-area {
+        margin: 0 10px;
+    }
+
+    .left-box {
+        height: 100px;
+        overflow: hidden;
+    }
+
+    .right-box {
+        padding: 20px;
+    }
+}
+
+/*------------ Diagonale achtergrond ------------*/
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: #D9EBF7;
+    /* Kleur van het grootste deel */
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: #2B50EC;
+    /* Kleur van het kleinere deel */
+    clip-path: polygon(0 90%, 100% 55%, 100% 100%, 0 100%);
+}
+
+/* Mobiele weergave-aanpassingen */
+@media only screen and (max-width: 768px) {
+    .box-area {
+        width: 100%;
+        margin: 0;
+    }
+
+    .left-box {
+        height: auto;
+    }
+
+    .right-box {
+        padding: 20px;
+    }
+}
+
+/* Voeg focusstijlen toe voor betere toegankelijkheid */
+input:focus,
+button:focus {
+    outline: 2px solid #2B50EC;
+}
+
+/* Verbeter de uitlijning van het selectievakje */
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive lettergrootte */
+.fs-6 {
+    font-size: 1rem;
+}
+
+/* Labelstijlen */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #2B50EC;
+    /* Mooie kleur toegevoegd */
+}
