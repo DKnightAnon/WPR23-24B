@@ -12,5 +12,5 @@ using WPR23_24B.Models.Medisch;
         {
         }
 
-        public DbSet<WPR23_24B.Models.Medisch.Beperking> Beperking { get; set; } = default!;
+        public DbSet<WPR23_24B.Models.Medisch.Beperking> Beperkingen { get; set; } = default!;
     }
