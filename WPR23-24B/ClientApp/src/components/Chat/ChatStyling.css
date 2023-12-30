@@ -1,0 +1,50 @@
+﻿
+
+
+.chat-component-main{
+
+
+}
+
+
+.chat-message-box {
+    background: #eee;
+    border-radius: 15px;
+    padding: 0 10px;
+}
+
+
+
+.chat-input {
+    padding: 4px;
+    margin: 10px 20px;
+    min-width: 300px;
+}
+
+.testgroup-input {
+    padding: 4px;
+    margin: 10px 20px;
+    min-width: 300px;
+}
+
+
+
+
+
+/*comment*/
+.chat-listing-section {
+    float: left;
+    width: 40%;
+    height: 100%;
+
+}
+
+.chat-listing {
+    background: #2B50EC;
+    color: #FFFFFF;
+    border-radius: 15px;
+    border-style: solid;
+    padding: 4px ;
+    margin: 10px 20px ;
+    min-width: 300px ;
+}

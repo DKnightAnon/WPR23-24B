@@ -28,7 +28,7 @@ export default function ChatInput(props) {
     }
 
     return (
-        <form
+        <form className="testgroup-input"
         
             //this is called automatically by the button tag because it is in a form? research this.
             onSubmit={onSubmit}>

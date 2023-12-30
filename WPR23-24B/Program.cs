@@ -10,9 +10,14 @@ builder.Services.AddDbContext<ChatContext>(options =>
 
 builder.Services.AddControllersWithViews();
 
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+
+
 //Voeg SignalR toe voor chatfunctionaliteit
-
-
 
 var policyName = "ClientPermission";
 builder.Services.AddCors(options =>
@@ -34,14 +39,15 @@ if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     //app.UseHsts();
-    //app.UseCors(x => 
-    //    x.AllowAnyMethod()
-    //     .AllowAnyHeader()
-    //     .SetIsOriginAllowed(origin=>true)
-    //     .AllowCredentials()
-    //   );
+
+
+    
 
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -5,9 +5,20 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
 
 import * as SignalR from '@microsoft/signalr'; 
 
+//Chat modules
 import ChatWindow from './ChatWindow/ChatWindow';
 import ChatInput from './ChatInput/ChatInput';
 import TestgroupChatInput from './ChatInput/TestgroupChatInput';
+
+
+//Custom chat modules
+import ChatList from './ChatListing/ChatList';
+
+
+//Styling
+import './ChatStyling.css'
+
+
 
 export default function Chat() {
     const [connection, setConnection] = useState(null);
@@ -119,7 +130,8 @@ export default function Chat() {
     }
 
     return (
-        <div>
+        <div className="chat-component-main">
+            <ChatList/>
             <ChatInput sendMessage={sendMessage} />
             <hr />
             <p><strong>TestGroupChat</strong></p>
