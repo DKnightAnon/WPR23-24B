@@ -12,7 +12,7 @@ export default function ChatInput(props) {
         const isMessageProvided = message && message !== '';
 
         if (isUserProvided && isMessageProvided) {
-            props.sendTestgroupMessage(user, message);
+            props.messageToBeSent(user, message);
         }
         else {
             alert('Please insert an user and a message.');

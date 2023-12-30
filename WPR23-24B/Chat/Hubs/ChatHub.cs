@@ -93,21 +93,6 @@ namespace WPR23_24B.Chat.Hubs
             throw new NotImplementedException();
         }
 
-        //public async Task SendChatMessage(string user, string message) 
-        //{
-        //   await Clients.All.SendAsync("ReceiveMessage", user, message);
-        //}
-
-        public async Task SendTyping(object sender)
-        {
-            await Clients.Others.SendAsync("typing", sender);
-        }
-
-        //public async Task SendMessage() 
-        //{
-        //    await Clients.All.SendAsync("SendMessage", "testmessage");
-        //}
-
         public async Task Send(string name, string message)
         {
             // Call the broadcastMessage method to update clients.
@@ -130,10 +115,12 @@ namespace WPR23_24B.Chat.Hubs
 
         }
 
-        public async Task SendGroupMessage(ChatMessage message, string roomname) 
+        public async Task SendGroupMessage(ChatMessage message, string roomname)
         {
-            await Clients.Group(roomname).SendAsync("ReceiveGroupMessage",
-                 new { user = message.User, message = message.Message, timestamp = message.TimeStamp }
+            await Clients.Group(roomname).SendAsync(
+                "ReceiveGroupMessage",
+                 new { user = message.User, message = message.Message, timestamp = message.TimeStamp },
+                 roomname
                 );
         }
 

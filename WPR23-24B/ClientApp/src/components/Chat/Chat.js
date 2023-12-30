@@ -7,7 +7,7 @@ import * as SignalR from '@microsoft/signalr';
 
 import ChatWindow from './ChatWindow/ChatWindow';
 import ChatInput from './ChatInput/ChatInput';
-import TestgroupChatInput from './ChatInput/ChatInput';
+import TestgroupChatInput from './ChatInput/TestgroupChatInput';
 
 export default function Chat() {
     const [connection, setConnection] = useState(null);
@@ -101,8 +101,9 @@ export default function Chat() {
             message: message
         };
         try {
-            //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter. 
-            await connection.invoke('SendMessage', chatMessage);
+            //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter.
+                //This should be SendGroupMessage, or else it will just send a mesaage to everyone.
+            await connection.invoke('SendGroupMessage', chatMessage, "testgroup");
         }
         catch (e) {
             console.log(e);
