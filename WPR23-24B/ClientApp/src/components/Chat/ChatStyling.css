@@ -32,7 +32,7 @@
 
 
 /*comment*/
-.chat-listing-section {
+.chat-list {
     float: left;
     width: 40%;
     height: 100%;
@@ -48,3 +48,5 @@
     margin: 10px 20px ;
     min-width: 300px ;
 }
+
+.load-conversation-button{}

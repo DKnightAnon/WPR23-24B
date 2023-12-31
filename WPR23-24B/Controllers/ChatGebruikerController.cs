@@ -30,12 +30,12 @@ namespace WPR23_24B.Controllers
         public async Task<ActionResult<IEnumerable<Gebruiker>>> GetAllGebruikers()
         {
 
-            if (_context.Gebruiker == null)
+            if (_context.Gebruikers == null)
             {
                 return NotFound();
             }
 
-            var Gebruikers = await _context.Gebruiker.ToListAsync();
+            var Gebruikers = await _context.Gebruikers.ToListAsync();
 
             return Ok(Gebruikers);
         }
@@ -44,9 +44,9 @@ namespace WPR23_24B.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Gebruiker>> GetGebruikerAtID(string ID) 
         {
-            if (_context.Gebruiker == null) { return Problem("Entity set Gebruiker is null."); }
+            if (_context.Gebruikers == null) { return Problem("Entity set Gebruiker is null."); }
 
-            var gebruiker = _context.Gebruiker.FirstOrDefault(gebruikerid => gebruikerid.Id == ID);
+            var gebruiker = _context.Gebruikers.FirstOrDefault(gebruikerid => gebruikerid.Id == ID);
             return gebruiker;
         }
 
@@ -55,16 +55,29 @@ namespace WPR23_24B.Controllers
         [HttpPost]
         public async Task<ActionResult<Gebruiker>> PostNieuweGebruiker(Gebruiker nieweGebruiker) 
         {
-            if (_context.Gebruiker == null) { return Problem("Entity set Gebruiker is null."); }
+            if (_context.Gebruikers == null) { return Problem(detail: "Entity set Gebruiker is null."); }
 
-            _context.Gebruiker.Add(nieweGebruiker);
+            nieweGebruiker.UserName = $"{nieweGebruiker.Voornaam} {nieweGebruiker.Achternaam}";
+            _context.Gebruikers.Add(nieweGebruiker);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetGebruiker", new {id = nieweGebruiker.Id}, nieweGebruiker);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteGebruikerAtId(string id) 
+        {
+            if (_context.Gebruikers == null) { return Problem(detail: "Entity set Gebruiker is null."); }
 
+            Gebruiker gebruikerVerwijder = _context.Gebruikers.Where(gebruiker => gebruiker.Id == id).FirstOrDefault();
+            
+             _context.Gebruikers.Remove(gebruikerVerwijder);
+            await _context.SaveChangesAsync();
 
-
+            return NotFound(); 
 
         }
+
+
+
+    }
 }

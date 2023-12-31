@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Chat;
+using WPR23_24B.Chat.Models;
 
 namespace WPR23_24B.Controllers
 {
@@ -90,16 +91,33 @@ namespace WPR23_24B.Controllers
         // POST: api/ChatBericht
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ChatBericht>> PostChatBericht(ChatBericht chatBericht)
+        public async Task<ActionResult<ChatBericht>> PostChatBericht(ChatMessageDTO chat)
         {
           if (_context.ChatBericht == null)
           {
               return Problem("Entity set 'ChatContext.ChatBericht'  is null.");
           }
-            _context.ChatBericht.Add(chatBericht);
+
+          //ChatBericht convertedChat = chat.ToChatBericht();
+
+         
+
+          ChatBericht convertedChat = new ChatBericht() 
+          {
+              postedAt = DateTime.UtcNow,
+              content = chat.message,
+              verzender = await _context.Gebruikers.FindAsync(chat.verzenderId),
+              room = await _context.ChatRoom.FindAsync(chat.roomId.Id),
+          };
+
+
+            _context.ChatBericht.Add(convertedChat);
+
+
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetChatBericht", new { id = chatBericht.Id }, chatBericht);
+            return CreatedAtAction("GetChatBericht", new { id = convertedChat.Id }, convertedChat);
         }
 
         // DELETE: api/ChatBericht/5

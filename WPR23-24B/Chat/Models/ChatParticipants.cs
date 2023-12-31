@@ -1,6 +1,6 @@
 ﻿using WPR23_24B.Models.Authenticatie;
 
-namespace WPR23_24B.Chat
+namespace WPR23_24B.Chat.Models
 {
     public class ChatDeelnemer
     {

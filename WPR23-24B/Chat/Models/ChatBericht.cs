@@ -1,8 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WPR23_24B.Models.Authenticatie;
 
-namespace WPR23_24B.Chat
+namespace WPR23_24B.Chat.Models
 {
+
+
+
+    /// <summary>
+    /// Model class for chatmessages. This model is saved in a database.
+    /// </summary>
     public class ChatBericht
     {
         [Key]
@@ -19,7 +25,7 @@ namespace WPR23_24B.Chat
 
         public ChatRoom room { get; set; }
 
-        public ChatBericht() 
+        public ChatBericht()
         {
             postedAt = DateTime.UtcNow;
         }

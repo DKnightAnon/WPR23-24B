@@ -31,8 +31,15 @@ builder.Services.AddCors(options =>
             .WithOrigins( "https://localhost:44443", "https://localhost:7180");
     });
 });
+
 builder.Services.AddSignalR();
+
+
+
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -45,14 +52,17 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
+
 
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors(policyName);
 app.UseRouting();
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.MapControllerRoute(

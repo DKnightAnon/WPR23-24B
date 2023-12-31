@@ -1,4 +1,4 @@
-﻿namespace WPR23_24B.Chat
+﻿namespace WPR23_24B.Chat.Models
 {
     public class ChatMessage
     {

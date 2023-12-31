@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using WPR23_24B.Chat;
+using WPR23_24B.Chat.Models;
 
 namespace WPR23_24B.Models.Authenticatie
 {
@@ -30,9 +30,10 @@ namespace WPR23_24B.Models.Authenticatie
         public string Telefoon_Nummer { get; set; }
 
         //Used for concurrency. Concurrency is a technique used to prevent two suers from updating the same record at the same time.
-        [Timestamp]
-        public byte[] Timestamp { get; set; }
+        //[Timestamp]
+        //public byte[] Timestamp { get; set; }
 
-        public ICollection<ChatRoom> Gesprekken {  get; set; }
+        public ICollection<ChatRoom>? Gesprekken {  get; set; }
+
     }
 }

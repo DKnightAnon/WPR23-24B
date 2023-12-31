@@ -1,6 +1,6 @@
 
 import React from 'react';
-
+import { useState, useEffect } from "react";
 
 
 //Component that represents a single user conversation. 
@@ -9,7 +9,7 @@ export default function ChatListing(props)
 
 {
 
-
+    const [LastMessageTimestamp, setLastMessageTimestamp] = useState(props.timestamp);
 
 
 
@@ -17,11 +17,11 @@ export default function ChatListing(props)
     return (
 
         <div className="chat-listing">
-
-            <h3 className="conversation-title"> {props.title}  </h3>
-            <p className="participant-name">Participant goes here</p>
-            <p className="">Time last message was sent goes here</p>
-
+            <button className="load-conversation-button" onClick={ () => console.log("button was pressed! caller : " + props.id)}>
+                <h3 className="conversation-title"> {props.title}  </h3>
+                <p className="participant-name">Participant goes here</p>
+                <p className="">Time last message was sent goes here : {LastMessageTimestamp} </p>
+            </button>
 
 
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie;
 
 namespace WPR23_24B.Chat.Hubs
