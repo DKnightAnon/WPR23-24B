@@ -12,7 +12,7 @@ namespace WPR23_24B.Chat.Models
     public class ChatBericht
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
 
         public DateTime postedAt { get; set; }
@@ -28,6 +28,11 @@ namespace WPR23_24B.Chat.Models
         public ChatBericht()
         {
             postedAt = DateTime.UtcNow;
+        }
+
+        public override string ToString()
+        {
+            return new string($"|{Id}|{postedAt}|{content}|{verzender}|{room}"); 
         }
     }
 }

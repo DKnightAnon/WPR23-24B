@@ -25,10 +25,10 @@ namespace WPR23_24B.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChatRoom>>> GetChatRoom()
         {
-          if (_context.ChatRoom == null)
-          {
-              return NotFound();
-          }
+            if (_context.ChatRoom == null)
+            {
+                return NotFound();
+            }
             return await _context.ChatRoom.ToListAsync();
         }
 
@@ -36,10 +36,10 @@ namespace WPR23_24B.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ChatRoom>> GetChatRoom(Guid id)
         {
-          if (_context.ChatRoom == null)
-          {
-              return NotFound();
-          }
+            if (_context.ChatRoom == null)
+            {
+                return NotFound();
+            }
             var chatRoom = await _context.ChatRoom.FindAsync(id);
 
             if (chatRoom == null)
@@ -49,6 +49,26 @@ namespace WPR23_24B.Controllers
 
             return chatRoom;
         }
+
+
+        [HttpGet("berichten/{id}")]
+        public async Task<ActionResult<IEnumerable<ChatBericht>>> GetChatRoomMessages(Guid id)
+            {
+            if (_context.ChatRoom == null)
+            {
+                return NotFound();
+            }
+            var chatRoom = await _context.ChatRoom.FindAsync(id);
+
+            if (chatRoom == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.ChatBericht.Where(berichten => berichten.Id == id).ToListAsync();
+
+        }
+
 
         // PUT: api/ChatRooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

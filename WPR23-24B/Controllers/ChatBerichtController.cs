@@ -36,7 +36,14 @@ namespace WPR23_24B.Controllers
           {
               return NotFound();
           }
-            return await _context.ChatBericht.ToListAsync();
+            
+            
+            var MessageList = await _context.ChatBericht.ToListAsync();
+            foreach (ChatBericht chat in MessageList) { Console.WriteLine(chat); }
+
+
+
+            return MessageList;
         }
 
         // GET: api/ChatBericht/5
@@ -60,7 +67,7 @@ namespace WPR23_24B.Controllers
         // PUT: api/ChatBericht/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutChatBericht(int id, ChatBericht chatBericht)
+        public async Task<IActionResult> PutChatBericht(Guid id, ChatBericht chatBericht)
         {
             if (id != chatBericht.Id)
             {
@@ -140,7 +147,7 @@ namespace WPR23_24B.Controllers
             return NoContent();
         }
 
-        private bool ChatBerichtExists(int id)
+        private bool ChatBerichtExists(Guid id)
         {
             return (_context.ChatBericht?.Any(e => e.Id == id)).GetValueOrDefault();
         }

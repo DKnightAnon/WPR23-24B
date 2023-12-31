@@ -40,6 +40,11 @@ export default function Chat() {
     }, []);
 
 
+    const groupChatFunction = (content) => {
+        const updatedChat = [...latestChat.current];
+                        updatedChat.push(content);
+
+                        setChat(updatedChat); }
 
 
     useEffect(() => {
@@ -54,10 +59,7 @@ export default function Chat() {
                         setChat(updatedChat);
                     });
                     connection.on('ReceiveGroupMessage', message => {
-                        const updatedChat = [...latestChat.current];
-                        updatedChat.push(message);
-
-                        setChat(updatedChat);
+                        groupChatFunction(message)
                     });
                     connection.on("UserJoinMessage", content => {
                         console.log(content);
@@ -129,9 +131,23 @@ export default function Chat() {
         catch (e) { console.log(e) }
     }
 
+    const loadChat = async (props) =>
+    {
+        const url = "https://localhost:7180/api/ChatRooms";
+
+        const fetchInfo = async () => {
+            fetch(url)
+                .then((result) => result.json())
+                .then((data) => console.log)
+            console.log(props)
+        };
+
+
+    }
+
     return (
         <div className="chat-component-main">
-            <ChatList/>
+            <ChatList chatloadfunction={loadChat} />
             <ChatInput sendMessage={sendMessage} />
             <hr />
             <p><strong>TestGroupChat</strong></p>

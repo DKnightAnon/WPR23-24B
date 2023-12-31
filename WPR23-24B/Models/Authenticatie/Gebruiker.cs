@@ -35,5 +35,10 @@ namespace WPR23_24B.Models.Authenticatie
 
         public ICollection<ChatRoom>? Gesprekken {  get; set; }
 
+        public override string ToString()
+        {
+            return new string($"{UserName ?? Voornaam}");
+        }
+
     }
 }
