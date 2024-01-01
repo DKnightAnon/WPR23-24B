@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Authenticatie.Extensions;
 
 namespace WPR23_24B.Chat
 {
@@ -48,6 +50,19 @@ namespace WPR23_24B.Chat
             };
 
             return convertedMessage;
+        }
+
+        public static ChatBerichtDTO ChildrenToDTO(this ChatBericht chat) 
+        {
+            ChatBerichtDTO convertedChat = new ChatBerichtDTO() 
+            {
+                Id = chat.Id,
+                postedAt = chat.postedAt,
+                content = chat.content,
+                room = chat.room,
+                verzender =chat.verzender.ToDTO() 
+            };
+            return convertedChat;
         }
 
     }

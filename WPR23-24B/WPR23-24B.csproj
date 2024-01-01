@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\Chat\ChatInput\" />
+    <Folder Include="ClientApp\src\components\Chat\NewFolder\" />
     <Folder Include="ClientApp\src\components\Chat\TestChatTextFiles\" />
   </ItemGroup>
 

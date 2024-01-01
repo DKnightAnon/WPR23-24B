@@ -6,6 +6,9 @@ using WPR23_24B.Chat.Models;
 namespace WPR23_24B.Models.Authenticatie
 {
 
+    /// <summary>
+    /// Model class for application users. Inheretis from <see cref="IdentityUser"/>.
+    /// </summary>
     public class Gebruiker : IdentityUser
 
     {

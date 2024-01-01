@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Chat;
+using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
+using WPR23_24B.Models.Authenticatie.Extensions;
 
 namespace WPR23_24B.Controllers
 {
@@ -30,7 +32,7 @@ namespace WPR23_24B.Controllers
 
         // GET: api/ChatBericht
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ChatBericht>>> GetChatBericht()
+        public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetChatBericht()
         {
           if (_context.ChatBericht == null)
           {
@@ -38,12 +40,17 @@ namespace WPR23_24B.Controllers
           }
             
             
-            var MessageList = await _context.ChatBericht.ToListAsync();
-            foreach (ChatBericht chat in MessageList) { Console.WriteLine(chat); }
+            var MessageList = await _context.ChatBericht.Include(bericht => bericht.room).Include(bericht => bericht.verzender).ToListAsync();
+            var ConvertededMessageList = new List<ChatBerichtDTO>();
+            foreach (var message in MessageList) 
+            {
+                ConvertededMessageList.Add(message.ChildrenToDTO());
+            }
+            
 
 
 
-            return MessageList;
+            return ConvertededMessageList;
         }
 
         // GET: api/ChatBericht/5
