@@ -9,13 +9,14 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import ReduxStore from './ReduxStore'
+import { chatStore } from './store/ReduxStore'
 
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
+//const store = createStore(chatStore)
 
 
 //<Provider store={ReduxStore}>
@@ -24,10 +25,19 @@ const root = createRoot(rootElement);
 
 
 root.render(
-    
-        <BrowserRouter basename={baseUrl}>
+
+    //this seems to work after installing react-redux and redux-toolkit through Visual Studio's npm package installer?
+    <Provider store={chatStore }>
+    <BrowserRouter basename={baseUrl}>
+
+        
+
             <App />
+
         </BrowserRouter>
+    </Provider>
+
+
     
 );
 

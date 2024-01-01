@@ -39,11 +39,15 @@ namespace WPR23_24B.Controllers
               return NotFound();
           }
             
-            
+            //Retrieve messages as list
             var MessageList = await _context.ChatBericht.Include(bericht => bericht.room).Include(bericht => bericht.verzender).ToListAsync();
+
+
+            //Convert message properties to DTO's to prevent exposing data
             var ConvertededMessageList = new List<ChatBerichtDTO>();
             foreach (var message in MessageList) 
             {
+                                                   //Custom extension method for ChatBericht.
                 ConvertededMessageList.Add(message.ChildrenToDTO());
             }
             

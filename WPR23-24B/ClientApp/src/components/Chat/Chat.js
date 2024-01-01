@@ -18,8 +18,8 @@ import ChatList from './ChatListing/ChatList';
 //Styling
 import './ChatStyling.css'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { addNewMessage, clearChat, addConversationContent } from './chatSlice'
+//import { useSelector, useDispatch } from 'react-redux'
+//import { addNewMessage, clearChat, addConversationContent } from './chatSlice'
 
 
 export default function Chat() {
@@ -29,8 +29,8 @@ export default function Chat() {
     const [userCount, setUserCount] = useState(0);
 
 
-    const chatContent = useSelector((state) => state.chatContent.content)
-    const dispatch = useDispatch()
+    //const chatContent = useSelector((state) => state.chatContent.content)
+    //const dispatch = useDispatch()
 
     latestChat.current = chat;
 

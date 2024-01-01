@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+
+//this is the reducer?
+
 export const chatSlice = createSlice({
 
     name: 'chatContent',
