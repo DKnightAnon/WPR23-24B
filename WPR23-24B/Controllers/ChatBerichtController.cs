@@ -9,6 +9,7 @@ using WPR23_24B.Chat;
 using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie.Extensions;
+using WPR23_24B.Chat.DTO_s;
 
 namespace WPR23_24B.Controllers
 {
@@ -23,16 +24,33 @@ namespace WPR23_24B.Controllers
             _context = context;
         }
 
-        [HttpGet("Gesprek/{id}")]
-        public async Task<ActionResult<IEnumerable<ChatBericht>>> GetMessagesFromRoom(string gesprekId) 
+        [HttpGet]
+        //This has no different name because URL parameters are used. If you make the method accept a paramter as below, the framework automatically binds values from the query string even without the [FromQuery] attribute.
+        public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetMessagesFromRoom(
+            [FromQuery(Name = "Id")]Guid gesprekId) 
         {
-             return await _context.ChatBericht.Where(bericht => bericht.room.Id.ToString() == gesprekId).ToListAsync();
+            //Retrieve messages as list
+            var MessageList = await _context.ChatBericht.Include(bericht => bericht.room).Include(bericht => bericht.verzender).ToListAsync();
+
+
+            //Convert message properties to DTO's to prevent exposing data
+            var ConvertededMessageList = new List<ChatBerichtDTO>();
+            foreach (var message in MessageList)
+            {
+                //Custom extension method for ChatBericht.
+                ConvertededMessageList.Add(message.ChildrenToDTO());
+            }
+
+
+
+
+            return ConvertededMessageList;
 
         }
 
         // GET: api/ChatBericht
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetChatBericht()
+        public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetAllChatBericht()
         {
           if (_context.ChatBericht == null)
           {
@@ -59,7 +77,7 @@ namespace WPR23_24B.Controllers
 
         // GET: api/ChatBericht/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChatBericht>> GetChatBericht(int id)
+        public async Task<ActionResult<ChatBericht>> GetChatBericht(Guid id)
         {
           if (_context.ChatBericht == null)
           {
@@ -74,6 +92,7 @@ namespace WPR23_24B.Controllers
 
             return Ok(chatBericht);
         }
+
 
         // PUT: api/ChatBericht/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

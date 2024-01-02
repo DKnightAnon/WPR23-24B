@@ -18,7 +18,7 @@
 .chat-input {
     padding: 4px;
     margin: 10px 20px;
-    min-width: 300px;
+    min-width: 200px;
 }
 
 .testgroup-input {
@@ -46,7 +46,7 @@
     border-style: solid;
     padding: 4px ;
     margin: 10px 20px ;
-    min-width: 300px ;
+    min-width: 200px ;
 }
 
 .load-conversation-button{}

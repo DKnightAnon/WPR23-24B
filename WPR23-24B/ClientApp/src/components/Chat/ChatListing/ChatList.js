@@ -7,21 +7,9 @@ import ChatListing from './ChatListing';
 //Component to represent the list of conversations a user has. 
 export default function ChatList(props) {
 
-    const testListObjects = [
-        {
-            id: 1,
-            title: "first conversation"
-        },
-        {
-            id: 2,
-            title: "second conversation"
-        }
 
 
 
-
-
-    ];
 
     const MappedList = (argument) =>
     
@@ -42,7 +30,7 @@ export default function ChatList(props) {
         fetch(url)
             .then((result) => result.json())
             .then((data) => setConversationList(data))
-            console.log(conversationList)
+            //console.log(conversationList)
     };
 
 
@@ -54,7 +42,7 @@ export default function ChatList(props) {
     return (
         <div className="chat-list">
 
-            <h1>Conversations <br/>(Not clickable yet)</h1>
+            <h1>Conversations </h1>
             {MappedList(conversationList)}
 
 

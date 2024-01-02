@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Chat;
+using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 
 namespace WPR23_24B.Controllers
@@ -52,7 +54,7 @@ namespace WPR23_24B.Controllers
 
 
         [HttpGet("berichten/{id}")]
-        public async Task<ActionResult<IEnumerable<ChatBericht>>> GetChatRoomMessages(Guid id)
+        public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetChatRoomMessages(Guid id)
             {
             if (_context.ChatRoom == null)
             {
@@ -65,7 +67,24 @@ namespace WPR23_24B.Controllers
                 return NotFound();
             }
 
-            return await _context.ChatBericht.Where(berichten => berichten.Id == id).ToListAsync();
+
+
+            //Retrieve messages as list
+            var MessageList = await _context.ChatBericht.Include(bericht => bericht.verzender).Where(bericht => bericht.room.Id == id).ToListAsync();
+
+            //Convert message properties to DTO's to prevent exposing data
+            var ConvertededMessageList = new List<ChatBerichtDTO>();
+            foreach (var message in MessageList)
+            {
+                //Custom extension method for ChatBericht.
+                ConvertededMessageList.Add(message.ChildrenToDTO());
+            }
+
+
+
+            return ConvertededMessageList;
+
+            //return await _context.ChatBericht.Where(berichten => berichten.Id == id).ToListAsync();
 
         }
 

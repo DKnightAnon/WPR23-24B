@@ -17,6 +17,8 @@ import ChatList from './ChatListing/ChatList';
 
 //Styling
 import './ChatStyling.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { addNewMessage } from '../../store/slices/chatSlice';
 
 //import { useSelector, useDispatch } from 'react-redux'
 //import { addNewMessage, clearChat, addConversationContent } from './chatSlice'
@@ -27,7 +29,10 @@ export default function Chat() {
     const [chat, setChat] = useState([]);
     const latestChat = useRef(null);
     const [userCount, setUserCount] = useState(0);
+    const [currentChatGroep, setCurrentChatGroup] = useState("");
 
+
+    const dispatch = useDispatch();
 
     //const chatContent = useSelector((state) => state.chatContent.content)
     //const dispatch = useDispatch()
@@ -53,16 +58,27 @@ export default function Chat() {
                         setChat(updatedChat); }
 
 
+    useEffect(() => { }, [])
+
     useEffect(() => {
         if (connection) {
             connection.start(  /*this doesnt print for some reason*/ function () { console.log('Starting Connection...') })
                 .then(result => {
                     console.log('Connected!');
                     connection.on('ReceiveMessage', message => {
+
+                        /*
                         const updatedChat = [...latestChat.current];
                         updatedChat.push(message);
 
                         setChat(updatedChat);
+                        */
+
+
+                        console.log('Message received!')
+                        console.log('message contents : ' + JSON.stringify(message))
+                        dispatch(addNewMessage(message))
+                        
                     });
                     connection.on('ReceiveGroupMessage', message => {
                         groupChatFunction(message)
@@ -102,8 +118,10 @@ export default function Chat() {
 
         //if (connection.connectionStarted) {
         try {
+            console.log('Sending message!')
                 //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter. 
-                await connection.invoke('SendMessage', chatMessage);
+            await connection.invoke('SendMessage', chatMessage);
+                
             }
             catch (e) {
                 console.log(e);

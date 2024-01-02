@@ -59,8 +59,8 @@ namespace WPR23_24B.Chat
                 Id = chat.Id,
                 postedAt = chat.postedAt,
                 content = chat.content,
-                room = chat.room,
-                verzender =chat.verzender.ToDTO() 
+                room = chat.room ?? null,
+                verzender =chat.verzender.ToDTO() ?? null 
             };
             return convertedChat;
         }
