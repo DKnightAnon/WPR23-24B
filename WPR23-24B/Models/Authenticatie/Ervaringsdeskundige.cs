@@ -14,7 +14,7 @@ namespace WPR23_24B.Models.Authenticatie
 
         // Informatie betreffende zijn/haar voogd
         [ForeignKey("VoogdId")]
-        public int? VoogdId { get; set; } // Buitenlandse sleutel naar Voogd
+        public int? VoogdId { get; set; }
         public Voogd? Voogd { get; set; }
 
         // Informatie betreffende zijn/haar beperkingen
