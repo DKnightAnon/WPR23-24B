@@ -53,9 +53,9 @@ namespace WPR23_24B.Controllers
         // PUT: api/Bedrijfs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBedrijf(int id, Bedrijf bedrijf)
+        public async Task<IActionResult> PutBedrijf(Guid id, Bedrijf bedrijf)
         {
-            if (id != bedrijf.Id)
+            if (id.ToString() != bedrijf.Id)
             {
                 return BadRequest();
             }
@@ -116,9 +116,9 @@ namespace WPR23_24B.Controllers
             return NoContent();
         }
 
-        private bool BedrijfExists(int id)
+        private bool BedrijfExists(Guid id)
         {
-            return (_context.Bedrijf?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Bedrijf?.Any(e => e.Id == id.ToString())).GetValueOrDefault();
         }
     }
 }
