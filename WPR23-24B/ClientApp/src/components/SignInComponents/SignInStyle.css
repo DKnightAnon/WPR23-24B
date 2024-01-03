@@ -1,0 +1,178 @@
+/* Lettertype import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+/* Algemene stijlen voor het hele document */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Diagonale achtergrond */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+body::before {
+    background: #D9EBF7;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+
+body::after {
+    background: #2B50EC;
+    clip-path: polygon(0 90%, 100% 55%, 100% 100%, 0 100%);
+}
+
+/* Stijlen voor labels */
+.form-label,
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #2B50EC;
+}
+
+/* Responsieve lettergrootte */
+.fs-6 {
+    font-size: 1rem;
+}
+
+/* Verbeterde uitlijning van het selectievakje */
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Afgeronde hoeken voor herbruikbaarheid */
+.rounded-4 {
+    border-radius: 20px;
+}
+
+.rounded-5 {
+    border-radius: 30px;
+}
+
+/* Focusstijlen voor betere toegankelijkheid */
+input:focus,
+button:focus {
+    outline: 2px solid #2B50EC;
+}
+
+/* Login-container */
+.box-area {
+    width: 930px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Stijlen voor de rechterbox */
+.right-box {
+    padding: 40px 30px 40px 40px;
+}
+
+/* Aangepaste aanduiding-stijlen */
+::placeholder {
+    font-size: 16px;
+}
+
+/* Stijlen voor formulierelementen */
+
+/* E-mailinvoer */
+#email {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/* Wachtwoordinvoer */
+#password {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Stijlen voor de 'Onthoud mij'-checkbox */
+.form-check-input {
+    margin-right: 5px;
+}
+
+/* Stijlen voor de 'Wachtwoord vergeten?'-link */
+.forgot {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #2B50EC;
+    margin-left: auto;
+    text-align: right;
+}
+
+/* Stijlen voor de inlogknop */
+.btn-login {
+    width: 100%;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+/* Media query voor schermen met een maximale breedte van 767px (typisch mobiel) */
+@media (max-width: 767px) {
+    .header-text h2 {
+        font-size: 24px;
+    }
+
+    .right-box {
+        padding: 20px;
+    }
+
+    #email,
+    #password {
+        width: 100%;
+    }
+
+    .form-label {
+        display: none;
+    }
+
+    .mb-3 {
+        margin-bottom: 15px;
+    }
+
+    .forgot {
+        font-size: 14px;
+    }
+
+    .row small {
+        font-size: 14px;
+    }
+
+    .btn-login {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .featured-image {
+        position: relative;
+        height: 5vh;
+        text-align: center;
+        /* Centreer de inhoud horizontaal 
+        
+        /* Pas de marge aan om het logo onder het midden te positioneren */
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .featured-image img {
+        max-width: 75%;
+        height: auto;
+    }
+}

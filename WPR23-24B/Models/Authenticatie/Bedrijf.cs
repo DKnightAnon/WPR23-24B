@@ -1,16 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Models.Authenticatie
 {
-    public class Bedrijf
+    public class Bedrijf : Gebruiker
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "Bedrijfsnaam moet ingevuld worden.")]
-        public string Bedrijfsnaam { get; set; }
+        [Required(ErrorMessage = "Telefoonnummer moet ingevuld worden.")]
+        public new string? TelefoonNummer { get; set; }
 
         [Required(ErrorMessage = "Locatie moet ingevuld worden.")]
         public string Locatie { get; set; }
@@ -18,24 +14,17 @@ namespace WPR23_24B.Models.Authenticatie
         [Required(ErrorMessage = "Website moet ingevuld worden.")]
         [Url]
         public string Website { get; set; }
+
+        [Required(ErrorMessage = "TrackingID moet ingevuld worden.")]
         public string TrackingID { get; set; }
-        
-        public void UpdateProfile(string nieuweLocatie, string nieuweWebsite)
-        {
-            Locatie = nieuweLocatie;
-            Website = nieuweWebsite;
-        }
 
-        // TODO:
-        // Voeg andere methode of properties voor Bedrijf
-
-        //Navigation properties
+        public string? ContactPersoon { get; set; }
 
         //Navigatie voor de 1 op veel relatie met onderzoek. Namespace/ class
-        public List<Onderzoek.Onderzoek> Onderzoeken { get; set; }
+        // public List<Onderzoek.Onderzoek>? Onderzoeken { get; set; }
 
         //Relatie met contactpersoon
-        public List<Contactpersoon_Bedrijf> Contactpersonen { get; set; }
+        public List<Contactpersoon_Bedrijf>? Contactpersonen { get; set; }
 
 
     }

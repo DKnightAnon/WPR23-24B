@@ -1,124 +1,125 @@
-﻿// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using Microsoft.AspNetCore.Http;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using WPR23_24B.Data;
-// using WPR23_24B.Models.Authenticatie;
 
-// namespace WPR23_24B.Controllers
-// {
-//     [Route("api/[controller]")]
-//     [ApiController]
-//     public class BedrijfsController : ControllerBase
-//     {
-//         private readonly BedrijfsContext _context;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Data;
+using WPR23_24B.Models.Authenticatie;
 
-//         public BedrijfsController(BedrijfsContext context)
-//         {
-//             _context = context;
-//         }
+namespace WPR23_24B.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BedrijfsController : ControllerBase
+    {
+        private readonly BedrijfsContext _context;
 
-//         // GET: api/Bedrijfs
-//         [HttpGet]
-//         public async Task<ActionResult<IEnumerable<Bedrijf>>> GetBedrijf()
-//         {
-//           if (_context.Bedrijf == null)
-//           {
-//               return NotFound();
-//           }
-//             return await _context.Bedrijf.ToListAsync();
-//         }
+        public BedrijfsController(BedrijfsContext context)
+        {
+            _context = context;
+        }
 
-//         // GET: api/Bedrijfs/5
-//         [HttpGet("{id}")]
-//         public async Task<ActionResult<Bedrijf>> GetBedrijf(int id)
-//         {
-//           if (_context.Bedrijf == null)
-//           {
-//               return NotFound();
-//           }
-//             var bedrijf = await _context.Bedrijf.FindAsync(id);
+        // GET: api/Bedrijfs
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Bedrijf>>> GetBedrijf()
+        {
+          if (_context.Bedrijf == null)
+          {
+              return NotFound();
+          }
+            return await _context.Bedrijf.ToListAsync();
+        }
 
-//             if (bedrijf == null)
-//             {
-//                 return NotFound();
-//             }
+        // GET: api/Bedrijfs/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Bedrijf>> GetBedrijf(int id)
+        {
+          if (_context.Bedrijf == null)
+          {
+              return NotFound();
+          }
+            var bedrijf = await _context.Bedrijf.FindAsync(id);
 
-//             return bedrijf;
-//         }
+            if (bedrijf == null)
+            {
+                return NotFound();
+            }
 
-//         // PUT: api/Bedrijfs/5
-//         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//         [HttpPut("{id}")]
-//         public async Task<IActionResult> PutBedrijf(int id, Bedrijf bedrijf)
-//         {
-//             if (id != bedrijf.Id)
-//             {
-//                 return BadRequest();
-//             }
+            return bedrijf;
+        }
 
-//             _context.Entry(bedrijf).State = EntityState.Modified;
+        // PUT: api/Bedrijfs/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBedrijf(Guid id, Bedrijf bedrijf)
+        {
+            if (id.ToString() != bedrijf.Id)
+            {
+                return BadRequest();
+            }
 
-//             try
-//             {
-//                 await _context.SaveChangesAsync();
-//             }
-//             catch (DbUpdateConcurrencyException)
-//             {
-//                 if (!BedrijfExists(id))
-//                 {
-//                     return NotFound();
-//                 }
-//                 else
-//                 {
-//                     throw;
-//                 }
-//             }
+            _context.Entry(bedrijf).State = EntityState.Modified;
 
-//             return NoContent();
-//         }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BedrijfExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-//         // POST: api/Bedrijfs
-//         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//         [HttpPost]
-//         public async Task<ActionResult<Bedrijf>> PostBedrijf(Bedrijf bedrijf)
-//         {
-//           if (_context.Bedrijf == null)
-//           {
-//               return Problem("Entity set 'WPR23_24BContext.Bedrijf'  is null.");
-//           }
-//             _context.Bedrijf.Add(bedrijf);
-//             await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-//             return CreatedAtAction("GetBedrijf", new { id = bedrijf.Id }, bedrijf);
-//         }
+        // POST: api/Bedrijfs
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Bedrijf>> PostBedrijf(Bedrijf bedrijf)
+        {
+          if (_context.Bedrijf == null)
+          {
+              return Problem("Entity set 'WPR23_24BContext.Bedrijf'  is null.");
+          }
+            _context.Bedrijf.Add(bedrijf);
+            await _context.SaveChangesAsync();
 
-//         // DELETE: api/Bedrijfs/5
-//         [HttpDelete("{id}")]
-//         public async Task<IActionResult> DeleteBedrijf(int id)
-//         {
-//             if (_context.Bedrijf == null)
-//             {
-//                 return NotFound();
-//             }
-//             var bedrijf = await _context.Bedrijf.FindAsync(id);
-//             if (bedrijf == null)
-//             {
-//                 return NotFound();
-//             }
+            return CreatedAtAction("GetBedrijf", new { id = bedrijf.Id }, bedrijf);
+        }
 
-//             _context.Bedrijf.Remove(bedrijf);
-//             await _context.SaveChangesAsync();
+        // DELETE: api/Bedrijfs/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBedrijf(int id)
+        {
+            if (_context.Bedrijf == null)
+            {
+                return NotFound();
+            }
+            var bedrijf = await _context.Bedrijf.FindAsync(id);
+            if (bedrijf == null)
+            {
+                return NotFound();
+            }
 
-//             return NoContent();
-//         }
+            _context.Bedrijf.Remove(bedrijf);
+            await _context.SaveChangesAsync();
 
-//         private bool BedrijfExists(int id)
-//         {
-//             return (_context.Bedrijf?.Any(e => e.Id == id)).GetValueOrDefault();
-//         }
-//     }
-// }
+            return NoContent();
+        }
+
+        private bool BedrijfExists(Guid id)
+        {
+            return (_context.Bedrijf?.Any(e => e.Id == id.ToString())).GetValueOrDefault();
+        }
+    }
+}
