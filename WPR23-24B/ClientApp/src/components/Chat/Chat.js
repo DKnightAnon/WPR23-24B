@@ -31,6 +31,7 @@ export default function Chat() {
     const [userCount, setUserCount] = useState(0);
     const [currentChatGroep, setCurrentChatGroup] = useState("");
 
+    const currentConnectedRoom = useSelector ((state) => state.chatroom.currentroom)
 
     const dispatch = useDispatch();
 
@@ -58,7 +59,12 @@ export default function Chat() {
                         setChat(updatedChat); }
 
 
-    useEffect(() => { }, [])
+    useEffect(() => {
+        //console.log('Connected to a room!');
+        //console.log('Current room : ' + JSON.stringify(currentConnectedRoom));
+        joinTestGroup()
+
+    }, [currentConnectedRoom])
 
     useEffect(() => {
         if (connection) {
@@ -81,7 +87,13 @@ export default function Chat() {
                         
                     });
                     connection.on('ReceiveGroupMessage', message => {
+                        console.log("ReceiveGroupMessage triggered!")
+                        console.log(message)
+                        dispatch(addNewMessage(message))
+                        //console.log(room) 
+
                         groupChatFunction(message)
+                        
                     });
                     connection.on("UserJoinMessage", content => {
                         console.log(content);
@@ -104,9 +116,10 @@ export default function Chat() {
     const sendMessage = async (user, message, timestamp) => {
         //props received from ChatInput is converted into an object
         const chatMessage = {
-            user: user,
-            message: message,
-            timestamp: timestamp
+            User:
+                { userName: user } ,
+            Message: message,
+            postedAt: timestamp
 
 
         };
@@ -133,22 +146,33 @@ export default function Chat() {
         //}
     }
 
-    const sendTestgroupMessage = async (user, message) => {
+    const sendTestgroupMessage = async (user, message, room) => {
         const chatMessage = {
             user: user,
-            message: message
+            message: message,
+ 
         };
+   
         try {
             //trigger the SendMessage() method in ChatHub.cs with the const chatMessage as parameter.
                 //This should be SendGroupMessage, or else it will just send a mesaage to everyone.
-            await connection.invoke('SendGroupMessage', chatMessage, "testgroup");
+            await connection.invoke('SendGroupMessage', chatMessage, room);
         }
         catch (e) {
             console.log(e);
         } }
 
     const joinTestGroup = async () => {
-        try { await connection.invoke("JoinRoom","testgroup")}
+
+        const room = {
+            Id: currentConnectedRoom.id,
+            Title: currentConnectedRoom.Title
+        }
+        try {
+            console.log('trying to connect to room : ' + JSON.stringify(currentConnectedRoom))
+            await connection.invoke("JoinRoom", room);
+            
+        }
         catch (e) {console.log(e) }
     }
     const leaveTestGroup = async () => {
@@ -156,23 +180,10 @@ export default function Chat() {
         catch (e) { console.log(e) }
     }
 
-    const loadChat = async (props) =>
-    {
-        const url = "https://localhost:7180/api/ChatRooms";
-
-        const fetchInfo = async () => {
-            fetch(url)
-                .then((result) => result.json())
-                .then((data) => console.log)
-            console.log(props)
-        };
-
-
-    }
 
     return (
         <div className="chat-component-main">
-            <ChatList chatloadfunction={loadChat} />
+            <ChatList />
             <ChatInput sendMessage={sendMessage} />
             <hr />
             <p><strong>TestGroupChat</strong></p>

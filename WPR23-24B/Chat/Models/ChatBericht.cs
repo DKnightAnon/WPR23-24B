@@ -15,7 +15,7 @@ namespace WPR23_24B.Chat.Models
         public Guid Id { get; set; }
 
 
-        public DateTime postedAt { get; set; }
+        public DateTime postedAt { get; set; } = DateTime.UtcNow;
 
 
         public string content { get; set; }

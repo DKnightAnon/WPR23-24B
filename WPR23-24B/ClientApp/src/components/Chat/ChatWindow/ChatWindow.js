@@ -30,6 +30,24 @@ export default function ChatWindow(props) {
             timestamp={m.timestamp}
         />);
 
+    const chatUnorderedList = chatWindowContent.map((chat) =>
+        <ul key={chat.postedAt}>
+            {/*{JSON.stringify(chat)}*/}
+            <Message
+                user={chat.verzender.userName}
+                message={chat.content}
+                timestamp={chat.postedAt}
+
+
+            />
+        </ul>)
+    //const chatOrderedList = chatWindowContent.map(chat =>
+    //    <li key={chat.timestamp}>
+    //        <p>{chat.id}</p>
+    //        {/*<p>{chat.timestamp}</p>*/}
+    //        <p>{chat.message}</p>
+    //    </li>)
+
 
 
      useEffect(() => {
@@ -49,7 +67,13 @@ export default function ChatWindow(props) {
     return (
         <div className="chat-window">
             {/*<p>current state of chatwindowcontent: {chatWindowContent}</p>*/}
-            {chat}
+            {/*{chat}*/}
+
+
+            {chatUnorderedList}
+
+
+
             {/*<p>{chatArray}</p>*/}
         </div>
     )

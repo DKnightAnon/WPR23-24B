@@ -7,7 +7,7 @@
 
         public override string ToString()
         {
-            return new string($"{Id},{UserName}");
+            return new string($"{UserName}");
         }
     }
 }

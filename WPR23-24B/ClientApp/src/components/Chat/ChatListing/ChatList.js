@@ -15,7 +15,7 @@ export default function ChatList(props) {
     
         //console.log(argument)
         argument.map(
-            m => <ChatListing key={m.id} id={m.id} title={m.title} loadChatFunction={props.chatloadfunction } />
+            m => <ChatListing key={m.id} id={m.id} title={m.title} />
 
         )
 

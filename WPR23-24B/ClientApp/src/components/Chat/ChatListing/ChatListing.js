@@ -3,7 +3,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { clearChat, addConversationContent, printTest } from '../../../store/slices/chatSlice'
-
+import { setCurrentRoom } from '../../../store/slices/chatroomSlice'
 
 
 //Component that represents a single user conversation. 
@@ -23,6 +23,7 @@ export default function ChatListing(props)
 
     const [conversationList, setConversationList] = useState([])
 
+
     //const conversationContent = useSelector((state) => state.conversationContent.content)
 
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function ChatListing(props)
                     //console.log(data)
                     setConversationList(data)
                     //console.log(conversationList)
-                    
+                   
                 }
             )
        // console.log(conversationList)
@@ -55,6 +56,9 @@ export default function ChatListing(props)
         dispatch(
             addConversationContent(
                 conversationList))
+        dispatch(
+            setCurrentRoom(
+                chatConversation))
 
 
 

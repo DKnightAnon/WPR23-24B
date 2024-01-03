@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
+using System;
+using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie;
 
@@ -16,6 +20,12 @@ namespace WPR23_24B.Chat.Hubs
         /// Parameter used to keep track of the amount of users on the page/ 
         /// </summary>
         public static int TotalViews { get; set; } = 0;
+
+        private readonly ChatContext _dbContext;
+        public ChatHub(ChatContext dbContext) 
+        {
+            _dbContext = dbContext;
+        }
 
        
         /// <summary>
@@ -60,12 +70,13 @@ namespace WPR23_24B.Chat.Hubs
 
 
 
-        public async Task JoinRoom(string roomname) 
+        public async Task JoinRoom(ChatRoomDTO roomname) 
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, roomname);
-            string message = $"{Context.ConnectionId} has joined the group {roomname}.";
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomname.Id.ToString());
+            string message = $"{Context.ConnectionId} has joined the group {roomname.Title} with Id {roomname.Id.ToString()}.";
 
-            await Clients.Group(roomname).SendAsync("RoomNotification", message);
+            await Clients.Group(roomname.Id.ToString()).SendAsync("RoomNotification", message);
+            Console.WriteLine(roomname);
             Console.WriteLine(message);
         }
 
@@ -76,6 +87,7 @@ namespace WPR23_24B.Chat.Hubs
             string message = $"{Context.ConnectionId} has left the group {roomname}.";
 
             await Clients.Group(roomname).SendAsync("RoomNotification", message);
+
             Console.WriteLine(message);
         }
 
@@ -110,19 +122,63 @@ namespace WPR23_24B.Chat.Hubs
 
             //Timestamp wasn't arriving at client. Circumvented this by sending an anonymous type.
             await Clients.All.SendAsync("ReceiveMessage", 
-                new {user = message.User, message = message.Message, timestamp = message.TimeStamp}
+                new {
+                    verzender = message.User, 
+                    content = message.Message, 
+                    postedAt = message.TimeStamp,
+                    //room = message.
+                }
                 );
-            //Console.WriteLine($"Received Message!       Sender : {message.User}| Message:{message.Message} | TimePosted : {message.TimeStamp}");
+            Console.WriteLine($"Received Message!       | Sender : {message.User}| Message:{message.Message} | TimePosted : {message.TimeStamp}");
 
         }
 
-        public async Task SendGroupMessage(ChatMessage message, string roomname)
+        //With the below attribute it should be possible to give the .invoke method on client side and the method on serverside(below) different names.
+        //[HubMethodName("SendGroupMessage")]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="roomname"></param>
+        /// <returns>Sends a <see cref="ChatMessage"/> to the client as a JSON string after saving the message to the database. </returns>
+        public async Task SendGroupMessage(ChatMessage message, ChatRoom roomname)
         {
-            await Clients.Group(roomname).SendAsync(
+            //Console.WriteLine(message);
+            //await saveMessageToDB(message);
+
+            if (checkIfDbExist())
+            {
+
+
+                ChatBericht convertedChat = new ChatBericht()
+                {
+
+                    content = message.Message,
+                    verzender = await _dbContext.Gebruikers.FindAsync(message.User.Id),
+                    room = await _dbContext.ChatRoom.FindAsync(roomname.Id),
+                };
+
+
+                _dbContext.ChatBericht.Add(convertedChat);
+
+
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+
+
+            await Clients.Group(roomname.Id.ToString()).SendAsync(
                 "ReceiveGroupMessage",
-                 new { user = message.User, message = message.Message, timestamp = message.TimeStamp },
-                 roomname
+                 new {
+                     verzender = message.User,
+                     content = message.Message,
+                     postedAt = message.TimeStamp, 
+                     room = roomname
+                 }
+                 
                 );
+            Console.WriteLine($"Message received!       | Sender : {message.User} | Room : {roomname} | Message : {message.Message} | TimePosted : {message.TimeStamp.ToLocalTime()}");
         }
 
 
@@ -141,6 +197,37 @@ namespace WPR23_24B.Chat.Hubs
         {
             await Clients.All.SendAsync("sendToAll", name, message);
             
+        }
+
+        private bool checkIfDbExist() {
+        
+            if (_dbContext.ChatBericht == null) { return false; }
+            else { return true; }
+
+        }
+
+        private async Task saveMessageToDB(ChatMessage message) 
+        {
+            if (checkIfDbExist())
+            {
+
+
+                ChatBericht convertedChat = new ChatBericht()
+                {
+
+                    content = message.Message,
+                    verzender = await _dbContext.Gebruikers.FindAsync(message.User.Id),
+                    room = await _dbContext.ChatRoom.FindAsync(message.room.Id),
+                };
+
+
+                _dbContext.ChatBericht.Add(convertedChat);
+
+
+
+                await _dbContext.SaveChangesAsync();
+            }
+
         }
     }
 }

@@ -25,7 +25,7 @@ namespace WPR23_24B.Chat.Models
 
         public override string ToString()
         {
-            return new string($"{Title}");
+            return new string($"{Title ?? "Title was empty!"}");
         }
     }
 }
