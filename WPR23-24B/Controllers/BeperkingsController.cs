@@ -44,20 +44,16 @@ namespace WPR23_24B.Controllers
 
         // Haalt een lijst op van alle Beperkingen.
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Beperking>>> GetAllBeperking()
+        public async Task<ActionResult<IEnumerable<Beperking>>> GetAllBeperkingen()
         {
-            // Controleer of de Beperkingen-entiteit niet null is
-            if (_context.Beperkingen == null)
+             // Controleer of de Beperkingen-entiteit niet null is
+                     if (_context.Beperkingen == null)
             {
                 return NotFound();
             }
-            // Haal alle beperkingen op en sla deze op in een List
-            return await _context.Beperkingen.ToListAsync();
-        }
+            
+                        // Haal alle beperkingen op en sla deze op in een List
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Beperking>>> GetAllBeperkingen()
-        {
             var beperkingen = await _context.Beperkingen.ToListAsync();
 
             if (beperkingen == null)
