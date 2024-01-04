@@ -6,16 +6,7 @@ using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Services;
 var builder = WebApplication.CreateBuilder(args);
-// builder.Services.AddDbContext<OnderzoekContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("OnderzoekContext") ?? throw new InvalidOperationException("Connection string 'OnderzoekContext' not found.")));
-// builder.Services.AddDbContext<BeperkingContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("BeperkingContext") ?? throw new InvalidOperationException("Connection string 'BeperkingContext' not found.")));
-// builder.Services.AddDbContext<HulpmiddelContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("HulpmiddelContext") ?? throw new InvalidOperationException("Connection string 'HulpmiddelContext' not found.")));
-// builder.Services.AddDbContext<OnderzoekResultaatContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("OnderzoekResultaatContext") ?? throw new InvalidOperationException("Connection string 'OnderzoekResultaatContext' not found.")));
-// builder.Services.AddDbContext<BedrijfsContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("WPR23_24BContext") ?? throw new InvalidOperationException("Connection string 'WPR23_24BContext' not found.")));
+
 
 // Services for registration and authentication purposes
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
