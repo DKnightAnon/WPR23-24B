@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Controllers
@@ -13,33 +14,33 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class OnderzoekResultaatsController : ControllerBase
     {
-        private readonly OnderzoekResultaatContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public OnderzoekResultaatsController(OnderzoekResultaatContext context)
+        public OnderzoekResultaatsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/OnderzoekResultaats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OnderzoekResultaat>>> GetOnderzoekResultaat()
+        public async Task<ActionResult<IEnumerable<Onderzoek_Resultaat>>> GetOnderzoekResultaat()
         {
-          if (_context.OnderzoekResultaat == null)
-          {
-              return NotFound();
-          }
-            return await _context.OnderzoekResultaat.ToListAsync();
+            if (_context.OnderzoekResultaten == null)
+            {
+                return NotFound();
+            }
+            return await _context.OnderzoekResultaten.ToListAsync();
         }
 
         // GET: api/OnderzoekResultaats/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OnderzoekResultaat>> GetOnderzoekResultaat(int id)
+        public async Task<ActionResult<Onderzoek_Resultaat>> GetOnderzoekResultaat(int id)
         {
-          if (_context.OnderzoekResultaat == null)
-          {
-              return NotFound();
-          }
-            var onderzoekResultaat = await _context.OnderzoekResultaat.FindAsync(id);
+            if (_context.OnderzoekResultaten == null)
+            {
+                return NotFound();
+            }
+            var onderzoekResultaat = await _context.OnderzoekResultaten.FindAsync(id);
 
             if (onderzoekResultaat == null)
             {
@@ -52,7 +53,7 @@ namespace WPR23_24B.Controllers
         // PUT: api/OnderzoekResultaats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOnderzoekResultaat(int id, OnderzoekResultaat onderzoekResultaat)
+        public async Task<IActionResult> PutOnderzoekResultaat(int id, Onderzoek_Resultaat onderzoekResultaat)
         {
             if (id != onderzoekResultaat.OnderzoekResultaatId)
             {
@@ -83,13 +84,13 @@ namespace WPR23_24B.Controllers
         // POST: api/OnderzoekResultaats
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OnderzoekResultaat>> PostOnderzoekResultaat(OnderzoekResultaat onderzoekResultaat)
+        public async Task<ActionResult<Onderzoek_Resultaat>> PostOnderzoekResultaat(Onderzoek_Resultaat onderzoekResultaat)
         {
-          if (_context.OnderzoekResultaat == null)
-          {
-              return Problem("Entity set 'OnderzoekResultaatContext.OnderzoekResultaat'  is null.");
-          }
-            _context.OnderzoekResultaat.Add(onderzoekResultaat);
+            if (_context.OnderzoekResultaten == null)
+            {
+                return Problem("Entity set 'OnderzoekResultaatContext.OnderzoekResultaat'  is null.");
+            }
+            _context.OnderzoekResultaten.Add(onderzoekResultaat);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOnderzoekResultaat", new { id = onderzoekResultaat.OnderzoekResultaatId }, onderzoekResultaat);
@@ -99,17 +100,17 @@ namespace WPR23_24B.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOnderzoekResultaat(int id)
         {
-            if (_context.OnderzoekResultaat == null)
+            if (_context.OnderzoekResultaten == null)
             {
                 return NotFound();
             }
-            var onderzoekResultaat = await _context.OnderzoekResultaat.FindAsync(id);
+            var onderzoekResultaat = await _context.OnderzoekResultaten.FindAsync(id);
             if (onderzoekResultaat == null)
             {
                 return NotFound();
             }
 
-            _context.OnderzoekResultaat.Remove(onderzoekResultaat);
+            _context.OnderzoekResultaten.Remove(onderzoekResultaat);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +118,7 @@ namespace WPR23_24B.Controllers
 
         private bool OnderzoekResultaatExists(int id)
         {
-            return (_context.OnderzoekResultaat?.Any(e => e.OnderzoekResultaatId == id)).GetValueOrDefault();
+            return (_context.OnderzoekResultaten?.Any(e => e.OnderzoekResultaatId == id)).GetValueOrDefault();
         }
     }
 }

@@ -24,16 +24,10 @@ namespace WPR23_24B.Models.Onderzoek
         public string Status { get; set; }
 
 
-        // Navigation properties
-        public List<OnderzoekResultaat> Resultaten { get; set; }
-    
-
         // Relationship with Onderzoek_soort
         public List<Onderzoek_Soort> OnderzoekSoorten { get; set; }
 
-        //Relationship with Onderzoek_Resultaat 
-        public List<OnderzoekResultaat> OnderzoekResultaten { get; set; }
+        public List<Onderzoek_Resultaat> Resultaten { get; set; }
 
-       
     }
 }

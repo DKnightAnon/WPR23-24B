@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Medisch;
 
 namespace WPR23_24B.Controllers
@@ -13,9 +14,9 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class HulpmiddelsController : ControllerBase
     {
-        private readonly HulpmiddelContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public HulpmiddelsController(HulpmiddelContext context)
+        public HulpmiddelsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,22 +25,22 @@ namespace WPR23_24B.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Hulpmiddel>>> GetHulpmiddel()
         {
-          if (_context.Hulpmiddel == null)
-          {
-              return NotFound();
-          }
-            return await _context.Hulpmiddel.ToListAsync();
+            if (_context.Hulpmiddelen == null)
+            {
+                return NotFound();
+            }
+            return await _context.Hulpmiddelen.ToListAsync();
         }
 
         // GET: api/Hulpmiddels/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Hulpmiddel>> GetHulpmiddel(int id)
         {
-          if (_context.Hulpmiddel == null)
-          {
-              return NotFound();
-          }
-            var hulpmiddel = await _context.Hulpmiddel.FindAsync(id);
+            if (_context.Hulpmiddelen == null)
+            {
+                return NotFound();
+            }
+            var hulpmiddel = await _context.Hulpmiddelen.FindAsync(id);
 
             if (hulpmiddel == null)
             {
@@ -85,11 +86,11 @@ namespace WPR23_24B.Controllers
         [HttpPost]
         public async Task<ActionResult<Hulpmiddel>> PostHulpmiddel(Hulpmiddel hulpmiddel)
         {
-          if (_context.Hulpmiddel == null)
-          {
-              return Problem("Entity set 'HulpmiddelContext.Hulpmiddel'  is null.");
-          }
-            _context.Hulpmiddel.Add(hulpmiddel);
+            if (_context.Hulpmiddelen == null)
+            {
+                return Problem("Entity set 'HulpmiddelContext.Hulpmiddel'  is null.");
+            }
+            _context.Hulpmiddelen.Add(hulpmiddel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHulpmiddel", new { id = hulpmiddel.Id }, hulpmiddel);
@@ -99,17 +100,17 @@ namespace WPR23_24B.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHulpmiddel(int id)
         {
-            if (_context.Hulpmiddel == null)
+            if (_context.Hulpmiddelen == null)
             {
                 return NotFound();
             }
-            var hulpmiddel = await _context.Hulpmiddel.FindAsync(id);
+            var hulpmiddel = await _context.Hulpmiddelen.FindAsync(id);
             if (hulpmiddel == null)
             {
                 return NotFound();
             }
 
-            _context.Hulpmiddel.Remove(hulpmiddel);
+            _context.Hulpmiddelen.Remove(hulpmiddel);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +118,7 @@ namespace WPR23_24B.Controllers
 
         private bool HulpmiddelExists(int id)
         {
-            return (_context.Hulpmiddel?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Hulpmiddelen?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

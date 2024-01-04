@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Medisch;
 
 namespace WPR23_24B.Controllers
@@ -14,10 +15,10 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class BeperkingsController : ControllerBase
     {
-        private readonly BeperkingContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _manager;
 
-        public BeperkingsController(BeperkingContext context, UserManager<IdentityUser> manager)
+        public BeperkingsController(ApplicationDbContext context, UserManager<IdentityUser> manager)
         {
             _context = context;
             _manager = manager;
@@ -171,7 +172,7 @@ namespace WPR23_24B.Controllers
             }
             // Zoek de Beperking op basis van het opgegeven id
             var beperking = await _context.Beperkingen.FindAsync(id);
-            
+
             // Controleer of de Beperking is gevonden
             if (beperking == null)
             {

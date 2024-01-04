@@ -14,9 +14,9 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class BedrijfsController : ControllerBase
     {
-        private readonly BedrijfsContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public BedrijfsController(BedrijfsContext context)
+        public BedrijfsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,22 +25,22 @@ namespace WPR23_24B.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bedrijf>>> GetBedrijf()
         {
-          if (_context.Bedrijf == null)
-          {
-              return NotFound();
-          }
-            return await _context.Bedrijf.ToListAsync();
+            if (_context.Bedrijven == null)
+            {
+                return NotFound();
+            }
+            return await _context.Bedrijven.ToListAsync();
         }
 
         // GET: api/Bedrijfs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bedrijf>> GetBedrijf(int id)
         {
-          if (_context.Bedrijf == null)
-          {
-              return NotFound();
-          }
-            var bedrijf = await _context.Bedrijf.FindAsync(id);
+            if (_context.Bedrijven == null)
+            {
+                return NotFound();
+            }
+            var bedrijf = await _context.Bedrijven.FindAsync(id);
 
             if (bedrijf == null)
             {
@@ -86,11 +86,11 @@ namespace WPR23_24B.Controllers
         [HttpPost]
         public async Task<ActionResult<Bedrijf>> PostBedrijf(Bedrijf bedrijf)
         {
-          if (_context.Bedrijf == null)
-          {
-              return Problem("Entity set 'WPR23_24BContext.Bedrijf'  is null.");
-          }
-            _context.Bedrijf.Add(bedrijf);
+            if (_context.Bedrijven == null)
+            {
+                return Problem("Entity set 'WPR23_24BContext.Bedrijf'  is null.");
+            }
+            _context.Bedrijven.Add(bedrijf);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBedrijf", new { id = bedrijf.Id }, bedrijf);
@@ -100,17 +100,17 @@ namespace WPR23_24B.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBedrijf(int id)
         {
-            if (_context.Bedrijf == null)
+            if (_context.Bedrijven == null)
             {
                 return NotFound();
             }
-            var bedrijf = await _context.Bedrijf.FindAsync(id);
+            var bedrijf = await _context.Bedrijven.FindAsync(id);
             if (bedrijf == null)
             {
                 return NotFound();
             }
 
-            _context.Bedrijf.Remove(bedrijf);
+            _context.Bedrijven.Remove(bedrijf);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -118,8 +118,7 @@ namespace WPR23_24B.Controllers
 
         private bool BedrijfExists(Guid id)
         {
-            return (_context.Bedrijf?.Any(e => e.Id == id.ToString())).GetValueOrDefault();
+            return (_context.Bedrijven?.Any(e => e.Id == id.ToString())).GetValueOrDefault();
         }
     }
 }
-

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Controllers
@@ -14,10 +15,10 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class OnderzoeksController : ControllerBase
     {
-        private readonly OnderzoekContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _manager;
 
-        public OnderzoeksController(OnderzoekContext context, UserManager<IdentityUser> manager)
+        public OnderzoeksController(ApplicationDbContext context, UserManager<IdentityUser> manager)
         {
             _context = context;
             _manager = manager;
@@ -28,12 +29,12 @@ namespace WPR23_24B.Controllers
         public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
         {
             // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoek == null)
+            if (_context.Onderzoeken == null)
             {
                 return NotFound();
             }
             // Haal alle onderzoeken op uit de database en retourneer ze
-            return await _context.Onderzoek.ToListAsync();
+            return await _context.Onderzoeken.ToListAsync();
         }
 
         // GET-Methode om een specifiek onderzoek op te halen aan de hand van het Id
@@ -41,12 +42,12 @@ namespace WPR23_24B.Controllers
         public async Task<ActionResult<Onderzoek>> GetOnderzoekById(int id)
         {
             // Controleer of de Onderzoek entiteitset niet leeg is
-            if (_context.Onderzoek == null)
+            if (_context.Onderzoeken == null)
             {
                 return NotFound();
             }
             // Zoek het onderzoek met het opgegeven Id
-            var onderzoek = await _context.Onderzoek.FindAsync(id);
+            var onderzoek = await _context.Onderzoeken.FindAsync(id);
 
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
@@ -98,13 +99,13 @@ namespace WPR23_24B.Controllers
         public async Task<ActionResult<Onderzoek>> PostNieuwOnderzoek(Onderzoek onderzoek)
         {
             // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoek == null)
+            if (_context.Onderzoeken == null)
             {
                 return Problem("Entity set 'OnderzoekContext.Onderzoek' is null.");
             }
 
             // Voeg het nieuwe Onderzoek object toe aan de entiteitset
-            _context.Onderzoek.Add(onderzoek);
+            _context.Onderzoeken.Add(onderzoek);
 
             // Sla wijzigingen op in de database
             await _context.SaveChangesAsync();
@@ -118,13 +119,13 @@ namespace WPR23_24B.Controllers
         public async Task<IActionResult> DeleteOnderzoekById(int id)
         {
             // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoek == null)
+            if (_context.Onderzoeken == null)
             {
                 return NotFound();
             }
 
             // Zoek het onderzoek met het opgegeven Id
-            var onderzoek = await _context.Onderzoek.FindAsync(id);
+            var onderzoek = await _context.Onderzoeken.FindAsync(id);
 
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
@@ -133,7 +134,7 @@ namespace WPR23_24B.Controllers
             }
 
             // Verwijder het onderzoek uit de entiteitset
-            _context.Onderzoek.Remove(onderzoek);
+            _context.Onderzoeken.Remove(onderzoek);
 
             // Sla wijzigingen op in de database
             await _context.SaveChangesAsync();
@@ -145,7 +146,7 @@ namespace WPR23_24B.Controllers
         // Methode om te controleren of een onderzoek met een bepaald Id bestaat
         private bool OnderzoekExists(int id)
         {
-            return (_context.Onderzoek?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Onderzoeken?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

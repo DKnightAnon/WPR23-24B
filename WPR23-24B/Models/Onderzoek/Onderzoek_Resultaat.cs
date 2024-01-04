@@ -4,7 +4,7 @@ using WPR23_24B.Models.Authenticatie;
 namespace WPR23_24B.Models.Onderzoek
 {
     // Representeert het resultaat van een specifiek onderzoek.
-    public class OnderzoekResultaat
+    public class Onderzoek_Resultaat
     {
         [Key]
         public int OnderzoekResultaatId { get; set; }
