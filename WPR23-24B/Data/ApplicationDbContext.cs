@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Medisch;
+using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Data
 {
@@ -15,10 +17,20 @@ namespace WPR23_24B.Data
         {
         }
 
+        // Models / Authenticatie
         public DbSet<Bedrijf> Bedrijven { get; set; }
         public DbSet<Ervaringsdeskundige> Ervaringsdeskundigen { get; set; }
         public DbSet<Contactpersoon_Bedrijf> Contactpersonen { get; set; }
         public DbSet<Voogd> Voogden { get; set; }
+
+        // Models / Medisch
+        public DbSet<Hulpmiddel> Hulpmiddelen { get; set; }
+        public DbSet<Beperking> Beperkingen { get; set; }
+
+        // Models / Onderzoek
+        public DbSet<Onderzoek> Onderzoeken { get; set; }
+        public DbSet<Onderzoek_Soort> OnderzoekSoorten { get; set; }
+        public DbSet<Onderzoek_Resultaat> OnderzoekResultaten { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
