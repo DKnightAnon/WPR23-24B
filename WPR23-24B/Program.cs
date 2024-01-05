@@ -17,16 +17,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Services for registration and authentication purposes
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("RegistrationAuthenticationConnection")));
-////Add services to the container.
-////builder.Services.AddIdentity<Gebruiker, IdentityRole>()
-////    .AddEntityFrameworkStores<ApplicationDbContext>()
-////    .AddDefaultTokenProviders();
-////builder.Services.AddAuthentication();
+Add services to the container.
+builder.Services.AddIdentity<Gebruiker, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddAuthentication();
 
-////builder.Services.AddScoped<RoleManager<IdentityRole>>();
-////builder.Services.AddScoped<IRegistrationService, RegistrationService>();
-////builder.Services.AddScoped<IAuthService, AuthService>();
-////builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRolService, RolService>();
 
 builder.Services.AddControllersWithViews();
 
