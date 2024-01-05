@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Services for registration and authentication purposes
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("RegistrationAuthenticationConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("RegistrationAuthenticationConnection")));
 
 
 
