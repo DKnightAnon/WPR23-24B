@@ -125,10 +125,10 @@ namespace WPR23_24B.Services
                 UserName = "Company_" + Guid.NewGuid().ToString(),
                 Naam = model.Naam,
                 Postcode = model.Postcode,
-                PhoneNumber = model.TelefoonNummer,
+                TelefoonNummer = model.TelefoonNummer,
                 Website = model.Website,
                 TrackingID = model.TrackingId,
-                ContactPersoon = model.Contactpersoon,
+                //ContactPersoon = model.Contactpersoon,
                 Locatie = model.Postcode
             };
 
