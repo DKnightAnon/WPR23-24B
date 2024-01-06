@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using WPR23_24B.Chat.Models;
 
@@ -12,6 +11,7 @@ namespace WPR23_24B.Models.Authenticatie
     public class Gebruiker : IdentityUser
 
     {
+<<<<<<< HEAD
 
 
         [Required(ErrorMessage ="Een naam moet ingevuld worden.")]
@@ -19,16 +19,19 @@ namespace WPR23_24B.Models.Authenticatie
         public string Voornaam { get; set; }
 
 
+=======
+>>>>>>> main
         [Required(ErrorMessage = "Een naam moet ingevuld worden.")]
         [StringLength(50)]
-        public string Achternaam { get; set; }
+        public virtual string Naam { get; set; }
 
-        [Required(ErrorMessage = "Een Emailadres moet ingevuld worden.")]
-        [EmailAddress]
-        public string Email {  get; set; }
+        [Required(ErrorMessage = "Een postcode moet ingevuld worden.")]
+        [StringLength(50)]
+        public string? Postcode { get; set; }
 
         [Required]
         //RegularExpression limits the allowed inputs to the specified characters
+<<<<<<< HEAD
         [RegularExpression("^[0-9]{10}$", ErrorMessage ="Telefoonnummer moet 10 cijfers lang zijn, en starten met 06 .")]
         public string Telefoon_Nummer { get; set; }
 
@@ -43,5 +46,9 @@ namespace WPR23_24B.Models.Authenticatie
             return new string($"{UserName ?? Voornaam}");
         }
 
+=======
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Telefoonnummer moet 10 cijfers lang zijn, en starten met 06 .")]
+        public string TelefoonNummer { get; set; }
+>>>>>>> main
     }
 }

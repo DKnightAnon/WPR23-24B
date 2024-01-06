@@ -35,18 +35,18 @@ steps:
 
 
 #Publish artifacts to Azure Pipelines
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+#- task: DotNetCoreCLI@2
+#  inputs:
+#    command: publish
+#    publishWebProjects: True
+#    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+#    zipAfterPublish: True
 
 # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'myWebsiteName'
+#- task: PublishPipelineArtifact@1
+#  inputs:
+#    targetPath: '$(Build.ArtifactStagingDirectory)' 
+#    artifactName: 'myWebsiteName'
 
 
 
@@ -60,10 +60,11 @@ steps:
     command: 'publish'
     publishWebProjects: true
 
+    #In the package you explicitly need to specifiy the project you're trying to run.
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'Azure for Students(d9118118-8e55-40d9-950b-be6efece1964)'
     appType: 'webApp'
     appName: 'WPR23-24B'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(System.DefaultWorkingDirectory)/WPR23-24B/**/*.zip'
     deploymentMethod: 'auto'
