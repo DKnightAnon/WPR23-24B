@@ -19,6 +19,7 @@ namespace WPR23_24B.Data
         }
 
         // Models / Authenticatie
+        public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Bedrijf> Bedrijven { get; set; }
         public DbSet<Ervaringsdeskundige> Ervaringsdeskundigen { get; set; }
         public DbSet<Contactpersoon_Bedrijf> Contactpersonen { get; set; }
@@ -38,6 +39,7 @@ namespace WPR23_24B.Data
             base.OnModelCreating(modelBuilder);
 
             // Configuratie van relaties tussen klassen; bedrijf, ervaringdeskundige en contactpersoon
+            modelBuilder.Entity<Gebruiker>().ToTable("Gebruikers");
             modelBuilder.Entity<Bedrijf>().ToTable("Bedrijven");
             modelBuilder.Entity<Ervaringsdeskundige>().ToTable("Ervaringsdeskundigen");
             modelBuilder.Entity<Contactpersoon_Bedrijf>().ToTable("Contactpersonen");

@@ -15,9 +15,33 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Services for registration and authentication purposes
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("RegistrationAuthenticationConnection")));
 
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("AzureDB")
+            )
+        );
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("SQLSERVER")
+            )
+        );
+}
+
+
+
+
+//SQLite database connection
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("RegistrationAuthenticationConnection")));
+
+//Automatically perform database migration
+builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
 
 //Add services to the container.
@@ -39,14 +63,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Initialize roles during application startup
-////using (var scope = app.Services.CreateScope())
-////{
-////    var serviceProvider = scope.ServiceProvider;
-////    var rolService = serviceProvider.GetRequiredService<IRolService>();
+//Initialize roles during application startup
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var rolService = serviceProvider.GetRequiredService<IRolService>();
 
-////    await rolService.InitializeRoles();
-////}
+    await rolService.InitializeRoles();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -69,7 +93,7 @@ app.UseStaticFiles();
 
 app.UseCors(builder =>
 {
-    builder.WithOrigins("https://localhost:44443/") // Verander de URL naar de server URL
+    builder.WithOrigins("https://localhost:44443", "https://localhost:7180") // Verander de URL naar de server URL
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowAnyOrigin();

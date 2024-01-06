@@ -12,11 +12,11 @@ namespace WPR23_24B.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BedrijfsController : ControllerBase
+    public class BedrijfController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BedrijfsController(ApplicationDbContext context)
+        public BedrijfController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -55,9 +55,12 @@ namespace WPR23_24B.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBedrijf(Guid id, Bedrijf bedrijf)
         {
+            Console.WriteLine($"Id from URL : " + id);
+            Console.WriteLine("Bedrijf details are : " + bedrijf);
+
             if (id.ToString() != bedrijf.Id)
             {
-                return BadRequest();
+                return BadRequest("Bedrijf ID komt niet overeen");
             }
 
             _context.Entry(bedrijf).State = EntityState.Modified;
