@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Models.Medisch;
 using WPR23_24B.Models.Onderzoek;
@@ -34,6 +35,14 @@ namespace WPR23_24B.Data
         public DbSet<Onderzoek_Soort> OnderzoekSoorten { get; set; }
         public DbSet<Onderzoek_Resultaat> OnderzoekResultaten { get; set; }
 
+
+        // Models / Chat
+        public DbSet<ChatBericht> ChatBericht { get; set; } = default!;
+        public DbSet<ChatRoom> ChatRoom { get; set; } = default!;
+
+        //public DbSet<ChatDeelnemers> ChatRoomConnections { get; set; } = default!;
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -57,6 +66,14 @@ namespace WPR23_24B.Data
                 .WithMany()
                 .HasForeignKey(e => e.VoogdId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+
+
+            //Fluent API configuration to map a many-to-many relation between Gebruikers en ChatRooms.
+            modelBuilder.Entity<ChatDeelnemers>().HasKey(key => new { key.GebruikerId, key.RoomId });
+            modelBuilder.Entity<ChatRoom>().HasMany(x => x.gebruikers).WithMany(x => x.Gesprekken).UsingEntity<ChatDeelnemers>();
+ 
+      
         }
     }
 }
