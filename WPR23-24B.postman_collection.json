@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "a347ee92-8aa0-4e15-8e9b-facabbd3ad49",
+		"name": "WPR23-24B",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30188323"
+	},
+	"item": [
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "ChatRooms",
+					"item": [
+						{
+							"name": "Get All Rooms",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "https://localhost:7180/api/ChatRooms"
+							},
+							"response": []
+						},
+						{
+							"name": "Post New Room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"PostmanRoom3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7180/api/ChatRooms"
+							},
+							"response": []
+						},
+						{
+							"name": "Get ChatRoom At ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7180/api/ChatRooms/6A2EDCC7-A61D-4049-809F-D36A9B448B83"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Chats For Room",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "https://localhost:7180/api/ChatRooms/berichten/6A2EDCC7-A61D-4049-809F-D36A9B448B83"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ChatBerichten",
+					"item": [
+						{
+							"name": "Get All Messages",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Get Message By Individual Id",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Post New Message",
+							"request": {
+								"method": "POST",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Gebruikers",
+			"item": [
+				{
+					"name": "Gebruiker",
+					"item": [
+						{
+							"name": "Get All Gebruikers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "https://localhost:7180/api/ChatGebruiker"
+							},
+							"response": []
+						},
+						{
+							"name": "Post New Gebruiker",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"voornaam\": \"TestGebruikerVoornaam\",\r\n    \"achternaam\": \"TestGebruikerAchterNaam\",\r\n    \"email\": \"22102167@student.hhs.nl\",\r\n    \"telefoon_nummer\": \"0612345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7180/api/ChatGebruiker"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Post New Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n                \"message\": \"Testmessage3\",\r\n                \"verzenderId\": \"10418506-072b-42f4-ba37-4148b234952e\",\r\n                \"roomId\": \r\n                            {\r\n                                \"id\":\"6A2EDCC7-A61D-4049-809F-D36A9B448B83\",\r\n                                \"title\":\"PostmanRoom1\"\r\n                            }\r\n            \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:7180/api/ChatBericht"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All ChatMessages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://localhost:7180/api/ChatBericht"
+					},
+					"response": []
+				},
+				{
+					"name": "Get ChatMessages At RoomID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7180/api/ChatBericht?Id=6A2EDCC7-A61D-4049-809F-D36A9B448B83",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7180",
+							"path": [
+								"api",
+								"ChatBericht"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "6A2EDCC7-A61D-4049-809F-D36A9B448B83"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bedrijf",
+			"item": [
+				{
+					"name": "Get Alle bedrijven",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://localhost:7180/api/bedrijf"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Nieuw Bedrijf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"string\",\r\n    \"naam\": \"string\",\r\n    \"email\":\"youremail@domain.com\",\r\n    \r\n    \"postcode\": \"string\",\r\n    \"telefoonNummer\": \"0612345678\",\r\n    \"locatie\": \"string\",\r\n    \"website\": \"https://localhost:7180\",\r\n    \"trackingID\": \"string\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:7180/api/Bedrijf"
+					},
+					"response": []
+				},
+				{
+					"name": "Alter Bedrijf At ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"Naam\": \"string\",\r\n    \"Postcode\": \"string\",\r\n    \"Email\": \"professionalusername@yourbusiness.com\",\r\n    \"Locatie\": \"string\",\r\n    \"Website\": \"https://localhost:7180\",\r\n    \"TrackingID\": \"string\",\r\n    \"TelefoonNummer\": \"0612345678\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7180/api/Bedrijf/8381bb1c-d199-43cc-83b9-215045ba5424",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7180",
+							"path": [
+								"api",
+								"Bedrijf",
+								"8381bb1c-d199-43cc-83b9-215045ba5424"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8381bb1c-d199-43cc-83b9-215045ba5424",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Beperkingen",
+			"item": [
+				{
+					"name": "Get Alle Beperkingen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://localhost:7180/api/Beperkings"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Nieuwe Beperking",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"string\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:7180/api/Beperkings"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"Sterkwachtwoord1@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:7180/api/Auth"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registratie",
+			"item": [
+				{
+					"name": "Register as Company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"wachtwoord\": \"Sterkwachtwoord1@\",\r\n  \"naam\": \"string\",\r\n  \"postcode\": \"string\",\r\n  \"website\": \"https://localhost:7180\",\r\n  \"trackingId\": \"string\",\r\n  \"TelefoonNummer\": \"0612345678\",\r\n  \"contactpersoon\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:7180/api/Registratie/bedrijf/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get FavIcon",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://wpr23-24b.azurewebsites.net/favicon.ico"
+			},
+			"response": []
+		}
+	]
+}
