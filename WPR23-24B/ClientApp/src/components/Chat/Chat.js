@@ -183,17 +183,30 @@ export default function Chat() {
 
     return (
         <div className="chat-component-main">
-            <ChatList />
-            <ChatInput sendMessage={sendMessage} />
-            <hr />
-            <p><strong>TestGroupChat</strong></p>
-            <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
-            <hr />
-            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>
-            <p>Amount of connected users : {userCount}</p>
-            <ChatWindow chat={chat} />
 
-        </div>
+
+            <ChatList />
+
+            
+                <ChatWindow chat={chat} />
+
+
+                <div className="chat-component-inputs">
+                    <ChatInput sendMessage={sendMessage} />
+
+                    <span className="chat-input-box">
+                        <p><strong>TestGroupChat</strong></p>
+                        <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
+                    </span>
+
+
+                    {/*            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>*/}
+
+                    <p>Amount of connected users : {userCount}</p>
+                </div>
+            </div>
+
+       
     );
 };
 
