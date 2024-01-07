@@ -16,8 +16,6 @@ using WPR23_24B.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ChatContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ChatContext") ?? throw new InvalidOperationException("Connection string 'ChatContext' not found.")));
 
 
 // Services for registration and authentication purposes
@@ -26,7 +24,7 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production"
 {
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(
-            builder.Configuration.GetConnectionString("AzureDB")
+            builder.Configuration.GetConnectionString("AzureDB") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
 }
@@ -34,7 +32,7 @@ else
 {
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(
-            builder.Configuration.GetConnectionString("SQLSERVER")
+            builder.Configuration.GetConnectionString("SQLSERVER") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
 }
@@ -79,10 +77,16 @@ builder.Services.AddCors(options =>
     options.AddPolicy(policyName, policy =>
     {
         policy
+            .WithOrigins(
+            "https://localhost:44443",
+                 "https://localhost:7180",
+                 "https://wpr23-24b.azurewebsites.net"
+                 )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()
-            .WithOrigins( "https://localhost:44443", "https://localhost:7180");
+            
+            ;
     });
 });
 
@@ -118,11 +122,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseCors(policyName);
+
+// Dit moet uitgecommented zijn zodat SignalR kan werken. Anders treedt er een CORS policy error op.
+//app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 
 
 
@@ -148,6 +154,6 @@ app.MapFallbackToFile("index.html");
 app.MapHub<ChatHub>("/hubs/chathub");
 //app.UseEndpoints(endpoints =>
 //    { endpoints.MapHub<ChatHub>("/hubs/chathub"); }
-//    );
+//    );git
 
 app.Run();

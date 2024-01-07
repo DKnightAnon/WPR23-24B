@@ -10,6 +10,7 @@ using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie.Extensions;
 using WPR23_24B.Chat.DTO_s;
+using WPR23_24B.Data;
 
 namespace WPR23_24B.Controllers
 {
@@ -17,9 +18,9 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class ChatBerichtController : ControllerBase
     {
-        private readonly ChatContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ChatBerichtController(ChatContext context)
+        public ChatBerichtController(ApplicationDbContext context)
         {
             _context = context;
         }

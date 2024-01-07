@@ -4,6 +4,7 @@ using NuGet.Protocol;
 using System;
 using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 
 namespace WPR23_24B.Chat.Hubs
@@ -21,8 +22,8 @@ namespace WPR23_24B.Chat.Hubs
         /// </summary>
         public static int TotalViews { get; set; } = 0;
 
-        private readonly ChatContext _dbContext;
-        public ChatHub(ChatContext dbContext) 
+        private readonly ApplicationDbContext _dbContext;
+        public ChatHub(ApplicationDbContext dbContext) 
         {
             _dbContext = dbContext;
         }

@@ -16,10 +16,10 @@ namespace WPR23_24B.Chat.Models
         //JsonIgnore to prevent a json loop from occuring.
         //This seems to create an infinite loop of sorts where room points to message points to room ad infinitum.
         [JsonIgnore]
-        public ICollection<ChatBericht>? Messages { get; set; }
+        public virtual ICollection<ChatBericht>? Messages { get; set; }
 
         [JsonIgnore]
-        public ICollection<Gebruiker>? gebruikers { get; set; }
+        public virtual ICollection<Gebruiker>? gebruikers { get; set; }
 
         public ChatRoom() { }
 

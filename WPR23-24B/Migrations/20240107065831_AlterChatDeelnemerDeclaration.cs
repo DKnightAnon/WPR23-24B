@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WPR23_24B.Migrations
 {
     /// <inheritdoc />
-    public partial class AlterDatabaseStructure2 : Migration
+    public partial class AlterChatDeelnemerDeclaration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,18 @@ namespace WPR23_24B.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChatRoom",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatRoom", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,6 +219,46 @@ namespace WPR23_24B.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChatBericht",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    postedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    verzenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    roomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatBericht", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatBericht_ChatRoom_roomId",
+                        column: x => x.roomId,
+                        principalTable: "ChatRoom",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChatDeelnemers",
+                columns: table => new
+                {
+                    GebruikerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChatRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatDeelnemers", x => new { x.GebruikerId, x.RoomId });
+                    table.ForeignKey(
+                        name: "FK_ChatDeelnemers_ChatRoom_ChatRoomId",
+                        column: x => x.ChatRoomId,
+                        principalTable: "ChatRoom",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ervaringsdeskundigen",
                 columns: table => new
                 {
@@ -286,11 +338,11 @@ namespace WPR23_24B.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Naam = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Postcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     TelefoonNummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BeperkingId = table.Column<int>(type: "int", nullable: true),
                     HulpmiddelId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -351,6 +403,21 @@ namespace WPR23_24B.Migrations
                 name: "IX_Beperkingen_ErvaringsdeskundigeId",
                 table: "Beperkingen",
                 column: "ErvaringsdeskundigeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatBericht_roomId",
+                table: "ChatBericht",
+                column: "roomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatBericht_verzenderId",
+                table: "ChatBericht",
+                column: "verzenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatDeelnemers_ChatRoomId",
+                table: "ChatDeelnemers",
+                column: "ChatRoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contactpersonen_BedrijfId",
@@ -452,6 +519,22 @@ namespace WPR23_24B.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_ChatBericht_Gebruikers_verzenderId",
+                table: "ChatBericht",
+                column: "verzenderId",
+                principalTable: "Gebruikers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ChatDeelnemers_Gebruikers_GebruikerId",
+                table: "ChatDeelnemers",
+                column: "GebruikerId",
+                principalTable: "Gebruikers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Ervaringsdeskundigen_Gebruikers_Id",
                 table: "Ervaringsdeskundigen",
                 column: "Id",
@@ -483,6 +566,12 @@ namespace WPR23_24B.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ChatBericht");
+
+            migrationBuilder.DropTable(
+                name: "ChatDeelnemers");
+
+            migrationBuilder.DropTable(
                 name: "Contactpersonen");
 
             migrationBuilder.DropTable(
@@ -493,6 +582,9 @@ namespace WPR23_24B.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "ChatRoom");
 
             migrationBuilder.DropTable(
                 name: "Bedrijven");

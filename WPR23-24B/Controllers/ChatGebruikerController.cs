@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Chat;
+using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 
 
@@ -19,9 +20,9 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class ChatGebruikerController : ControllerBase
     {
-        private readonly ChatContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ChatGebruikerController(ChatContext context)
+        public ChatGebruikerController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -57,7 +58,7 @@ namespace WPR23_24B.Controllers
         {
             if (_context.Gebruikers == null) { return Problem(detail: "Entity set Gebruiker is null."); }
 
-            nieweGebruiker.UserName = $"{nieweGebruiker.Voornaam} {nieweGebruiker.Achternaam}";
+            nieweGebruiker.UserName = nieweGebruiker.Naam;
             _context.Gebruikers.Add(nieweGebruiker);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetGebruiker", new {id = nieweGebruiker.Id}, nieweGebruiker);

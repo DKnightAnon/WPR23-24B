@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Chat;
 using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
+using WPR23_24B.Data;
 
 namespace WPR23_24B.Controllers
 {
@@ -16,9 +17,9 @@ namespace WPR23_24B.Controllers
     [ApiController]
     public class ChatRoomsController : ControllerBase
     {
-        private readonly ChatContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ChatRoomsController(ChatContext context)
+        public ChatRoomsController(ApplicationDbContext context)
         {
             _context = context;
         }

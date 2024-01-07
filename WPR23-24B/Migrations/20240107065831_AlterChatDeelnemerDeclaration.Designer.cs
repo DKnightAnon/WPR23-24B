@@ -12,8 +12,8 @@ using WPR23_24B.Data;
 namespace WPR23_24B.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240106101423_AlterDatabaseStructure2")]
-    partial class AlterDatabaseStructure2
+    [Migration("20240107065831_AlterChatDeelnemerDeclaration")]
+    partial class AlterChatDeelnemerDeclaration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,6 +156,68 @@ namespace WPR23_24B.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatBericht", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("postedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("roomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("verzenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("roomId");
+
+                    b.HasIndex("verzenderId");
+
+                    b.ToTable("ChatBericht");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatDeelnemers", b =>
+                {
+                    b.Property<string>("GebruikerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChatRoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GebruikerId", "RoomId");
+
+                    b.HasIndex("ChatRoomId");
+
+                    b.ToTable("ChatDeelnemers");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatRoom");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Contactpersoon_Bedrijf", b =>
@@ -542,6 +604,44 @@ namespace WPR23_24B.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatBericht", b =>
+                {
+                    b.HasOne("WPR23_24B.Chat.Models.ChatRoom", "room")
+                        .WithMany("Messages")
+                        .HasForeignKey("roomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WPR23_24B.Models.Authenticatie.Gebruiker", "verzender")
+                        .WithMany()
+                        .HasForeignKey("verzenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("room");
+
+                    b.Navigation("verzender");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatDeelnemers", b =>
+                {
+                    b.HasOne("WPR23_24B.Chat.Models.ChatRoom", "ChatRoom")
+                        .WithMany()
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WPR23_24B.Models.Authenticatie.Gebruiker", "Gebruiker")
+                        .WithMany()
+                        .HasForeignKey("GebruikerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChatRoom");
+
+                    b.Navigation("Gebruiker");
+                });
+
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Contactpersoon_Bedrijf", b =>
                 {
                     b.HasOne("WPR23_24B.Models.Authenticatie.Bedrijf", "Bedrijf")
@@ -623,6 +723,11 @@ namespace WPR23_24B.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Voogd");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Chat.Models.ChatRoom", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Beperking", b =>
