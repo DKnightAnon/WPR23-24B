@@ -42,8 +42,8 @@ export default function Chat() {
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
-                      //url has to be a http://localhost 
-            .withUrl("http://localhost:5057/hubs/chathub")
+            //url has to be a http://localhost 
+            .withUrl(process.env.REACT_APP_HUB_URL)
             .withAutomaticReconnect()
             //.configureLogging()
             .build();
