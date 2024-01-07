@@ -22,7 +22,7 @@ export default function ChatList(props) {
 
     
 
-    const url = "https://localhost:7180/api/ChatRooms";
+    const url = process.env.REACT_APP_API_BASE_URL + "ChatRooms";
 
     const [conversationList, setConversationList] = useState([]);
 

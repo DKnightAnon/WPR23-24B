@@ -28,7 +28,7 @@ export default function ChatListing(props)
 
     const dispatch = useDispatch();
 
-    const urlBase = "https://localhost:7180/api/ChatRooms/berichten/";
+    const urlBase = process.env.REACT_APP_API_BASE_URL + "ChatRooms/berichten/";
     const urlParam = chatConversation.id;
     const url = urlBase + urlParam;
 
