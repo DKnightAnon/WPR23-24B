@@ -5,6 +5,9 @@ export default function ChatInput (props)  {
     const [user, setUser] = useState('');
     const [message, setMessage] = useState('');
 
+
+
+
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -28,28 +31,35 @@ export default function ChatInput (props)  {
     }
 
     return (
-        <form className="chat-input"
-        //this is called automatically by the button tag because it is in a form? research this.
-            onSubmit={onSubmit}>
-            <label htmlFor="user">User:</label>
-            <br />
-            <input
-                id="user"
-                name="user"
-                value={user}
-                onChange={onUserUpdate} />
-            <br />
-            <label htmlFor="message">Message:</label>
-            <br />
-            <input
-                type="text"
-                id="message"
-                name="message"
-                value={message}
-                onChange={onMessageUpdate} />
-            <br /><br />
-            <button>Submit</button>
-        </form>
+
+
+        <div className="chat-input-form-container">
+            <form className="chat-input"
+                //this is called automatically by the button tag because it is in a form? research this.
+                onSubmit={onSubmit}>
+                <label htmlFor="user">User:</label>
+                <br />
+                <input
+                    id="user"
+                    name="user"
+                    value={user}
+                    onChange={onUserUpdate} />
+                <br />
+                <label htmlFor="message">Message:</label>
+                <br />
+                <input
+                    type="text"
+                    id="message"
+                    name="message"
+                    value={message}
+                    onChange={onMessageUpdate} />
+                <br /><br />
+                <button>Submit</button>
+
+            </form>
+          
+        </div>
+
     )
 };
 

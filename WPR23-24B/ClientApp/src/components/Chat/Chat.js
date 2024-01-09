@@ -16,7 +16,6 @@ import ChatList from './ChatListing/ChatList';
 
 
 //Styling
-import './ChatStyling.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNewMessage } from '../../store/slices/chatSlice';
 
@@ -181,30 +180,57 @@ export default function Chat() {
     }
 
 
+    const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        + "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+        + "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+
+
+
+
+
     return (
+
+
         <div className="chat-component-main">
 
+            <div className="chat-list-container">
+                <ChatList />
+            </div>
 
-            <ChatList />
+            <div className="chat-window">
 
-            
-                <ChatWindow chat={chat} />
+                <div className="chat-window-container">
+                    <ChatWindow chat={chat} />
+                </div>
 
 
                 <div className="chat-component-inputs">
                     <ChatInput sendMessage={sendMessage} />
 
-                    <span className="chat-input-box">
+                    <div className="chat-input-box">
                         <p><strong>TestGroupChat</strong></p>
+
+                        <p>Amount of connected users : {userCount}</p>
                         <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
-                    </span>
+
+                    </div>
 
 
                     {/*            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>*/}
+                    <br></br>
 
-                    <p>Amount of connected users : {userCount}</p>
+                    
+
+                        <button id="chat-message-lorem-ipsum" onClick={() => sendMessage("ipsum generator", lorem)} />
+                    
+
+
+
                 </div>
+
             </div>
+        </div>
 
        
     );

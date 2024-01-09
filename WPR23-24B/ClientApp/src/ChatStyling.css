@@ -1,0 +1,155 @@
+﻿/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+code {
+    color: #E01A76;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/*  -----------------------------------------    CHAT COMPONENTS    ----------------------------------------- */
+
+
+.chat-component-main {
+    display: flex;
+
+    border-color: black;
+    min-height: 100%;
+    height: 750px;
+    min-width: 100%;
+    width: 100%;
+    flex-grow: 1;
+}
+
+
+.chat-list-container {
+    border-style: solid;
+    border-color: black;
+}
+
+
+
+.chat-window {
+
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    width:100%;
+
+}
+
+
+
+/*  -----------------------------------------    CHAT INPUT    ----------------------------------------- */
+
+
+.chat-component-inputs {
+    background-color: #2B50EC;
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+    align-items: stretch;
+}
+
+    .chat-component-inputs button:focus {
+        border-style: solid;
+        border-color: red;
+    }
+
+.chat-input {
+    padding: 4px;
+    margin: 10px 20px;
+    min-width: 200px;
+}
+
+.testgroup-input {
+    padding: 4px;
+    margin: 10px 20px;
+    min-width: 300px;
+}
+
+.chat-input-form-container{
+    display:flex;
+    flex-direction:row;
+    padding:10x;
+}
+
+.testgroup-input button:hover {
+    background: #bdbdbd;
+}
+
+
+#chat-message-lorem-ipsum .button{
+    min-height:66;
+    width:30;
+    align-self:center;
+}
+
+
+
+/*  -----------------------------------------    CHAT LISTING    ----------------------------------------- */
+.chat-list {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    background-color: gray;
+    border-color: black;
+    float: left;
+    height: 100%;
+}
+
+.chat-listing {
+}
+
+.load-conversation-button {
+    background: #2B50EC;
+    color: #FFFFFF;
+    border-radius: 15px;
+    border-style: solid;
+    padding: 4px;
+    margin: 10px 20px;
+}
+
+
+
+    .load-conversation-button:hover {
+        background: #5b79f1;
+    }
+
+/*  -----------------------------------------    CHAT MESSAGES    ----------------------------------------- */
+
+
+
+.chat-window-container {
+    border-style: solid;
+    border-color: black;
+    overflow-y: scroll;
+    background-color: #D9EBF7;
+    flex-grow:6.5;
+}
+
+.chat-message-list {
+
+}
+
+.chat-message-box {
+    background: #108670;
+    color: #FFFFFF;
+    border-radius: 15px;
+    padding: 10px;
+}
+
