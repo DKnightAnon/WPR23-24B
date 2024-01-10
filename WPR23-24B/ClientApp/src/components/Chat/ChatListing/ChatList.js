@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import ChatListing from './ChatListing';
 
 
+import { Spinner } from 'reactstrap';
+
 //Component to represent the list of conversations a user has. 
 export default function ChatList(props) {
 
@@ -15,7 +17,7 @@ export default function ChatList(props) {
     
         //console.log(argument)
         argument.map(
-            m => <ChatListing key={m.id} id={m.id} title={m.title} />
+            m => <ChatListing key={m.id} id={m.id} title={m.title} /> 
 
         )
 
@@ -40,15 +42,12 @@ export default function ChatList(props) {
 
 
     return (
-        <div className="chat-list">
+        
+            <div className="chat-list">
+                <h1>Conversations </h1>
+                {MappedList(conversationList)}
+            </div>
 
-            <h1>Conversations </h1>
-            {MappedList(conversationList)}
-
-
-
-
-        </div>
     );
 
 }

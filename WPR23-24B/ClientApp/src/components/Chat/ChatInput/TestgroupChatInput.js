@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
+
+
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+
+
+
 //props are a catch-all for passed in paramteres. Think of it as a list. You can call props.[paramater] to retrieve something.
 export default function ChatInput(props) {
     const [user, setUser] = useState(
@@ -41,23 +49,36 @@ export default function ChatInput(props) {
     }
 
     return (
-        <form className="testgroup-input"
-        
-            //this is called automatically by the button tag because it is in a form? research this.
-            onSubmit={onSubmit}>
-            <label>TestGroup</label>
-          
-            <label htmlFor="message">Message:</label>
-            <br />
-            <input
-                type="text"
-                id="message"
-                name="message"
-                value={message}
-                onChange={onMessageUpdate} />
-            <br /><br />
-            <button>Submit</button>
-        </form>
+
+        <div>
+
+            <Form onSubmit={onSubmit}>
+                <Stack direction="horizontal" gap={2}>
+                    <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="type your message..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" />
+                    <Button variant="secondary" type="submit">Submit</Button>
+
+                </Stack>
+            </Form>
+
+            {/*<form className="testgroup-input"*/}
+
+            {/*    //this is called automatically by the button tag because it is in a form? research this.*/}
+            {/*    onSubmit={onSubmit}>*/}
+            {/*    <label>TestGroup</label>*/}
+
+            {/*    <label htmlFor="message">Message:</label>*/}
+            {/*    <br />*/}
+            {/*    <input*/}
+            {/*        type="text"*/}
+            {/*        id="message"*/}
+            {/*        name="message"*/}
+            {/*        value={message}*/}
+            {/*        onChange={onMessageUpdate} />*/}
+            {/*    <br /><br />*/}
+            {/*    <button>Submit</button>*/}
+            {/*</form>*/}
+
+        </div>
     )
 };
 

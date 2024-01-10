@@ -32,6 +32,13 @@ namespace WPR23_24B.Controllers
             {
                 return NotFound();
             }
+           
+
+            
+            // Om networklatency na te bootsen
+            //await Task.Delay(5000);
+            
+            
             return await _context.ChatRoom.ToListAsync();
         }
 

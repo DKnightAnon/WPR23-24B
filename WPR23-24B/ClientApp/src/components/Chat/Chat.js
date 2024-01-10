@@ -23,6 +23,16 @@ import { addNewMessage } from '../../store/slices/chatSlice';
 //import { addNewMessage, clearChat, addConversationContent } from './chatSlice'
 
 
+// React Bootstrap imports to make an responsive ChatList
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Stack from 'react-bootstrap/Stack';
+
+
+
 export default function Chat() {
     const [connection, setConnection] = useState(null);
     const [chat, setChat] = useState([]);
@@ -36,6 +46,16 @@ export default function Chat() {
 
     //const chatContent = useSelector((state) => state.chatContent.content)
     //const dispatch = useDispatch()
+
+    //Responsive chatlist
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
+
+
 
     latestChat.current = chat;
 
@@ -192,46 +212,64 @@ export default function Chat() {
     return (
 
 
-        <div className="chat-component-main">
+        <div className="chat-main-component">
 
-            <div className="chat-list-container">
-                <ChatList />
-            </div>
+        {/*<div className="Canvas-chatlist">*/}
+            <Offcanvas show={show} onHide={handleClose} responsive="lg">
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    
+                    <ChatList />
 
-            <div className="chat-window">
 
-                <div className="chat-window-container">
+                </Offcanvas.Body>
+            </Offcanvas>
+            {/*</div>*/}
+
+
+
+
+           {/* <div className="chat-messaging-component">*/}
+            <Container fluid>
+
+
+
+
+                <Stack >
                     <ChatWindow chat={chat} />
-                </div>
 
 
-                <div className="chat-component-inputs">
+
+
+
+
+
+
+                    <Button variant="primary" className="d-lg-none" onClick={handleShow}>
+                        Launch
+                    </Button>
+
+
                     <ChatInput sendMessage={sendMessage} />
 
-                    <div className="chat-input-box">
-                        <p><strong>TestGroupChat</strong></p>
+                    <p><strong>TestGroupChat</strong></p>
 
-                        <p>Amount of connected users : {userCount}</p>
-                        <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
-
-                    </div>
+                    <p>Amount of connected users : {userCount}</p>
+                    <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
 
 
-                    {/*            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>*/}
-                    <br></br>
+                    <br/>
 
-                    
+                    <Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>
 
-                        <button id="chat-message-lorem-ipsum" onClick={() => sendMessage("ipsum generator", lorem)} />
-                    
-
-
-
-                </div>
+                </Stack>
+            </Container>
 
             </div>
-        </div>
 
+     /*   </div>*/
        
     );
 };

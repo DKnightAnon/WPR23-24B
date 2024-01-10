@@ -16,12 +16,6 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
-//const store = createStore(chatStore)
-
-
-//<Provider store={ReduxStore}>
-//    <App />
-//</Provider>
 
 
 root.render(
