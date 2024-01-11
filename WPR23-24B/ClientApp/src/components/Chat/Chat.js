@@ -13,7 +13,7 @@ import TestgroupChatInput from './ChatInput/TestgroupChatInput';
 
 //Custom chat modules
 import ChatList from './ChatListing/ChatList';
-
+import ChatConstructionButton from './ChatListing/ChatConstruction/ChatConstructionButton'
 
 //Styling
 import { useSelector, useDispatch } from 'react-redux'
@@ -51,7 +51,7 @@ export default function Chat() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => { setShow(true); console.log('LAUNCH BUTTON CLICKED')}
 
 
 
@@ -217,12 +217,15 @@ export default function Chat() {
         {/*<div className="Canvas-chatlist">*/}
             <Offcanvas show={show} onHide={handleClose} responsive="lg">
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
+                    <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
+                    <Button variant="primary">Primary</Button>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    
-                    <ChatList />
 
+                    <Stack>
+                        <ChatConstructionButton />
+                        <ChatList />
+                    </Stack>
 
                 </Offcanvas.Body>
             </Offcanvas>
@@ -240,7 +243,7 @@ export default function Chat() {
                 <Stack >
                     <ChatWindow chat={chat} />
 
-
+                   
 
 
 

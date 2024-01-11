@@ -6,13 +6,12 @@ import { useState } from 'react';
 import Example from './offcanvas_React_Bootstrap'
 
 
+import ChatConstructionButton from '../Chat/ChatListing/ChatConstruction/ChatConstructionButton';
+
 
 function TestEnvironment() {
 
-    const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
 
 
@@ -20,9 +19,11 @@ function TestEnvironment() {
 
 
     return (
-    
-        <Example/>
+        <div>
+           {/* <Example />*/}
+            <ChatConstructionButton />
 
+        </div>
     )
 
 
