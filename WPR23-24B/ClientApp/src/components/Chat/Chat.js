@@ -30,7 +30,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Stack from 'react-bootstrap/Stack';
-
+import ListGroup from 'react-bootstrap/ListGroup';
 
 
 export default function Chat() {
@@ -214,15 +214,14 @@ export default function Chat() {
 
         <div className="chat-main-component">
 
-        {/*<div className="Canvas-chatlist">*/}
+            {/*<div className="Canvas-chatlist">*/}
             <Offcanvas show={show} onHide={handleClose} responsive="lg">
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
-                    <Button variant="primary">Primary</Button>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
 
-                    <Stack>
+                    <Stack gap={2}>
                         <ChatConstructionButton />
                         <ChatList />
                     </Stack>
@@ -234,45 +233,42 @@ export default function Chat() {
 
 
 
-           {/* <div className="chat-messaging-component">*/}
+            {/* <div className="chat-messaging-component">*/}
             <Container fluid>
 
 
 
 
-                <Stack >
-                    <ChatWindow chat={chat} />
+                <Stack gap={2}>
 
-                   
+                    <ListGroup>
+                        <ListGroup.Item active>{currentConnectedRoom.title} | test</ListGroup.Item>
+                    </ListGroup>
 
-
-
-
-
+                    <div className="chat-message-list-container">
+                        <ChatWindow chat={chat} />
+                    </div>
 
                     <Button variant="primary" className="d-lg-none" onClick={handleShow}>
                         Launch
                     </Button>
 
 
-                    <ChatInput sendMessage={sendMessage} />
+                    {/*<ChatInput sendMessage={sendMessage} />*/}
 
-                    <p><strong>TestGroupChat</strong></p>
-
+                    
                     <p>Amount of connected users : {userCount}</p>
                     <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
 
-
-                    <br/>
 
                     <Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>
 
                 </Stack>
             </Container>
 
-            </div>
+        </div>
 
-     /*   </div>*/
+        /*   </div>*/
        
     );
 };

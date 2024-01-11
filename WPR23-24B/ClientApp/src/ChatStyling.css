@@ -19,18 +19,19 @@ code {
 
 /*  -----------------------------------------    CHAT COMPONENTS    ----------------------------------------- */
 
-.chat-main-component{
-    display:flex;
-    flex-direction:row;
-
-
+.chat-main-component {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    margin-left:5px;
+    height: 100%;
 }
 
-.chat-messaging-component{
-    display:flex;
-    flex-direction:column;
-    align-items:end;
-    justify-self:center;
+.chat-messaging-component {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-self: center;
 }
 
 
@@ -49,8 +50,8 @@ code {
     grid-row-end: 4;
     background-color: gray;
     border-color: black;
+    bordedr-radius: 5px;
     float: left;
-    height: 100%;
 }
 
 .chat-listing {
@@ -72,14 +73,29 @@ code {
     }
 
 /*  -----------------------------------------    CHAT MESSAGES    ----------------------------------------- */
+@media screen and (min-width:993px) {
+    .chat-message-list-container {
+        height: 550px;
+        /*max-height: 650px;*/
+        overflow-y: auto;
+        justify-self: center;
+    }
+}
+
+@media screen and (max-width:992px) {
+
+    .chat-message-list-container {
+        height: 500px;
+        overflow-y: auto;
+        justify-self: center;
+    }
+}
 
 
 
 .chat-message-list {
-    display:flex;
-    flex-direction:column;
-    overflow-x:auto;
-    overflow-y:auto;
+    /* display:flex;
+    flex-direction:column;*/
 }
 
 
@@ -90,4 +106,3 @@ code {
     border-radius: 15px;
     padding: 10px;
 }
-

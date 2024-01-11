@@ -14,7 +14,7 @@ export default function ChatInput(props) {
     const [user, setUser] = useState(
 
         {
-            id: "4035a774-788f-46b9-902a-e283dd287694",
+            id: "edc280e4-29c2-42fa-892d-7cdc8198bb49",
             userName: "Anthony Delgado"
 
         }

@@ -44,7 +44,7 @@ export default function ChatList(props) {
     return (
         
             <div className="chat-list">
-                <h1>Conversations </h1>
+                
                 {MappedList(conversationList)}
             </div>
 

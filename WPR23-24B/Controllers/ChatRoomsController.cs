@@ -78,7 +78,11 @@ namespace WPR23_24B.Controllers
 
 
             //Retrieve messages as list
-            var MessageList = await _context.ChatBericht.Include(bericht => bericht.verzender).Where(bericht => bericht.room.Id == id).ToListAsync();
+            var MessageList = await 
+                _context.ChatBericht
+                .Include(bericht => bericht.verzender)
+                .Where(bericht => bericht.room.Id == id)
+                .ToListAsync();
 
             //Convert message properties to DTO's to prevent exposing data
             var ConvertededMessageList = new List<ChatBerichtDTO>();
@@ -141,6 +145,21 @@ namespace WPR23_24B.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetChatRoom", new { id = chatRoom.Id }, chatRoom);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> PostNieuwChatRoomMetGebruikers(ChatConstructionDTO chatConstruction) 
+        {
+
+            if (_context.ChatRoom == null)
+            {
+                return Problem("Entity set 'ChatContext.ChatRoom'  is null.");
+            }
+
+            return Ok();
+
+
         }
 
         // DELETE: api/ChatRooms/5
