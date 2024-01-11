@@ -8,8 +8,6 @@ export const handleSignIn = async (email, password) => {
     const formData = { email, password };
     const response = await makeApiRequest(endpoint, method, formData);
 
-    console.log("Response from server:", response);
-
     if (response) {
       console.log("Response from server:", response);
       await handleAuthResponse(response);
@@ -31,9 +29,20 @@ export const handleAuthResponse = async (response) => {
     }
 
     if (!response.ok) {
-      // Log error details if sign-in fails
-      const errorData = await response.json().catch(() => null);
-      console.error("Error logging in:", errorData?.message, errorData?.errors);
+      const contentType = response.headers
+        ? response.headers.get("Content-Type")
+        : null;
+
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json().catch(() => null);
+        console.error(
+          "Error logging in:",
+          errorData?.message,
+          errorData?.errors
+        );
+      } else {
+        console.error("Error logging in. Non-JSON response received.");
+      }
       return;
     }
 
