@@ -1,44 +1,24 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+// import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
+import { AppProvider } from "./context";
 
-
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import { chatStore } from './store/ReduxStore'
-
-
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
+const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
-//const store = createStore(chatStore)
-
-
-//<Provider store={ReduxStore}>
-//    <App />
-//</Provider>
-
-
 root.render(
-
-    //this seems to work after installing react-redux and redux-toolkit through Visual Studio's npm package installer?
-    <Provider store={chatStore }>
+  <React.StrictMode>
     <BrowserRouter basename={baseUrl}>
-
-        
-
-            <App />
-
-        </BrowserRouter>
-    </Provider>
-
-
-    
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
