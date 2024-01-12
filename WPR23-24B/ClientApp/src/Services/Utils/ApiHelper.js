@@ -1,11 +1,12 @@
-const apiURL = "https://localhost:7180/api";
+// Use BASE URL from .env.development
+const apiURL = process.env.REACT_APP_API_BASE_URL;
 
 // Function to handle API requests
 const makeApiRequest = (endpoint, method, body) => {
   // Log the initiation of an API request (commented for security)
   // console.log('Making API request to:', `${apiURL}/${endpoint}`);
 
-  return fetch(`${apiURL}/${endpoint}`, {
+  return fetch(`${apiURL}${endpoint}`, {
     method,
     headers: {
       "Content-Type": "application/json",

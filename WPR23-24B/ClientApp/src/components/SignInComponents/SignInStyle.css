@@ -1,4 +1,3 @@
-/* Lettertype import */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 /* Algemene stijlen voor het hele document */
@@ -18,11 +17,6 @@ body::after {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-}
-
-body::before {
-    background: #D9EBF7;
-    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
 }
 
 body::after {
@@ -86,6 +80,7 @@ button:focus {
 /* Aangepaste aanduiding-stijlen */
 ::placeholder {
     font-size: 16px;
+    text-transform: none;
 }
 
 /* Stijlen voor formulierelementen */

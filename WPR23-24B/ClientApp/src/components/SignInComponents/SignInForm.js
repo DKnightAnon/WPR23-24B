@@ -1,7 +1,7 @@
 import React from "react";
 import "./SignInStyle.css";
-import RightBox from "./RightBox";
-import LeftBox from "./LeftBox";
+import RightBox from "../../recycle-bin/RightBox";
+import LeftBox from "../../recycle-bin/LeftBox";
 
 function SignInForm() {
   return (
