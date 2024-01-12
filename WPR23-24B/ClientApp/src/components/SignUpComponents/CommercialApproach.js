@@ -5,17 +5,36 @@ import "./SignUpStyle.css";
 const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
   return (
     <div>
-      <div className="progress-bar" style={{ width: "100%" }}></div>
       <div className="triangle-background"></div>
       <div style={styles.container}>
-        <h2 style={styles.header}>Toestaan benadering bedrijven</h2>
-        <div style={styles.inputContainer}>
-          <label style={styles.label}>
-            Sta benadering toe:
+        <h2 style={styles.header}>Toestaan benaderingen</h2>
+        <div style={styles.checkboxContainer}>
+          <label style={styles.checkboxLabel}>
+            Sta commerciële benadering toe:
             <input
               type="checkbox"
               name="allowCommercialApproach"
               checked={values.allowCommercialApproach}
+              onChange={handleChange}
+              style={styles.checkbox}
+            />
+          </label>
+          <label style={styles.checkboxLabel}>
+            Sta benadering via portal toe:
+            <input
+              type="checkbox"
+              name="allowPortalApproach"
+              checked={values.allowPortalApproach}
+              onChange={handleChange}
+              style={styles.checkbox}
+            />
+          </label>
+          <label style={styles.checkboxLabel}>
+            Sta telefonische benadering toe:
+            <input
+              type="checkbox"
+              name="allowPhoneApproach"
+              checked={values.allowPhoneApproach}
               onChange={handleChange}
               style={styles.checkbox}
             />
@@ -81,6 +100,26 @@ const styles = {
   },
   previousButton: {
     background: "#FF5757",
+    cursor: "pointer",
+    borderRadius: "5px",
+    padding: "5px",
+  },
+  checkboxContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: "10px",
+  },
+  
+  checkboxLabel: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "5px",
+    color: "black",
+  },
+  
+  checkbox: {
+    marginLeft: "5px",
   },
 
   // Media Query for mobile responsiveness

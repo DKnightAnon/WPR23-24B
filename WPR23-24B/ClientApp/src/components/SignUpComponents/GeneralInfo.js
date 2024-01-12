@@ -10,9 +10,22 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
 
   const [startDate, setStartDate] = useState(new Date());
 
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  const handleInputChange = (e) => {
+    handleChange(e);
+
+    // Check if passwords match
+    if (e.target.name === "herhaalWachtwoord") {
+      setPasswordsMatch(e.target.value === values.wachtwoord);
+    } else if (e.target.name === "wachtwoord") {
+      setPasswordsMatch(e.target.value === values.herhaalWachtwoord);
+    }
+  };
+
   return (
     <div>
-      <div className="progress-bar" style={{ width: "33.33%" }}></div>
+     
       <div className="triangle-background"></div>
       <div style={styles.container}>
         <h2 style={styles.header}>Gebruiker Registratie</h2>
@@ -27,8 +40,10 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
                 checked={values.isUnder18 === "yes"}
                 onChange={handleChange}
               />
-              Ja
+              Ja, ik ben jonger dan 18
             </label>
+            </div>
+            <div style={styles.radioContainer}>
             <label style={styles.radioLabel}>
               <input
                 type="radio"
@@ -37,7 +52,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
                 checked={values.isUnder18 === "no"}
                 onChange={handleChange}
               />
-              Nee
+              Nee, ik ben ouder dan 18
             </label>
           </div>
           {values.isUnder18 === "yes" && (
@@ -45,7 +60,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               <label style={styles.label}>
                 Naam ouder/verzorger:
                 <input
-                  placeholder="Vul hier de naam in"
+                  placeholder="Vul hier de naam in van je ouder/verzorger"
                   type="text"
                   name="parentName"
                   value={values.parentName}
@@ -56,7 +71,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               <label style={styles.label}>
                 Email ouder/verzorger:
                 <input
-                  placeholder="Vul hier het email-adres in"
+                  placeholder="Vul hier het email-adres in van je ouder/verzorger"
                   type="text"
                   name="parentEmail"
                   value={values.parentEmail}
@@ -67,7 +82,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               <label style={styles.label}>
                 Telefoonnummer ouder/verzorger:
                 <input
-                  placeholder="Vul hier het telefoonnummer in"
+                  placeholder="Vul hier het telefoonnummer in van je ouder/verzorger"
                   type="text"
                   name="parentTelefoonnummer"
                   value={values.parentTelefoonnummer}
@@ -77,6 +92,8 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               </label>
             </div>
           )}
+
+
           <label style={styles.label}>
             Naam:
             <input
@@ -99,6 +116,33 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               style={styles.input}
             />
           </label>
+          <label style={styles.label}>
+            Wachtwoord:
+            <input
+              placeholder="Vul hier je wachtwoord in"
+              type="password"
+              name="wachtwoord"
+              value={values.wachtwoord}
+              onChange={handleInputChange}
+              style={styles.input}
+            />
+          </label>
+          <label style={styles.label}>
+            Herhaal wachtwoord:
+            <input
+              placeholder="Vul hier je wachtwoord opnieuw in"
+              type="password"
+              name="herhaalWachtwoord"
+              value={values.herhaalWachtwoord}
+              onChange={handleInputChange}
+              style={styles.input}
+            />
+          </label>
+          {!passwordsMatch && (
+        <p style={{ color: "red" }}>Wachtwoorden komen niet overeen</p>
+      )}
+
+
           <label style={styles.label}>
             Postcode:
             <input
@@ -135,7 +179,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
             />
           </label>
         </div>
-        <button onClick={onNext} style={styles.button}>
+        <button onClick={onNext} style={styles.button} disabled={!passwordsMatch}>
           Volgende pagina
         </button>
       </div>
@@ -189,6 +233,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: "10px",
+    color: "black",
+  },
+  radioLabel: {
+    color: "black",
   },
   input: {
     height: "30px",

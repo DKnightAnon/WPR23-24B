@@ -16,6 +16,7 @@ import Error from "./Error";
 import SignInForm from "./components/SignInComponents/SignInForm";
 import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
+import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
 
 const App = () => {
   const theme = {
@@ -50,7 +51,7 @@ const App = () => {
         <Route path="/service" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
-        <Route path="/signup" element={<SignupForm />} />
+        <Route path="/register" element={<SignupForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
       <Footer />
