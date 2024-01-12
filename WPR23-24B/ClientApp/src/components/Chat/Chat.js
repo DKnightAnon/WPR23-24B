@@ -206,7 +206,7 @@ export default function Chat() {
 
 
 
-
+    
 
 
     return (
@@ -214,7 +214,8 @@ export default function Chat() {
 
         <div className="chat-main-component">
 
-            {/*<div className="Canvas-chatlist">*/}
+
+            <div className="Canvas-chatlist">
             <Offcanvas show={show} onHide={handleClose} responsive="lg">
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
@@ -228,7 +229,7 @@ export default function Chat() {
 
                 </Offcanvas.Body>
             </Offcanvas>
-            {/*</div>*/}
+            </div>
 
 
 
@@ -242,7 +243,7 @@ export default function Chat() {
                 <Stack gap={2}>
 
                     <ListGroup>
-                        <ListGroup.Item active>{currentConnectedRoom.title} | test</ListGroup.Item>
+                        <ListGroup.Item active> { currentConnectedRoom.title ?? 'Loading...' }   </ListGroup.Item>
                     </ListGroup>
 
                     <div className="chat-message-list-container">

@@ -37,7 +37,7 @@ export default function ChatWindow(props) {
                 user={chat.verzender.userName}
                 message={chat.content}
                 timestamp={chat.postedAt}
-
+                className="chat-message-box"
 
             />
         </ul>)

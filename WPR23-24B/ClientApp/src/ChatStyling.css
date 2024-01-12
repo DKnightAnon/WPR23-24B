@@ -75,10 +75,16 @@ code {
 /*  -----------------------------------------    CHAT MESSAGES    ----------------------------------------- */
 @media screen and (min-width:993px) {
     .chat-message-list-container {
+   
         height: 550px;
         /*max-height: 650px;*/
-        overflow-y: auto;
-        justify-self: center;
+        overflow-x: auto;
+ 
+    }
+
+    .Canvas-chatlist {
+        max-height: 740px;
+        overflow-x: auto;
     }
 }
 
@@ -86,8 +92,13 @@ code {
 
     .chat-message-list-container {
         height: 500px;
-        overflow-y: auto;
+        overflow-x: auto;
         justify-self: center;
+    }
+
+    .Canvas-chatlist {
+        max-height: 740px;
+        overflow-x:auto;
     }
 }
 
@@ -96,6 +107,7 @@ code {
 .chat-message-list {
     /* display:flex;
     flex-direction:column;*/
+
 }
 
 
@@ -105,4 +117,5 @@ code {
     color: #FFFFFF;
     border-radius: 15px;
     padding: 10px;
+    align-self:center;
 }

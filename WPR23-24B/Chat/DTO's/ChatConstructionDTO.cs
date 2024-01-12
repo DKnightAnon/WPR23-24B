@@ -19,11 +19,11 @@ namespace WPR23_24B.Chat.DTO_s
 
 
 
-        public ChatRoom ChatRoom { get; set; }
+        public string RoomName { get; set; }
 
         public GebruikerDTO Ervaringsdeskundige {  get; set; }
         
-        public GebruikerDTO Bedrijf_ContactPersoon { get; set; }
+        public GebruikerDTO Bedrijf { get; set; }
 
 
 

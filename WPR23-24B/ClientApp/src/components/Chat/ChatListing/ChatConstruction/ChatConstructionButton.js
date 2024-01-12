@@ -1,43 +1,65 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack'
+
+import CompanyName from './CompanyNameSelectionOption';
 
 
 export default function ChatConstructionButton() 
 {
 
 
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => { setShow(false); submitFunction() }
+    const handleShow = () => setShow(true);
+
+
+    const [gesprektitel, setGesprektitle] = useState('');
+    const [bedrijf, setBedrijf] = useState('');
+
+
+    function submitFunction() {
+        console.log('ModalForm Submitted : ' + gesprektitel + '|' + bedrijf);
+        PostNewRoom();
+    }
+
+
+    const newConversationDetails =
+    {
+        RoomName: gesprektitel,
+        Ervaringsdeskundige: { Id:'a601420e-1fde-460f-88b8-74f20cf72d91', UserName:'TestgebruikerVoornaam'},
+        Bedrijf: { Id: bedrijf, UserName:'' }
+    }
+
+    const handleChange = (e) => { setGesprektitle(e.target.value) }
+    const handleSelectChange = (e) => { setBedrijf(e.target.value) }
     //------------------------------ POST REQUEST ------------------------------// 
 
-    const url = process.env.REACT_APP_API_BASE_URL + "";
-    const data = {}
+    const POSTurl = process.env.REACT_APP_API_BASE_URL + "ChatRooms/nieuwgesprek";
+    const data = {
+        "title": gesprektitel
+    }
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(newConversationDetails),
     };
 
 
     const PostNewRoom = () => {
-
-        fetch(url, requestOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        console.log(newConversationDetails);
+        fetch(POSTurl, requestOptions).then( response => response.json()).then(data => console.log(data))
             //  .then() method goes here
     }
 
-    //------------------------------ POST REQUEST ------------------------------//
-    const GETurl = process.env.REACT_APP_API_BASE_URL + 'ChatRooms';
+    //------------------------------ GET REQUEST ------------------------------//
+    const GETurl = process.env.REACT_APP_API_BASE_URL + 'Bedrijf/names';
     const [bedrijflijst, setBedrijflijst] = useState([]);
 
     const GETBedrijven = () => {
@@ -62,26 +84,13 @@ export default function ChatConstructionButton()
     }
 
 
+    useEffect(() => { GETBedrijven() }, [])
 
 
 
 
 
-    const [show, setShow] = useState(false);
 
-    const handleClose = () => { setShow(false); submitFunction() }
-    const handleShow = () => setShow(true);
-
-
-    const [gesprektitel, setGesprektitle] = useState('');
-
-
-    function submitFunction() {
-        console.log('ModalForm Submitted : ' + gesprektitel);
-        setGesprektitle('');
-    }
-
-    const handleChange = (e) => { setGesprektitle(e.target.value) }
 
 
 
@@ -104,18 +113,17 @@ export default function ChatConstructionButton()
                 <Modal.Body>
 
                     <Form form-id="NieuwGesprekForm" onSubmit={() => submitFunction()}>
-                    <Form.Label htmlFor="bedrijfSelect">Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
-                    <Form.Select id="bedrijfSelect" aria-label="Default select example">
-                        <option>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <Form.Label htmlFor="bedrijfSelect">Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
+                        <Form.Select id="bedrijfSelect" aria-label="Default select example" onChange={handleSelectChange} value={bedrijf }>
+                            <option>Open this select menu</option>
+                            {bedrijflijst.map(bedrijf =>
+                                <option key={bedrijf.id} value={bedrijf.id}>{bedrijf.userName } </option> )}
                     </Form.Select>
                     <br/>
-                    <Form.Label htmlFor="inputPassword5">Titel gesprek</Form.Label>
+                    <Form.Label htmlFor="inputGesprekTitel">Titel gesprek</Form.Label>
                     <Form.Control
                             type="text"
-                            id="inputPassword5"
+                            id="inputGesprekTitel"
                             aria-describedby="Gesprek titel helpblok"
                             onChange={ handleChange }
                         />

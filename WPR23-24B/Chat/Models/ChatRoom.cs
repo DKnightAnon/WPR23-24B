@@ -8,7 +8,7 @@ namespace WPR23_24B.Chat.Models
     {
 
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         public string Title { get; set; }
@@ -25,7 +25,7 @@ namespace WPR23_24B.Chat.Models
 
         public override string ToString()
         {
-            return new string($"{Title ?? "Title was empty!"}");
+            return new string($"{Title ?? "Title was empty!"}|{Id }");
         }
     }
 }
