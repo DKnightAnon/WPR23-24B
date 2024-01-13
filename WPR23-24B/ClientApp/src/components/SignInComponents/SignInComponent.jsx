@@ -1,7 +1,111 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import saLogo from "./signinImages/stichting_accessibility.png";
-import handleUserSignIn from "../../Services/Utils/SignInHandler";
+import AuthService from "../../Services/Authentication/AuthService";
+import { useNavigate } from "react-router-dom";
+import SignInMessages from "./SignInMessages";
+
+const SignInComponent = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signInMessage, setSignInMessage] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSignInClick = async () => {
+    try {
+      setSignInMessage({
+        type: "loading",
+        message: "U wordt ingelogd, even geduld aub...",
+      });
+      const response = await AuthService.signIn(email, password, navigate);
+
+      if (response && response.token) {
+        // Display a success message
+        setSignInMessage(response);
+      }
+    } catch (error) {
+      // Display an error message
+      setSignInMessage({
+        type: "error",
+        message:
+          "Ongeldige inloggegevens of er is een fout opgetreden. Probeer het opnieuw...",
+      });
+    }
+  };
+
+  return (
+    <SignInWrapper>
+      <SignInContainer>
+        <SignInLeftBox>
+          <SignInLogo src={saLogo} alt="Stichting Accessibility Logo" />
+        </SignInLeftBox>
+        <SignInRightBox>
+          <SignInHeader>Mijn Portaal</SignInHeader>
+          <SignInSubHeader>Inloggen</SignInSubHeader>
+          {signInMessage && (
+            <SignInMessages
+              type={signInMessage.type}
+              message={signInMessage.message}
+            />
+          )}
+          <SignInForm>
+            <SignInFormRow>
+              <SignInLabel htmlFor="email">Emailadres</SignInLabel>
+              <SignInInput
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Emailadres"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                alt="Email adres"
+              />
+            </SignInFormRow>
+            <SignInFormRow>
+              <SignInLabel htmlFor="password">Wachtwoord</SignInLabel>
+              <SignInInput
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Wachtwoord"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                alt="Wachtwoord"
+              />
+            </SignInFormRow>
+
+            <SignInSmall>
+              <ForgotLink>
+                <SignInLink href="/password-reset" aria-label="Login">
+                  Wachtwoord Vergeten?
+                </SignInLink>
+              </ForgotLink>
+            </SignInSmall>
+
+            <SignInSubmitButton
+              type="button"
+              onClick={handleSignInClick}
+              aria-label="Login Knop"
+            >
+              Sign In
+            </SignInSubmitButton>
+          </SignInForm>
+          <div className="forgot mb-3"></div>
+          <div className="row">
+            <SignInSmall>
+              Meld je aan bij onze Stichting Accessibility!{" "}
+              <SignInLink href="/register" aria-label="Registreer u hier">
+                Registreren
+              </SignInLink>
+            </SignInSmall>
+          </div>
+        </SignInRightBox>
+      </SignInContainer>
+    </SignInWrapper>
+  );
+};
 
 const darkBlueColor = "#2B50EC";
 const bgColor = "#103cbe";
@@ -162,87 +266,5 @@ const ForgotLink = styled.div`
   margin-top: 10px;
   margin-left: auto;
 `;
-
-const SignInComponent = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSignInClick = async () => {
-    console.log("Trying to login with:", { email, password });
-
-    try {
-      const response = await handleUserSignIn(email, password);
-    } catch (error) {
-      console.error("An error occurred during login:", error);
-    }
-  };
-
-  return (
-    <SignInWrapper>
-      <SignInContainer>
-        <SignInLeftBox>
-          <SignInLogo src={saLogo} alt="Stichting Accessibility Logo" />
-        </SignInLeftBox>
-        <SignInRightBox>
-          <SignInHeader>Mijn Portaal</SignInHeader>
-          <SignInSubHeader>Inloggen</SignInSubHeader>
-          <SignInForm>
-            <SignInFormRow>
-              <SignInLabel htmlFor="email">Emailadres</SignInLabel>
-              <SignInInput
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Emailadres"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                alt="Email adres"
-              />
-            </SignInFormRow>
-            <SignInFormRow>
-              <SignInLabel htmlFor="password">Wachtwoord</SignInLabel>
-              <SignInInput
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Wachtwoord"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                alt="Wachtwoord"
-              />
-            </SignInFormRow>
-
-            <SignInSmall>
-              <ForgotLink>
-                <SignInLink href="/password-reset" aria-label="Login">
-                  Wachtwoord Vergeten?
-                </SignInLink>
-              </ForgotLink>
-            </SignInSmall>
-
-            <SignInSubmitButton
-              type="button"
-              onClick={handleSignInClick}
-              aria-label="Login Knop"
-            >
-              Sign In
-            </SignInSubmitButton>
-          </SignInForm>
-          <div className="forgot mb-3"></div>
-          <div className="row">
-            <SignInSmall>
-              Meld je aan bij onze Stichting Accessibility!{" "}
-              <SignInLink href="/register" aria-label="Registreer u hier">
-                Registreren
-              </SignInLink>
-            </SignInSmall>
-          </div>
-        </SignInRightBox>
-      </SignInContainer>
-    </SignInWrapper>
-  );
-};
 
 export default SignInComponent;
