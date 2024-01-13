@@ -1,44 +1,42 @@
-// Use BASE URL from .env.development
+// Get the base URL from the environment variable
 const apiURL = process.env.REACT_APP_API_BASE_URL;
 
-// Function to handle API requests
+// This module provides a function for making API requests using the Fetch API.
+// The function takes an endpoint, method, and body as parameters, constructs
+// the request, sends it to the specified API endpoint, and handles the response.
 const makeApiRequest = (endpoint, method, body) => {
-  // Log the initiation of an API request (commented for security)
-  // console.log('Making API request to:', `${apiURL}/${endpoint}`);
+  // Construct the full URL by combining the base API URL and the provided endpoint
+  const fullUrl = `${apiURL}${endpoint}`;
 
-  return fetch(`${apiURL}${endpoint}`, {
+  // Configure the Fetch API options for the request
+  const requestOptions = {
     method,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
       Accept: "application/json",
     },
     body: JSON.stringify(body),
-  })
-    .then((response) => {
-      // Log the response status and the server response (commented for security)
-      // console.log('Response status:', response.status);
-      // console.log('Server response:', response);
+  };
 
+  // Use Fetch API to send the request to the API endpoint
+  return fetch(fullUrl, requestOptions)
+    .then((response) => {
+      // Check if the response status is OK (2xx)
       if (!response.ok) {
+        // If not OK, parse the error response and throw an error
         return response.json().then((errorData) => {
-          // Log the server response data (commented for security)
-          // console.error(`Error at ${endpoint}:`, errorData)
           throw new Error(
             `API error: ${response.status} - ${response.statusText}`
           );
         });
       }
 
+      // If the response status is 204 (No Content), return null
       return response.status !== 204 ? response.json() : null;
     })
-    .then((responseData) => {
-      // Log the server response data (commented for security)
-      // console.log('Server response data:', responseData)
-      return responseData;
-    })
+    .then((responseData) => responseData) // Return the parsed response data
     .catch((error) => {
-      // Log an error message without exposing detailed error information
-      // console.error(`An error occurred during ${endpoint}:`, error);
+      // Catch any errors that occur during the request or response handling
       throw error;
     });
 };
