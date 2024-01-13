@@ -11,7 +11,12 @@ const SignupForm = () => {
     name: "",
     email: "",
     disability: "",
+    includePhysical: false,
+    includeVisual: false,
+    includeAudio: false,
     allowCommercialApproach: false,
+    allowPortalApproach: false,
+    allowPhoneApproach: false,
     userType: "", // Add userType to store the user's choice
   });
 

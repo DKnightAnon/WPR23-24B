@@ -119,6 +119,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: "10px",
+    color: "black",
   },
   input: {
     height: "30px",

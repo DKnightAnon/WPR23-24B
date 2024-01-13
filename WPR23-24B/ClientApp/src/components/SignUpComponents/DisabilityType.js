@@ -5,42 +5,74 @@ import "./SignUpStyle.css";
 const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
   return (
     <div>
-      <div className="progress-bar" style={{ width: "66.66%" }}></div>
+      
 
+      {/* Triangle background */}
       <div className="triangle-background"></div>
 
+      {/* Main container */}
       <div style={styles.container}>
+        
+        {/* Header */}
         <h2 style={styles.header}>Type Beperking</h2>
+
+        {/* First input container */}
+        <div style={styles.checkboxContainer}>
+          <label style={styles.checkboxLabel}>
+          Fysieke beperking:
+            <input
+              type='checkbox'
+              name="includePhysical"
+              checked={values.includePhysical}
+              onChange={handleChange}
+              style={styles.checkbox}
+              />
+              
+          </label>
+          <label style={styles.checkboxLabel}>
+          Visuele beperking:
+            <input
+              type='checkbox'
+              name="includeVisual"
+              checked={values.includeVisual}
+              onChange={handleChange}
+              style={styles.checkbox}
+              />
+          </label>
+          <label style={styles.checkboxLabel}>
+          Auditore beperking:
+            <input
+              type='checkbox'
+              name="includeAudio"
+              checked={values.includeAudio}
+              onChange={handleChange}
+              style={styles.checkbox}
+              />
+          </label>
+
+        </div>
+
+        {/* Second input container for the dropdown */}
         <div style={styles.inputContainer}>
           <label style={styles.label}>
-            Selecteer hier u beperking
+            Anders, namelijk..
             <select
-              name="disability"
-              value={values.disability}
+              name="beperking"
+              value={values.beperking}
               onChange={handleChange}
               style={styles.select}
             >
               <option value="">Selecteer</option>
-              <option value="physical">Fysieke Berking</option>
-              <option value="visual">Visuele Beperking</option>
-              <option value="hearing">Auditore Beperking</option>
+              <option value="mobility">Beperkte mobiliteit</option>
+              <option value="cognitive">Cognitieve beperking</option>
+              <option value="psychiatric">Psychiatrische beperking</option>
+              <option value="prothese">Prothese van arm of been</option>
+              {/* Add more options as needed */}
             </select>
           </label>
-
-          <div style={styles.inputContainer}>
-            <label style={styles.label}>
-              Anders, namelijk..
-              <input
-                placeholder="Vul hier een eventuele andere beperking in"
-                type="text"
-                name="beperking"
-                value={values.beperking}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </label>
-          </div>
         </div>
+
+        {/* Button container for navigation */}
         <div style={styles.buttonContainer}>
           <button onClick={onPrev} style={styles.previousButton}>
             Vorige pagina
@@ -49,7 +81,9 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
             Volgende pagina
           </button>
         </div>
-      </div>
+        
+      </div> {/* End of the main container div */}
+      
     </div>
   );
 };
@@ -105,6 +139,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: "15px",
+    color: "black",
   },
   select: {
     height: "30px",
@@ -129,12 +164,44 @@ const styles = {
   },
   previousButton: {
     background: "#FF5757",
+    cursor: "pointer",
+    borderRadius: "5px",
+    padding: "5px",
   },
   icon: {
     width: "20px", // Adjust the size as needed
     height: "20px",
     marginLeft: "1020px",
   },
+  select: {
+    height: "30px",
+    width: "400px",
+    background: "#EAEAEA",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    paddingLeft: "10px",
+    fontSize: "16px",
+  },
+
+  checkboxContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: "10px",
+  },
+  
+  checkboxLabel: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "5px",
+    color: "black",
+  },
+  
+  checkbox: {
+    marginLeft: "5px",
+  },
+  
+  
 };
 
 export default DisabilityType;
