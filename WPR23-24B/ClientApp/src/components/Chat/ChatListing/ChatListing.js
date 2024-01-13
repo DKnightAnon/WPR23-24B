@@ -6,6 +6,8 @@ import { clearChat, addConversationContent, printTest } from '../../../store/sli
 import { setCurrentRoom } from '../../../store/slices/chatroomSlice'
 
 
+import ListGroup from 'react-bootstrap/ListGroup';
+
 //Component that represents a single user conversation. 
 //This component should be represented as a tile in a list.
 export default function ChatListing(props)
@@ -81,18 +83,18 @@ export default function ChatListing(props)
 //, props.chatloadfunction(props.id)
     return (
 
-        <div className="chat-listing">
-            <button className="load-conversation-button" onClick={() => { loadChat() } }>
-                <h3 className="conversation-title"> {chatConversation.title}  </h3>
-                <p className="conversation-id">conversation id : {chatConversation.id}</p>
-                <p className="participant-name">Participant goes here</p>
-                <p className="">Time last message was sent goes here : {LastMessageTimestamp} </p>
-            </button>
+        //<div className="chat-listing">
+        //    <button className="load-conversation-button" onClick={() => { loadChat() }}>
+        //        <p className="conversation-title"> <strong>{chatConversation.title} </strong>  </p>
+        //        {/*<p className="conversation-id">conversation id : {chatConversation.id}</p>*/}
+        //        {/*<p className="participant-name">Participant goes here</p>*/}
+        //        {/*<p className="">Time last message was sent goes here : {LastMessageTimestamp} </p>*/}
+        //    </button>
 
 
 
-        </div>
-
+        //</div>
+        <ListGroup.Item actioon onClick={loadChat()}> {chatConversation.title} </ListGroup.Item>
 
 )
 

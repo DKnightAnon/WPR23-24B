@@ -14,7 +14,12 @@ export default function ChatConstructionButton()
 
     const [show, setShow] = useState(false);
 
-    const handleClose = () => { setShow(false); submitFunction() }
+    const handleClose = () =>
+    {
+        setShow(false);
+        if (gesprektitel && bedrijf === !null) {submitFunction() }
+        
+    }
     const handleShow = () => setShow(true);
 
 

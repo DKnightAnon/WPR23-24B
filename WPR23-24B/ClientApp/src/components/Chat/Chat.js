@@ -1,4 +1,4 @@
-
+import 'bootstrap/dist/css/bootstrap.css';
 /*"use strict";*/
 import React, { useState, useEffect, useRef } from 'react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
@@ -216,61 +216,65 @@ export default function Chat() {
 
 
             <div className="Canvas-chatlist">
-            <Offcanvas show={show} onHide={handleClose} responsive="lg">
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
+                <Offcanvas show={show} onHide={handleClose} responsive="lg">
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
 
-                    <Stack gap={2}>
-                        <ChatConstructionButton />
-                        <ChatList />
-                    </Stack>
+                        <Stack gap={2}>
+                            <ChatConstructionButton />
+                            <ChatList />
+                        </Stack>
 
-                </Offcanvas.Body>
-            </Offcanvas>
+                    </Offcanvas.Body>
+                </Offcanvas>
             </div>
 
 
 
 
-            {/* <div className="chat-messaging-component">*/}
-            <Container fluid>
+            <div className="chat-messaging-component">
+                <Container fluid>
 
 
 
 
-                <Stack gap={2}>
+                    <Stack gap={2}>
 
-                    <ListGroup>
-                        <ListGroup.Item active> { currentConnectedRoom.title ?? 'Loading...' }   </ListGroup.Item>
-                    </ListGroup>
+                        <ListGroup>
+                            <ListGroup.Item active> {currentConnectedRoom.title ?? 'Loading...'}   </ListGroup.Item>
+                        </ListGroup>
 
-                    <div className="chat-message-list-container">
-                        <ChatWindow chat={chat} />
-                    </div>
+                        <div className="chat-message-list-container">
+                            <ChatWindow chat={chat} />
+                        </div>
 
-                    <Button variant="primary" className="d-lg-none" onClick={handleShow}>
-                        Launch
-                    </Button>
-
-
-                    {/*<ChatInput sendMessage={sendMessage} />*/}
-
-                    
-                    <p>Amount of connected users : {userCount}</p>
-                    <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
+                        <div className="chat-inputs-container" >
+                            <Stack gap={2}>
+                                <Button variant="primary" className="d-lg-none" onClick={handleShow}>
+                                    Launch
+                                </Button>
 
 
-                    <Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>
+                                <ChatInput sendMessage={sendMessage} />
 
-                </Stack>
-            </Container>
+
+                                {/*<p>Amount of connected users : {userCount}</p>*/}
+                                <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
+
+
+                                <Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>
+                            </Stack >
+                        </div>
+
+                    </Stack>
+                </Container>
+
+            </div>
 
         </div>
 
-        /*   </div>*/
-       
     );
 };
 
