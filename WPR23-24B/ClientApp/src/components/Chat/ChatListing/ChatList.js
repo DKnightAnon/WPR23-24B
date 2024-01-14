@@ -19,15 +19,15 @@ export default function ChatList(props) {
     /*----------------------------------------- MAP DATA TO LISTGROUP.ITEM---------------------------------*/
 
     const MappedList = (argument) =>
-    
+
         //console.log(argument)
         argument.map(
-            m => <ListGroup.Item key={m.id} action onClick={loadChat()}  > {m.title} </ListGroup.Item> 
+            m => <ListGroup.Item key={m.id} action onClick={loadChat}  > {m.title} </ListGroup.Item>
 
         )
 
 
-    
+
 
     const url = process.env.REACT_APP_API_BASE_URL + "ChatRooms";
 
@@ -37,7 +37,7 @@ export default function ChatList(props) {
         fetch(url)
             .then((result) => result.json())
             .then((data) => setConversationList(data))
-            //console.log(conversationList)
+        //console.log(conversationList)
     };
 
 
@@ -105,19 +105,19 @@ export default function ChatList(props) {
         console.log("button was pressed! caller : " + props.id);
 
         //clearChet method functions as intended and clears the chatbox of the client that triggered it.
-        //dispatch(clearChat())
-        fetchInfo()
+        dispatch(clearChat())
+        fetchListingInfo()
 
 
     }
 
     return (
-        
+
         <div className="chat-list">
             <ListGroup>
                 {MappedList(conversationList)}
-                </ListGroup>
-            </div>
+            </ListGroup>
+        </div>
 
     );
 

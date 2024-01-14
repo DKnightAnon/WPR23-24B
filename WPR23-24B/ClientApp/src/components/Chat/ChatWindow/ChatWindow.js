@@ -10,18 +10,6 @@ export default function ChatWindow(props) {
 
    
 
-    //const chatArray = []
-
-    //for (var x in chatWindowContent) {
-
-     
-
-    //    chatArray.push(JSON.parse(JSON.stringify(x)))
-    //}
-
-
-   
-
     const chat = chatWindowContent
         .map(m => <Message
             key={m.timestamp}
@@ -41,22 +29,12 @@ export default function ChatWindow(props) {
 
             />
         </ul>)
-    //const chatOrderedList = chatWindowContent.map(chat =>
-    //    <li key={chat.timestamp}>
-    //        <p>{chat.id}</p>
-    //        {/*<p>{chat.timestamp}</p>*/}
-    //        <p>{chat.message}</p>
-    //    </li>)
 
 
 
      useEffect(() => {
          console.log('useEffect in ChatWindow.js was triggered by a change in chatWindowContent(state.chatcontent.content)')
          console.log('chatWindowContent : '); console.log(chatWindowContent)
-         //console.log('chatarray: '); console.log(chatArray)
-
-
-
 
     }, [chatWindowContent]
     )
@@ -72,9 +50,6 @@ export default function ChatWindow(props) {
 
             {chatUnorderedList}
 
-
-
-            {/*<p>{chatArray}</p>*/}
         </div>
     )
 };

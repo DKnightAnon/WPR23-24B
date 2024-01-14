@@ -25,21 +25,24 @@ export default function Message(props)  {
     {
         // Step 1:
         const utcDateString = dateTime; // UTC date string (example)
-        const utcDateWithoutMillis = utcDateString.slice(0, -5) + "Z";
-        const utcDate = new Date(utcDateWithoutMillis);
-                console.log("UTC Date:", utcDate.toISOString());
+        //const utcDateWithoutMillis = utcDateString.slice(0, -5) + "Z";
+        //const utcDate = new Date(utcDateWithoutMillis);
+        //        console.log("UTC Date:", utcDate.toISOString());
 
-        // Step 2:
-        const offsetMinutes = utcDate.getTimezoneOffset();
-                console.log("Time Zone Offset (minutes):", offsetMinutes);
+        //// Step 2:
+        //const offsetMinutes = utcDate.getTimezoneOffset();
+        //        console.log("Time Zone Offset (minutes):", offsetMinutes);
 
-        // Step 3:
-        const localTime = new Date(utcDate.getTime() - offsetMinutes * 60 * 1000);
-                console.log("Local Time:", localTime.toISOString());
+        //// Step 3:
+        //const localTime = new Date(utcDate.getTime() - offsetMinutes * 60 * 1000);
+        //        console.log("Local Time:", localTime.toISOString());
 
-        // Display Local Time
-        const localTimeString = localTime.toLocaleString();
-        console.log('current time : ' + localTimeString)
+        //// Display Local Time
+        //const localTimeString = localTime.toLocaleString();
+        //console.log('current time : ' + localTimeString)
+
+        //above code is unnecesarily complex
+        const localTimeString = new Date(utcDateString).toLocaleString();
         return localTimeString;
     }
     
