@@ -2,184 +2,338 @@ import React, { useState } from "react";
 import "./SignUpStyle.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { validateGeneralInfo } from "./SignUpValidation";
 
 const GeneralInfo = ({ onNext, values, handleChange }) => {
+  const [validationErrors, setValidationErrors] = useState({}); // Add state for validation errors
+
   const handleDateChange = (date) => {
     setStartDate(date);
+    handleChange({
+      target: {
+        name: "Geboortedatum",
+        value: date,
+      },
+    });
+  };
+
+  // const formatDate = (date) => {
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const year = date.getFullYear();
+  //   return `${day}/${month}/${year}`;
+  // };
+
+  const handleRadioChange = (e) => {
+    handleChange({
+      target: {
+        name: "isJongerDan18",
+        value: e.target.value === "true",
+      },
+    });
   };
 
   const [startDate, setStartDate] = useState(new Date());
-
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const handleInputChange = (e) => {
     handleChange(e);
 
     // Check if passwords match
-    if (e.target.name === "herhaalWachtwoord") {
-      setPasswordsMatch(e.target.value === values.wachtwoord);
-    } else if (e.target.name === "wachtwoord") {
-      setPasswordsMatch(e.target.value === values.herhaalWachtwoord);
+    if (e.target.name === "HerhaalWachtwoord") {
+      setPasswordsMatch(e.target.value === values.Wachtwoord);
+    } else if (e.target.name === "Wachtwoord") {
+      setPasswordsMatch(e.target.value === values.HerhaalWachtwoord);
     }
+  };
+
+  const handleValidation = () => {
+    const errors = validateGeneralInfo(values);
+
+    console.log(errors); // Log the errors to check if they are being generated
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return false; // Validation failed
+    }
+    return true; // Validation passed
   };
 
   return (
     <div>
-     
       <div className="triangle-background"></div>
       <div style={styles.container}>
         <h2 style={styles.header}>Gebruiker Registratie</h2>
         <div style={styles.inputContainer}>
           <label style={styles.label}>Bent u jonger dan 18 jaar?</label>
           <div style={styles.radioContainer}>
-            <label style={styles.radioLabel}>
+            <label style={styles.radioLabel} htmlFor="jaOuderDan18">
               <input
                 type="radio"
-                name="isUnder18"
-                value="yes"
-                checked={values.isUnder18 === "yes"}
-                onChange={handleChange}
+                name="isJongerDan18"
+                defaultChecked={values.isJongerDan18 === true}
+                onChange={handleRadioChange}
+                value={"true"}
               />
-              Ja, ik ben jonger dan 18
+              Ja
             </label>
-            </div>
-            <div style={styles.radioContainer}>
-            <label style={styles.radioLabel}>
+            <label style={styles.radioLabel} htmlFor="neeOuderDan18">
               <input
                 type="radio"
-                name="isUnder18"
-                value="no"
-                checked={values.isUnder18 === "no"}
-                onChange={handleChange}
+                name="isJongerDan18"
+                defaultChecked={values.isJongerDan18 === false}
+                onChange={handleRadioChange}
+                value={"false"}
               />
-              Nee, ik ben ouder dan 18
+              Nee
             </label>
+            {validationErrors.isJongerDan18 && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.isJongerDan18}
+              </p>
+            )}
           </div>
-          {values.isUnder18 === "yes" && (
+          {values.isJongerDan18 === true && (
             <div>
-              <label style={styles.label}>
+              <label
+                style={styles.label}
+                htmlFor="Volledige Naam ouder/verzorger"
+              >
                 Naam ouder/verzorger:
                 <input
-                  placeholder="Vul hier de naam in van je ouder/verzorger"
+                  placeholder="Vul hier de naam in"
                   type="text"
-                  name="parentName"
-                  value={values.parentName}
+                  name="voogdNaam"
+                  value={values.voogdNaam}
                   onChange={handleChange}
                   style={styles.input}
                 />
               </label>
-              <label style={styles.label}>
-                Email ouder/verzorger:
+              <label style={styles.label} htmlFor="Emailadres ouder/verzorger">
+                Emailadres ouder/verzorger:
                 <input
-                  placeholder="Vul hier het email-adres in van je ouder/verzorger"
+                  placeholder="Vul hier het email-adres in"
                   type="text"
-                  name="parentEmail"
-                  value={values.parentEmail}
+                  name="voogdEmail"
+                  value={values.voogdEmail}
                   onChange={handleChange}
                   style={styles.input}
                 />
               </label>
-              <label style={styles.label}>
+              <label
+                style={styles.label}
+                htmlFor="Telefoonnummer ouder/verzorger"
+              >
                 Telefoonnummer ouder/verzorger:
                 <input
-                  placeholder="Vul hier het telefoonnummer in van je ouder/verzorger"
+                  placeholder="Vul hier het telefoonnummer in"
                   type="text"
-                  name="parentTelefoonnummer"
-                  value={values.parentTelefoonnummer}
+                  name="voogdTelNummer"
+                  value={values.voogdTelNummer}
                   onChange={handleChange}
                   style={styles.input}
+                  aria-invalid={!!validationErrors.TelefoonNummer}
                 />
               </label>
             </div>
           )}
-
-
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Volledige naam">
             Naam:
             <input
               placeholder="Vul hier je volledige naam in"
               type="text"
-              name="name"
-              value={values.name}
+              name="Naam"
+              value={values.Naam}
               onChange={handleChange}
               style={styles.input}
+              aria-invalid={!!validationErrors.Naam}
             />
+            {validationErrors.Naam && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.Naam}
+              </p>
+            )}
           </label>
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Emailadres">
             Email:
             <input
               placeholder="Vul hier je email-adres in"
               type="text"
-              name="email"
-              value={values.email}
+              name="Email"
+              value={values.Email}
               onChange={handleChange}
               style={styles.input}
+              aria-invalid={!!validationErrors.Email}
             />
+            {validationErrors.Email && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.Email}
+              </p>
+            )}
           </label>
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Wachtwoord">
             Wachtwoord:
             <input
               placeholder="Vul hier je wachtwoord in"
               type="password"
-              name="wachtwoord"
-              value={values.wachtwoord}
+              name="Wachtwoord"
+              value={values.Wachtwoord}
               onChange={handleInputChange}
               style={styles.input}
+              aria-invalid={!!validationErrors.Wachtwoord}
             />
+            {validationErrors.Wachtwoord && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.Wachtwoord}
+              </p>
+            )}
           </label>
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Herhaal Wachtwoord">
             Herhaal wachtwoord:
             <input
               placeholder="Vul hier je wachtwoord opnieuw in"
               type="password"
-              name="herhaalWachtwoord"
-              value={values.herhaalWachtwoord}
+              name="HerhaalWachtwoord"
+              value={values.HerhaalWachtwoord}
               onChange={handleInputChange}
               style={styles.input}
             />
+            {!passwordsMatch && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+              >
+                Wachtwoorden komen niet overeen
+              </p>
+            )}
           </label>
-          {!passwordsMatch && (
-        <p style={{ color: "red" }}>Wachtwoorden komen niet overeen</p>
-      )}
-
-
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Postcode">
             Postcode:
             <input
               placeholder="Vul hier je postcode in"
               type="text"
-              name="postcode"
-              value={values.postcode}
+              name="Postcode"
+              value={values.Postcode}
               onChange={handleChange}
               style={styles.input}
+              aria-invalid={!!validationErrors.Postcode}
             />
+            {validationErrors.Postcode && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.Postcode}
+              </p>
+            )}
           </label>
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Geboortedatum picker">
             Geboortedatum:
             <div style={styles.label}>
               <DatePicker
+                name="Geboortedatum"
                 selected={startDate}
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
                 isClearable
                 placeholderText="Selecteer een datum"
                 style={styles.label}
+                aria-invalid={!!validationErrors.Geboortedatum}
+                aria-describedby="geboortedatumError"
               />
             </div>
+            {/* {validationErrors.Geboortedatum && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "1.2rem",
+                  width: "400px",
+                }}
+                role="alert"
+                aria-live="assertive"
+              >
+                {validationErrors.Geboortedatum}
+              </p>
+            )} */}
           </label>
-          <label style={styles.label}>
+          <label style={styles.label} htmlFor="Telefoonnummer">
             Telefoonnummer:
             <input
               placeholder="Vul hier je telefoonnummer in"
               type="text"
-              name="telefoonnummer"
-              value={values.telefoonnummer}
+              name="TelefoonNummer"
+              value={values.TelefoonNummer}
               onChange={handleChange}
               style={styles.input}
             />
           </label>
+          {validationErrors.TelefoonNummer && (
+            <p
+              style={{
+                color: "red",
+                marginTop: "5px",
+                fontSize: "1.2rem",
+                width: "400px",
+              }}
+              role="alert"
+              aria-live="assertive"
+            >
+              {validationErrors.TelefoonNummer}
+            </p>
+          )}
         </div>
-        <button onClick={onNext} style={styles.button} disabled={!passwordsMatch}>
+        <button
+          onClick={() => handleValidation() && onNext()}
+          style={styles.button}
+          aria-label="Volgende pagina"
+        >
           Volgende pagina
         </button>
       </div>
@@ -234,9 +388,8 @@ const styles = {
     alignItems: "flex-start",
     marginBottom: "10px",
     color: "black",
-  },
-  radioLabel: {
-    color: "black",
+    fontWeight: 600,
+    letterSpacing: ".5px",
   },
   input: {
     height: "30px",
@@ -246,6 +399,7 @@ const styles = {
     borderRadius: "4px",
     paddingLeft: "10px",
     fontSize: "16px",
+    textTransform: "initial",
   },
   button: {
     background: "#108670",
