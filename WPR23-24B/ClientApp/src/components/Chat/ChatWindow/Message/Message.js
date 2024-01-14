@@ -41,9 +41,9 @@ export default function Message(props)  {
     //}
 
     return(
-        <div className="chat-message-box" tabIndex="0">
-            <p><strong>{props.user}</strong> - {convertTime(props.timestamp)}</p>
-            <p>{props.message}</p>
+        <div className="chat-message-box" tabIndex="0"  >
+            <p style={{ color: '#FFF' }}><strong>{props.user}</strong> - {convertTime(props.timestamp)}</p>
+            <p style={{ color: '#FFFFFF' }}> {props.message}</p>
         </div>
     );
 }

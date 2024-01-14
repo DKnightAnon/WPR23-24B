@@ -5,6 +5,8 @@ import CommercialApproach from "./CommercialApproach";
 import CompanyInfo from "./CompanyInfo"; // Import the CompanyInfo component
 import UserOrCompanyChoice from "./UserOrCompanyChoice"; // Import the UserOrCompanyChoice component
 
+import { makeApiRequest } from '../../Services/Utils/ApiHelper'
+
 const SignupForm = () => {
   const [step, setStep] = useState(0); // Start with step 0 for the choice
   const [formValues, setFormValues] = useState({
@@ -33,7 +35,9 @@ const SignupForm = () => {
 
   const handleSubmit = () => {
     // Perform submission logic here
-    console.log("Form submitted:", formValues);
+      console.log("Form submitted:", formValues);
+
+      makeApiRequest("Registratie/ervaringsdeskundige/registerOver18", 'POST', formValues)
   };
 
   const handleUserSelect = (userType) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-
+import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
@@ -14,7 +14,7 @@ export default function ChatInput(props) {
     const [user, setUser] = useState(
 
         {
-            id: "edc280e4-29c2-42fa-892d-7cdc8198bb49",
+            id: "11185a46-ae89-4003-87d0-7461c8901cd6",
             userName: "Anthony Delgado"
 
         }
@@ -38,7 +38,9 @@ export default function ChatInput(props) {
             console.log('Message contents : ')
             console.log(JSON.stringify(user) + message + JSON.stringify(room))
             props.messageToBeSent(user, message, room);
+            setMessage('');
         }
+
         else {
             alert('Please insert an user and a message.');
         }
@@ -53,11 +55,11 @@ export default function ChatInput(props) {
         <div>
 
             <Form onSubmit={onSubmit}>
-                <Stack direction="horizontal" gap={2}>
-                    <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="type your message..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" />
-                    <Button variant="secondary" type="submit">Submit</Button>
+                <InputGroup>
+                    <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="Typ een bericht..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" style={{ fontSize: "14px" }} />
+                    <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }}>Submit</Button>
+                </InputGroup>
 
-                </Stack>
             </Form>
 
             {/*<form className="testgroup-input"*/}

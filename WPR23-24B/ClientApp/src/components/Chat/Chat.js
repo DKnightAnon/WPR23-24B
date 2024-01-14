@@ -209,20 +209,22 @@ export default function Chat() {
 
     return (
 
-
+        <main>
         <div className="chat-main-component">
 
 
             <div className="Canvas-chatlist">
                 <Offcanvas show={show} onHide={handleClose} responsive="lg">
                     <Offcanvas.Header closeButton>
-                        <Offcanvas.Title>Gespreklijst</Offcanvas.Title>
+                        <Offcanvas.Title style={{ fontSize: "20px" }}>Gespreklijst</Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
 
                         <Stack gap={2}>
                             <ChatConstructionButton />
-                            <ChatList />
+                            <>
+                                <ChatList />
+                            </>
                         </Stack>
 
                     </Offcanvas.Body>
@@ -241,28 +243,24 @@ export default function Chat() {
                     <Stack gap={2}>
 
                         <ListGroup>
-                            <ListGroup.Item active> {currentConnectedRoom.title ?? 'Loading...'}   </ListGroup.Item>
+                            <ListGroup.Item active style={{ fontSize: "18px" }} aria-label="Huidige verbonden gesprek kamer"> {currentConnectedRoom.title ?? 'Gesprek aan het laden...'}   </ListGroup.Item>
                         </ListGroup>
 
                         <div className="chat-message-list-container">
                             <ChatWindow chat={chat} />
                         </div>
-
+                        <br /><br /><br /><br /><br />
                         <div className="chat-inputs-container" >
                             <Stack gap={2}>
-                                <Button variant="primary" className="d-lg-none" onClick={handleShow}>
-                                    Launch
+                                <Button variant="primary" className="d-lg-none" onClick={handleShow} style={{ fontSize: "14px" }} aria-label="Lijst van gesprekken">
+                                    Gespreklijst
                                 </Button>
-
-
-                                <ChatInput sendMessage={sendMessage} />
-
-
+                                {/*<ChatInput sendMessage={sendMessage} />*/}
                                 {/*<p>Amount of connected users : {userCount}</p>*/}
                                 <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
 
 
-                                <Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>
+                                {/*<Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>*/}
                             </Stack >
                         </div>
 
@@ -272,7 +270,7 @@ export default function Chat() {
             </div>
 
         </div>
-
+</main>
     );
 };
 

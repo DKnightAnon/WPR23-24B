@@ -103,6 +103,7 @@ code {
 
     .Canvas-chatlist {
         height: auto;
+        width:300px;
         overflow-x: auto;
     }
 }
@@ -134,8 +135,8 @@ code {
 
 .chat-message-box {
     background: #108670;
-    color: #FFFFFF;
+    
     border-radius: 15px;
     padding: 10px;
-    align-self:center;
+    align-self: center;
 }

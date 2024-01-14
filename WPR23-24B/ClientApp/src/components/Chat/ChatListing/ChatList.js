@@ -18,7 +18,7 @@ export default function ChatList(props) {
 
         //console.log(argument)
         argument.map(
-            m => <ListGroup.Item key={m.id} action onClick={() => loadChat(m)} > <br />{m.title}<br /><br /> </ListGroup.Item>
+            m => <ListGroup.Item key={m.id} action onClick={() => loadChat(m)} style={{ fontSize: "14px" }} > {m.title} </ListGroup.Item>
 
         )
 

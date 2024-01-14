@@ -54,7 +54,7 @@ export default function ChatConstructionButton()
     const newConversationDetails =
     {
         RoomName: gesprektitel,
-        Ervaringsdeskundige: { Id:'a601420e-1fde-460f-88b8-74f20cf72d91', UserName:'TestgebruikerVoornaam'},
+        Ervaringsdeskundige: { Id:'11185a46-ae89-4003-87d0-7461c8901cd6', UserName:'TestgebruikerVoornaam'},
         Bedrijf: { Id: bedrijf, UserName:'' }
     }
 
@@ -129,7 +129,7 @@ export default function ChatConstructionButton()
                 //() => alert('Dit werkt nog niet !')
                 handleShow
 
-            } aria-label="Gesprek aanmaken" > Nieuw gesprek</Button>
+            } aria-label="Gesprek aanmaken" style={{ fontSize: "14px" }}> Nieuw gesprek</Button>
 
 
 
@@ -145,11 +145,11 @@ export default function ChatConstructionButton()
 
                     <Form noValidate validated={validated} form-id="NieuwGesprekForm" onSubmit={() => submitFunction()}>
                         <Form.Group controlId="validationBedrijfSelect" >
-                            <Form.Label >Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
+                            <Form.Label style={{ fontSize: "14px" }}>Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
                             <InputGroup hasValidation>
 
-                                <Form.Select placeholder="selecteer een bedrijf" aria-label="Default select example" onChange={event => { console.log(event.target.value); setBedrijf(event.target.value) } } value={bedrijf}>
-                                    <option className="d-none" value={-1}  >selecteer een bedrijf</option>
+                                <Form.Select placeholder="selecteer een bedrijf" aria-label="Selecteer een bedrijf" onChange={event => { console.log(event.target.value); setBedrijf(event.target.value) } } value={bedrijf}>
+                                    <option className="d-none" value={-1} style={{ fontSize: "18px" }} >selecteer een bedrijf</option>
                                     {bedrijflijst.map(bedrijf =>
                                         <option key={bedrijf.id} value={bedrijf.id}>{bedrijf.userName} </option>)}
                                 </Form.Select>
@@ -163,7 +163,7 @@ export default function ChatConstructionButton()
                                 <Form.Control
                                     type="text"
 
-                                    aria-describedby="Gesprek titel helpblok"
+                                    aria-describedby="Gesprek titel invul blok"
                                     onChange={handleChange}
                                     required
                                 />
