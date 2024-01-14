@@ -1,15 +1,12 @@
-import {
-  handleSignIn,
-  handleAuthResponse,
-} from "../Authentication/AuthenticationService";
+import AuthService from "../Authentication/AuthService";
 
 // Function to handle user signin
 const handleUserSignIn = async (email, password) => {
   try {
     // Make a POST request to the endpoint handling the signin using the function
-    const response = await handleSignIn(email, password);
+    // Make use of the signIn function from AuthService
+    const response = await AuthService.signIn(email, password);
 
-    await handleAuthResponse(response);
     // Return the response to the caller
     return response;
   } catch (error) {
