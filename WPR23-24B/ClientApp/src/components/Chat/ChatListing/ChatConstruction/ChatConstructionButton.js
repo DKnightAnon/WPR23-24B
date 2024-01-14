@@ -4,8 +4,15 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack'
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
-import CompanyName from './CompanyNameSelectionOption';
+import InputGroup from 'react-bootstrap/InputGroup';
+
+
+import { useSelector, useDispatch } from 'react-redux';
+import { clearChat, addConversationContent, printTest } from '../../../../store/slices/chatSlice';
+import { setCurrentRoom } from '../../../../store/slices/chatroomSlice';
 
 
 export default function ChatConstructionButton() 
@@ -17,7 +24,8 @@ export default function ChatConstructionButton()
     const handleClose = () =>
     {
         setShow(false);
-        if (gesprektitel && bedrijf === !null) {submitFunction() }
+        //if (gesprektitel && bedrijf === !null) {submitFunction() }
+        setGesprektitle(""); setBedrijf("");
         
     }
     const handleShow = () => setShow(true);
@@ -26,10 +34,20 @@ export default function ChatConstructionButton()
     const [gesprektitel, setGesprektitle] = useState('');
     const [bedrijf, setBedrijf] = useState('');
 
+    const [validated, setValidated] = useState(false);
 
-    function submitFunction() {
+    function submitFunction(event) {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        setValidated(true);
+
         console.log('ModalForm Submitted : ' + gesprektitel + '|' + bedrijf);
         PostNewRoom();
+        handleClose();
     }
 
 
@@ -56,10 +74,15 @@ export default function ChatConstructionButton()
         body: JSON.stringify(newConversationDetails),
     };
 
+    const dispatch = useDispatch();
 
     const PostNewRoom = () => {
         console.log(newConversationDetails);
-        fetch(POSTurl, requestOptions).then( response => response.json()).then(data => console.log(data))
+        fetch(POSTurl, requestOptions).then(response => response.json()).then(data =>
+        {
+            dispatch(clearChat()); dispatch(setCurrentRoom(data))
+            console.log(data)
+        })
             //  .then() method goes here
     }
 
@@ -113,27 +136,42 @@ export default function ChatConstructionButton()
 
             <Modal show={show} onHide={handleClose} aria-label="Gesprek aanmaken formulier" centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Nieuw gesprek starten</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
-                    <Form form-id="NieuwGesprekForm" onSubmit={() => submitFunction()}>
-                        <Form.Label htmlFor="bedrijfSelect">Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
-                        <Form.Select id="bedrijfSelect" aria-label="Default select example" onChange={handleSelectChange} value={bedrijf }>
-                            <option>Open this select menu</option>
-                            {bedrijflijst.map(bedrijf =>
-                                <option key={bedrijf.id} value={bedrijf.id}>{bedrijf.userName } </option> )}
-                    </Form.Select>
-                    <br/>
-                    <Form.Label htmlFor="inputGesprekTitel">Titel gesprek</Form.Label>
-                    <Form.Control
-                            type="text"
-                            id="inputGesprekTitel"
-                            aria-describedby="Gesprek titel helpblok"
-                            onChange={ handleChange }
-                        />
 
-                        </Form>
+
+
+                    <Form noValidate validated={validated} form-id="NieuwGesprekForm" onSubmit={() => submitFunction()}>
+                        <Form.Group controlId="validationBedrijfSelect" >
+                            <Form.Label >Selecteer een bedrijf om een gesprek mee te starten.</Form.Label>
+                            <InputGroup hasValidation>
+
+                                <Form.Select placeholder="selecteer een bedrijf" aria-label="Default select example" onChange={event => { console.log(event.target.value); setBedrijf(event.target.value) } } value={bedrijf}>
+                                    <option className="d-none" value={-1}  >selecteer een bedrijf</option>
+                                    {bedrijflijst.map(bedrijf =>
+                                        <option key={bedrijf.id} value={bedrijf.id}>{bedrijf.userName} </option>)}
+                                </Form.Select>
+                            </InputGroup>
+                        </Form.Group>
+                        <br />
+                        <Form.Group controlId="validationInputGesprekTitel" >
+                            <Form.Label >Titel gesprek</Form.Label>
+                            <InputGroup hasValidation>
+
+                                <Form.Control
+                                    type="text"
+
+                                    aria-describedby="Gesprek titel helpblok"
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">Voer een titel in voor het gesprek.</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                    </Form>
 
                     
                         
@@ -147,10 +185,7 @@ export default function ChatConstructionButton()
                     <Button
                         form="NieuwGesprekForm"
                         variant="primary"
-                        onClick=
-                        {
-                            handleClose
-                        }
+                        onClick={submitFunction}
                         aria-label="Gesprek met bedrijf aanmaken knop"
                     >
                         Save Changes

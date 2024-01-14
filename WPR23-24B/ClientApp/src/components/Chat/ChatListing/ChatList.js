@@ -1,10 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 
-import ChatListing from './ChatListing';
-
-
-import { Spinner } from 'reactstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
@@ -22,7 +18,7 @@ export default function ChatList(props) {
 
         //console.log(argument)
         argument.map(
-            m => <ListGroup.Item key={m.id} action onClick={ () => loadChat(m)} > {m.title} </ListGroup.Item>
+            m => <ListGroup.Item key={m.id} action onClick={() => loadChat(m)} > <br />{m.title}<br /><br /> </ListGroup.Item>
 
         )
 
@@ -40,10 +36,11 @@ export default function ChatList(props) {
         //console.log(conversationList)
     };
 
+    const roomChange = useSelector((state) => state.chatroom.currentroom);
 
     useEffect(() => {
         fetchInfo();
-    }, [])
+    }, [roomChange])
 
 
     /*---------------------------------------- CHAT LISTING (SINGULAR) ------------------------------*/
@@ -56,6 +53,7 @@ export default function ChatList(props) {
 
 
     const [conversationContent, setConversationContent] = useState([])
+    
 
 
     //const conversationContent = useSelector((state) => state.conversationContent.content)
@@ -63,8 +61,7 @@ export default function ChatList(props) {
     const dispatch = useDispatch();
 
     const urlBase = process.env.REACT_APP_API_BASE_URL + "ChatRooms/berichten/";
-    const urlParam = chatConversation.id;
-    const listingUrl = urlBase + urlParam;
+
 
     async function fetchListingInfo(prop) {
         fetch(`${urlBase}${prop.id}`)
@@ -90,9 +87,7 @@ export default function ChatList(props) {
         dispatch(
             addConversationContent(
                 conversationContent))
-        dispatch(
-            setCurrentRoom(
-                conversationContent))
+        
 
 
 
@@ -102,13 +97,15 @@ export default function ChatList(props) {
     const [LastMessageTimestamp, setLastMessageTimestamp] = useState(props.timestamp);
 
     const loadChat = (prop) => {
-        console.log("button was pressed! caller : " + props.id);
-        console.log(prop)
+        console.log("button was pressed! caller : " + prop.id);
+        //console.log(prop)
 
         //clearChet method functions as intended and clears the chatbox of the client that triggered it.
         dispatch(clearChat())
         fetchListingInfo(prop)
-
+        dispatch(
+            setCurrentRoom(
+                prop))
 
     }
 

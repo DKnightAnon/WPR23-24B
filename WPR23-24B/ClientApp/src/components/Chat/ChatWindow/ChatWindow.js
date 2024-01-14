@@ -46,7 +46,7 @@ export default function ChatWindow(props) {
         <div className="chat-message-list">
             {/*<p>current state of chatwindowcontent: {chatWindowContent}</p>*/}
             {/*{chat}*/}
-            <br/>
+
 
             {chatUnorderedList}
 

@@ -9,17 +9,6 @@ export default function Message(props)  {
 
 
 
-    //function getTime() {
-    //    var time = new Date();
-    //    var year = time.getFullYear();
-    //    var month = (time.getMonth() + 1);
-    //    var day = time.getDate()
-    //    var hour = time.getHours()
-    //    var minute = time.getMinutes();
-    //    var format = year + "-" + month + "-" + day + " - " + hour + ":" + minute;
-    //    var date = format.toString();
-    //    return date;
-    //}
 
     function convertTime(dateTime)
     {
@@ -52,7 +41,7 @@ export default function Message(props)  {
     //}
 
     return(
-        <div className="chat-message-box">
+        <div className="chat-message-box" tabIndex="0">
             <p><strong>{props.user}</strong> - {convertTime(props.timestamp)}</p>
             <p>{props.message}</p>
         </div>

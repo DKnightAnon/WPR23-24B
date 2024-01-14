@@ -162,6 +162,11 @@ namespace WPR23_24B.Controllers
                 return Problem("Entity set 'ChatContext.ChatRoom'  is null.");
             }
 
+            if (chatConstruction.Ervaringsdeskundige == null) { return BadRequest(); }
+            if (chatConstruction.Bedrijf == null) { return BadRequest(); }
+            if (chatConstruction.RoomName == null) { return BadRequest(); }
+            if (chatConstruction.RoomName == "") { return BadRequest(); }
+
             ChatRoom newChat = new ChatRoom() { Title = chatConstruction.RoomName };
             Console.WriteLine("------------------");
             Console.WriteLine( $"A new conversation was started! Title :{newChat}");
@@ -199,7 +204,7 @@ namespace WPR23_24B.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(Room);
 
 
         }
