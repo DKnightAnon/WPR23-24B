@@ -17,8 +17,13 @@ import SignInForm from "./components/SignInComponents/SignInForm";
 import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
+
 import Chat from "./components/Chat/Chat";
 import './ChatStyling.css'
+
+
+import ErvaringsdeskundigePortal from "./components/Dashboards/ErvaringsdeskundigePortal";
+import PrivateRoute from "./Services/Autorisation/PrivateRoute";
 
 const App = () => {
   const theme = {
@@ -42,24 +47,35 @@ const App = () => {
     media: { mobile: "768px", tab: "998px" },
   };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <GoToTop />
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/service" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<SignInComponent />} />
-                <Route path="/register" element={<SignupForm />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="*" element={<Error />} />
-            </Routes>
-            <Footer />
-        </ThemeProvider>
-    );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <GoToTop />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/service" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<SignInComponent />} />
+        <Route path="/register" element={<SignupForm />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute
+              element={ErvaringsdeskundigePortal}
+              roles={["Admin", "Ervaringsdeskundige"]}
+            />
+          }
+        />
+        {/* Voeg hieronder extra privaterouting elementen toe voor andere rollen! */}
+      </Routes>
+      <Footer />
+    </ThemeProvider>
+  );
+
 };
 
 export default App;

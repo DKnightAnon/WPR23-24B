@@ -55,16 +55,13 @@ namespace WPR23_24B.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email!);
                 var userRole = await _rolService.GetUserRole(user!);
 
-                // Set content type to JSON!
-                Response.Headers.Add("Content-Type", "application/json");
-
-
                 return Ok(new { Message = "Login Succesfull", Token = token, UserRole = userRole });
 
             }
             else
             {
-                return BadRequest(new { Message = "Login failed", Errors = "Invalid username or password" });
+                return BadRequest(new { error = "Invalid username or password" });
+
             }
         }
 
