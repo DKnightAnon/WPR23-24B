@@ -44,8 +44,6 @@ export default function Chat() {
 
     const dispatch = useDispatch();
 
-    //const chatContent = useSelector((state) => state.chatContent.content)
-    //const dispatch = useDispatch()
 
     //Responsive chatlist
     const [show, setShow] = useState(false);

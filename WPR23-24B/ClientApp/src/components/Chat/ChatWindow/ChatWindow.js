@@ -10,15 +10,15 @@ export default function ChatWindow(props) {
 
    
 
-    const chat = chatWindowContent
-        .map(m => <Message
-            key={m.timestamp}
-            user={m.user}
-            message={m.message}
-            timestamp={m.timestamp}
-        />);
+    //const chat = chatWindowContent
+    //    .map(m => <Message
+    //        key={m.timestamp}
+    //        user={m.user}
+    //        message={m.message}
+    //        timestamp={m.timestamp}
+    //    />);
 
-    const chatUnorderedList = chatWindowContent.map((chat) =>
+    const chatUnorderedList = chatWindowContent.map(    (chat) =>
         <ul key={chat.postedAt}>
             {/*{JSON.stringify(chat)}*/}
             <Message

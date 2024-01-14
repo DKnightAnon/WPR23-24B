@@ -22,7 +22,7 @@ export default function ChatList(props) {
 
         //console.log(argument)
         argument.map(
-            m => <ListGroup.Item key={m.id} action onClick={loadChat}  > {m.title} </ListGroup.Item>
+            m => <ListGroup.Item key={m.id} action onClick={ () => loadChat(m)} > {m.title} </ListGroup.Item>
 
         )
 
@@ -66,13 +66,13 @@ export default function ChatList(props) {
     const urlParam = chatConversation.id;
     const listingUrl = urlBase + urlParam;
 
-    async function fetchListingInfo() {
-        fetch(listingUrl)
+    async function fetchListingInfo(prop) {
+        fetch(`${urlBase}${prop.id}`)
             .then((result) => result.json())
             .then(
                 (data) => {
                     //console.log(data)
-                    setConversationList(data)
+                    setConversationContent(data)
                     //console.log(conversationList)
 
                 }
@@ -101,12 +101,13 @@ export default function ChatList(props) {
 
     const [LastMessageTimestamp, setLastMessageTimestamp] = useState(props.timestamp);
 
-    const loadChat = () => {
+    const loadChat = (prop) => {
         console.log("button was pressed! caller : " + props.id);
+        console.log(prop)
 
         //clearChet method functions as intended and clears the chatbox of the client that triggered it.
         dispatch(clearChat())
-        fetchListingInfo()
+        fetchListingInfo(prop)
 
 
     }
