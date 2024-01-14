@@ -1,7 +1,20 @@
+// CompanyInfo.js
 import React from "react";
 import "./SignUpStyle.css";
 
-const CompanyInfo = ({ onNext, values, handleChange }) => {
+const CompanyInfo = ({ onNext, onSubmit, values, handleChange }) => {
+  const {
+    Naam,
+    ContactPersoon,
+    Email,
+    TelefoonNummer,
+    Postcode,
+    Adres,
+    Website,
+    Wachtwoord,
+    TrackingId,
+  } = values;
+
   return (
     <div>
       <div className="progress-bar" style={{ width: "33.33%" }}></div>
@@ -14,9 +27,9 @@ const CompanyInfo = ({ onNext, values, handleChange }) => {
             <input
               placeholder="Vul hier de naam in van het bedrijf"
               type="text"
-              name="companyName"
-              value={values.companyName}
-              onChange={handleChange}
+              name="Naam"
+              value={Naam}
+              onChange={(e) => handleChange(e, "company")}
               style={styles.input}
             />
           </label>
@@ -25,9 +38,9 @@ const CompanyInfo = ({ onNext, values, handleChange }) => {
             <input
               placeholder="Vul hier de volledige naam in van jullie contactpersoon"
               type="text"
-              name="contactPerson"
-              value={values.contactPerson}
-              onChange={handleChange}
+              name="ContactPersoon"
+              value={ContactPersoon}
+              onChange={(e) => handleChange(e, "company")}
               style={styles.input}
             />
           </label>
@@ -36,9 +49,9 @@ const CompanyInfo = ({ onNext, values, handleChange }) => {
             <input
               placeholder="Vul hier het e-mailadres in van het bedrijf"
               type="text"
-              name="companyEmail"
-              value={values.companyEmail}
-              onChange={handleChange}
+              name="Email"
+              value={Email}
+              onChange={(e) => handleChange(e, "company")}
               style={styles.input}
             />
           </label>
@@ -47,25 +60,75 @@ const CompanyInfo = ({ onNext, values, handleChange }) => {
             <input
               placeholder="Vul hier het telefoonnummer in van het bedrijf"
               type="text"
-              name="companyPhoneNumber"
-              value={values.companyPhoneNumber}
-              onChange={handleChange}
+              name="TelefoonNummer"
+              value={TelefoonNummer}
+              onChange={(e) => handleChange(e, "company")}
+              style={styles.input}
+            />
+          </label>
+          <label style={styles.label}>
+            Postcode:
+            <input
+              placeholder="Vul hier het postcode in van het bedrijf"
+              type="text"
+              name="Postcode"
+              value={Postcode}
+              onChange={(e) => handleChange(e, "company")}
               style={styles.input}
             />
           </label>
           <label style={styles.label}>
             Adres:
             <input
-              placeholder="Vul hier het adres in van jullie bedrijf"
+              placeholder="Vul hier het adres in van het bedrijf"
               type="text"
-              name="companyAddress"
-              value={values.companyAddress}
-              onChange={handleChange}
+              name="Adres"
+              value={Adres}
+              onChange={(e) => handleChange(e, "company")}
+              style={styles.input}
+            />
+          </label>
+          <label style={styles.label}>
+            Website (https://example.com):
+            <input
+              placeholder="Vul hier de URL in van het bedrijf"
+              type="text"
+              name="Website"
+              value={Website}
+              onChange={(e) => handleChange(e, "company")}
+              style={styles.input}
+            />
+          </label>
+          <label style={styles.label}>
+            Wachtwoord:
+            <input
+              placeholder="Vul hier het wachtwoord in van het bedrijfsaccount"
+              type="password"
+              name="Wachtwoord"
+              value={Wachtwoord}
+              onChange={(e) => handleChange(e, "company")}
+              style={styles.input}
+            />
+          </label>
+          <label style={styles.label}>
+            Tracking ID:
+            <input
+              placeholder="Vul hier het tracking ID in van het bedrijf"
+              type="text"
+              name="TrackingId"
+              value={TrackingId}
+              onChange={(e) => handleChange(e, "company")}
               style={styles.input}
             />
           </label>
         </div>
-        <button onClick={onNext} style={styles.button}>
+        <button
+          onClick={() => {
+            onNext();
+            onSubmit(values);
+          }}
+          style={styles.button}
+        >
           Registratie Afronden
         </button>
       </div>
@@ -83,7 +146,7 @@ const styles = {
     borderRadius: "8px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
     position: "relative",
-    zIndex: 1 /* Ensure the content is above the triangle background */,
+    zIndex: 1,
   },
   header: {
     color: "#2B50EC",
@@ -129,6 +192,7 @@ const styles = {
     borderRadius: "4px",
     paddingLeft: "10px",
     fontSize: "16px",
+    textTransform: "initial",
   },
   button: {
     background: "#108670",
