@@ -22,6 +22,13 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
     navigate("/login");
   };
 
+  const handleRadioKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent the default behavior of the Enter key
+      e.target.click(); // Simulate a click on the radio button
+    }
+  };
+
   return (
     <div>
       <div className="triangle-background"></div>
@@ -36,6 +43,7 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
               checked={values.BenaderingCommericeel}
               onChange={handleChange}
               style={styles.checkbox}
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
             Sta commerciële benaderingen toe
           </label>
@@ -47,6 +55,7 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
               checked={values.BenaderingPortal}
               onChange={handleChange}
               style={styles.checkbox}
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
             Sta benadering via portaal toe
           </label>
@@ -58,6 +67,7 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
               checked={values.BenaderingTelefonisch}
               onChange={handleChange}
               style={styles.checkbox}
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
             Sta telefonische benaderingen toe
           </label>
