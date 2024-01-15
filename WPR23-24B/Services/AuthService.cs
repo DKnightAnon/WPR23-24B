@@ -76,6 +76,8 @@ namespace WPR23_24B.Services
 
             var claims = new List<Claim>
             {
+                new Claim("Id", user.Id),
+                new Claim("UserName", user.UserName),
                 new Claim(ClaimTypes.Email, user!.Email!),
                 new Claim(ClaimTypes.Role, await _rolService.GetUserRole(user)),
 
