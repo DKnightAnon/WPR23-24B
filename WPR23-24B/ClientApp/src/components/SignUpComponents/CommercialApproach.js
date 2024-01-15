@@ -1,9 +1,11 @@
 import React from "react";
 import "./SignUpStyle.css";
 import { validateApproach } from "./SignUpValidation";
+import { useNavigate } from "react-router-dom";
 
 const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
   const [validationErrors, setValidationErrors] = React.useState({});
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleValidation = () => {
     const errors = validateApproach(values);
@@ -13,6 +15,11 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
       return false;
     }
     return true;
+  };
+
+  const handleRedirect = () => {
+    // Redirect to the desired route (e.g., "/signin")
+    navigate("/login");
   };
 
   return (
@@ -71,7 +78,7 @@ const CommercialApproach = ({ onPrev, onSubmit, values, handleChange }) => {
             Vorige pagina
           </button>
           <button
-            onClick={() => handleValidation() && onSubmit()}
+            onClick={() => handleValidation() && onSubmit() && handleRedirect()} // Add handleRedirect to the onClick event
             style={styles.button}
             aria-label="Afronden Registratie"
             aria-disabled={Object.keys(validationErrors).length > 0}
