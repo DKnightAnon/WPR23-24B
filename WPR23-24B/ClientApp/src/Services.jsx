@@ -16,14 +16,14 @@ const Services = () => {
           return (
             <div key={id} className="card">
               <figure>
-                <img src={image} alt={name} />
+                <img src={image} alt={`${name} illustratie`} />
               </figure>
               <div className="card-data">
                 <h3>{name}</h3>
                 <p>{description}</p>
                 <NavLink
                   to="https://www.accessibility.nl/"
-                  aria-label="Expertises"
+                  aria-label="Lees meer over de expertises van Stichting Accessibility"
                 >
                   <Button className="btn">Lees Meer</Button>
                 </NavLink>

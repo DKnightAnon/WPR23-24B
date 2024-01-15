@@ -59,6 +59,13 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
     return true; // Validation passed
   };
 
+  const handleRadioKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent the default behavior of the Enter key
+      e.target.click(); // Simulate a click on the radio button
+    }
+  };
+
   return (
     <div>
       <div className="triangle-background"></div>
@@ -73,6 +80,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
                 name="isJongerDan18"
                 defaultChecked={values.isJongerDan18 === true}
                 onChange={handleRadioChange}
+                onKeyDown={handleRadioKeyDown} // Add keydown event listener
                 value={"true"}
               />
               Ja
@@ -83,6 +91,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
                 name="isJongerDan18"
                 defaultChecked={values.isJongerDan18 === false}
                 onChange={handleRadioChange}
+                onKeyDown={handleRadioKeyDown} // Add keydown event listener
                 value={"false"}
               />
               Nee

@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 const Error = () => {
   return (
     <Wrapper>
-      {/* <img src="src/assets/error.png" alt="error" /> */}
+      {/* <img src="../public/images/error.png" alt="error" /> */}
       <h1>Sorry, er ging iets mis...</h1>
       <p>
         De pagina die je zocht, kon niet worden gevonden. Deze is mogelijk

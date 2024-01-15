@@ -17,6 +17,13 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
     return true;
   };
 
+  const handleRadioKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent the default behavior of the Enter key
+      e.target.click(); // Simulate a click on the radio button
+    }
+  };
+
   return (
     <div>
       {/* Triangle background */}
@@ -37,6 +44,7 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
               onChange={handleChange}
               style={styles.checkbox}
               id="fysiekeBeperkingCheckbox"
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
           </label>
           <label style={styles.checkboxLabel} htmlFor="Visuele Beperking">
@@ -48,6 +56,7 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
               onChange={handleChange}
               style={styles.checkbox}
               id="visueleBeperkingCheckbox"
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
           </label>
           <label style={styles.checkboxLabel} htmlFor="Auditore Beperking">
@@ -59,6 +68,7 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
               onChange={handleChange}
               style={styles.checkbox}
               id="auditieveBeperkingCheckbox"
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             />
           </label>
         </div>
@@ -74,20 +84,23 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
               style={styles.select}
               aria-invalid={!!validationErrors.OverigeBeperking}
               aria-describedby="overigeBeperkingError"
+              onKeyDown={handleRadioKeyDown} // Add keydown event listener
             >
-              <option value="" aria-label="Selecteer een beperking">
+              <option value="" aria-label="Selecteer een beperking" onKeyDown={handleRadioKeyDown} // Add keydown event listener
+>
                 Selecteer
               </option>
-              <option value="mobility" aria-label="Beperkte mobiliteit">
+              <option value="mobility" aria-label="Beperkte mobiliteit" onKeyDown={handleRadioKeyDown} // Add keydown event listener
+>
                 Beperkte mobiliteit
               </option>
-              <option value="cognitive" aria-label="Cognitieve beperking">
+              <option value="cognitive" aria-label="Cognitieve beperking" onKeyDown={handleRadioKeyDown}>
                 Cognitieve beperking
               </option>
-              <option value="psychiatric" aria-label="Psychiatrische beperking">
+              <option value="psychiatric" aria-label="Psychiatrische beperking" onKeyDown={handleRadioKeyDown}>
                 Psychiatrische beperking
               </option>
-              <option value="prothese" aria-label="Prothese van arm of been">
+              <option value="prothese" aria-label="Prothese van arm of been" onKeyDown={handleRadioKeyDown}>
                 Prothese van arm of been
               </option>
               {/* Add more options as needed */}
