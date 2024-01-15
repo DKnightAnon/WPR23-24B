@@ -17,7 +17,7 @@ import SignInForm from "./components/SignInComponents/SignInForm";
 import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
-import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
+// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 import Chat from "./components/Chat/Chat";
 import './ChatStyling.css'
 import ErvaringsdeskundigePortal from "./components/Dashboards/ErvaringsdeskundigePortal";
@@ -58,7 +58,6 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
-        <Route path="/infopagina" element={<ProfilePage />} />
         <Route path="*" element={<Error />} />
         <Route path="/chat" element={<Chat />} />
         <Route
