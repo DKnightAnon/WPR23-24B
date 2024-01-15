@@ -1,4 +1,3 @@
-// UserOrCompanyChoice.js
 import React from "react";
 import "./SignUpStyle.css";
 
@@ -7,13 +6,19 @@ const UserOrCompanyChoice = ({ onSelectUser, onSelectCompany }) => {
     <div>
       <div className="progress-bar" style={{ width: "0%" }}></div>
       <div className="triangle-background"></div>
-      <div style={styles.container}>
-        <h2 style={styles.header}>Registratiekeuze</h2>
+      <div style={styles.container} aria-label="registratieKeuze">
+        <h2 style={styles.header} id="registratieKeuzeLabel">Registratiekeuze</h2>
         <div style={styles.choiceContainer}>
-          <button onClick={onSelectUser} style={styles.choiceButton}>
+          <button 
+            onClick={onSelectUser} 
+            style={styles.choiceButton} 
+            aria-labelledby="ervaringsdeskundigeKeuzeLabel registratieKeuzeLabel">
             Registreer jezelf als gebruiker
           </button>
-          <button onClick={onSelectCompany} style={styles.choiceButton}>
+          <button 
+            onClick={onSelectCompany} 
+            style={styles.choiceButton} 
+            aria-labelledby="bedrijfKeuzeLabel registratieKeuzeLabel">
             Registreer als bedrijf
           </button>
         </div>
