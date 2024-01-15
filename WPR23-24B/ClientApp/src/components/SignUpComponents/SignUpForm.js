@@ -1,47 +1,105 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import GeneralInfo from "./GeneralInfo";
 import DisabilityType from "./DisabilityType";
 import CommercialApproach from "./CommercialApproach";
 import CompanyInfo from "./CompanyInfo"; // Import the CompanyInfo component
 import UserOrCompanyChoice from "./UserOrCompanyChoice"; // Import the UserOrCompanyChoice component
+import { handleSignUp } from "../../Services/Authentication/RegistrationService";
 
 import { makeApiRequest } from '../../Services/Utils/ApiHelper'
 
 const SignupForm = () => {
   const [step, setStep] = useState(0); // Start with step 0 for the choice
-  const [formValues, setFormValues] = useState({
-    name: "",
-    email: "",
-    disability: "",
-    includePhysical: false,
-    includeVisual: false,
-    includeAudio: false,
-    allowCommercialApproach: false,
-    allowPortalApproach: false,
-    allowPhoneApproach: false,
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [submitMessage, setSubmitMessage] = useState(null);
+
+  const [userFormValues, setUserFormValues] = useState({
+    Email: "",
+    Wachtwoord: "",
+    HerhaalWachtwoord: "",
+    Naam: "",
+    Postcode: "",
+    Geboortedatum: "",
+    TelefoonNummer: "",
+    isJongerDan18: null,
+    FysiekeBeperking: false,
+    AuditieveBeperking: false,
+    VisueleBeperking: false,
+    andereBeperking: "",
+    BenaderingTelefonisch: false,
+    BenaderingPortal: false,
+    BenaderingCommercieel: false,
     userType: "", // Add userType to store the user's choice
+    voogdNaam: "", // Add voogdNaam
+    voogdEmail: "", // Add voogdEmail
+    voogdTelNummer: "", // Add voogdTelNummer
   });
 
-  const handleChange = (e) => {
+  const [companyFormValues, setCompanyFormValues] = useState({
+    Email: "",
+    Wachtwoord: "",
+    Naam: "",
+    Postcode: "",
+    TelefoonNummer: "",
+    TrackingId: "",
+    Website: "",
+    Contactpersoon: "",
+  });
+
+  const handleChange = (e, userType) => {
     const { name, value, type, checked } = e.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+
+    if (userType === "user") {
+      setUserFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    } else if (userType === "company") {
+      setCompanyFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleNext = () => setStep(step + 1);
   const handlePrev = () => setStep(step - 1);
 
-  const handleSubmit = () => {
-    // Perform submission logic here
-      console.log("Form submitted:", formValues);
 
-      makeApiRequest("Registratie/ervaringsdeskundige/registerOver18", 'POST', formValues)
+  const handleSubmit = async () => {
+    try {
+      if (userFormValues.userType === "user") {
+        const success = await handleSignUp(
+          userFormValues.userType,
+          userFormValues,
+          userFormValues.isJongerDan18 === false
+        );
+
+        if (success) {
+        } else {
+          // Handle registration error for users
+        }
+      } else if (userFormValues.userType === "company") {
+        const success = await handleSignUp(
+          userFormValues.userType,
+          companyFormValues, // Use companyFormValues for company registration
+          false // Assuming isUnder18 is always false for companies
+        );
+        if (success) {
+          navigate("/signin");
+        } else {
+          // Handle registration error for companies
+        }
+      }
+    } catch (error) {
+      // Handle other errors
+    }
+
   };
 
   const handleUserSelect = (userType) => {
-    setFormValues((prevValues) => ({
+    setUserFormValues((prevValues) => ({
       ...prevValues,
       userType,
     }));
@@ -58,47 +116,54 @@ const SignupForm = () => {
           />
         );
       case 1:
-        return formValues.userType === "user" ? (
+        return userFormValues.userType === "user" ? (
           <GeneralInfo
             onNext={handleNext}
-            values={formValues}
-            handleChange={handleChange}
+            values={userFormValues}
+            handleChange={(e) => handleChange(e, "user")}
           />
         ) : (
           <CompanyInfo
             onNext={handleNext}
-            values={formValues}
-            handleChange={handleChange}
+            onSubmit={handleSubmit} // Pass the handleSubmit function as prop
+            values={companyFormValues}
+            handleChange={(e) => handleChange(e, "company")}
           />
         );
       case 2:
-        return formValues.userType === "user" ? (
+        return userFormValues.userType === "user" ? (
           <DisabilityType
             onPrev={handlePrev}
             onNext={handleNext}
-            values={formValues}
-            handleChange={handleChange}
+            values={userFormValues}
+            handleChange={(e) => handleChange(e, "user")}
           />
         ) : (
-          handleNext() // Skip DisabilityType for companies and proceed to the next step
+          handleNext()
         );
       case 3:
-        return formValues.userType === "user" ? (
+        return userFormValues.userType === "user" ? (
           <CommercialApproach
             onPrev={handlePrev}
             onSubmit={handleSubmit}
-            values={formValues}
-            handleChange={handleChange}
+            values={userFormValues}
+            handleChange={(e) => handleChange(e, "user")}
           />
         ) : (
-          handleNext() // Skip CommercialApproach for companies and proceed to the next step
+          handleNext()
         );
       default:
         return null;
     }
   };
 
-  return <div>{renderStep()}</div>;
+  return (
+    <div>
+      {" "}
+      {submitMessage && <p>{submitMessage}</p>}
+      {renderStep()}
+    </div>
+  );
 };
 
 export default SignupForm;
