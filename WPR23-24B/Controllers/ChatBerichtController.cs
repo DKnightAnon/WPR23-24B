@@ -25,7 +25,7 @@ namespace WPR23_24B.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("ChatRoom")]
         //This has no different name because URL parameters are used. If you make the method accept a paramter as below, the framework automatically binds values from the query string even without the [FromQuery] attribute.
         public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetMessagesFromRoom(
             [FromQuery(Name = "Id")]Guid gesprekId) 

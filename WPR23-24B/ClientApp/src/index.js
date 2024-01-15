@@ -7,18 +7,34 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import { AppProvider } from "./context";
 
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { chatStore } from './store/ReduxStore'
+
+
+
+
+
+
+
+
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
+
+
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter basename={baseUrl}>
-      <AppProvider>
-        <App />
-      </AppProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={chatStore}>
+            <BrowserRouter basename={baseUrl}>
+                <AppProvider>
+                    <App />
+                </AppProvider>
+            </BrowserRouter>
+        </Provider>
+    </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,4 +1,4 @@
-
+import 'bootstrap/dist/css/bootstrap.css';
 /*"use strict";*/
 import React, { useState, useEffect, useRef } from 'react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
@@ -13,15 +13,24 @@ import TestgroupChatInput from './ChatInput/TestgroupChatInput';
 
 //Custom chat modules
 import ChatList from './ChatListing/ChatList';
-
+import ChatConstructionButton from './ChatListing/ChatConstruction/ChatConstructionButton'
 
 //Styling
-import './ChatStyling.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNewMessage } from '../../store/slices/chatSlice';
 
 //import { useSelector, useDispatch } from 'react-redux'
 //import { addNewMessage, clearChat, addConversationContent } from './chatSlice'
+
+
+// React Bootstrap imports to make an responsive ChatList
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Stack from 'react-bootstrap/Stack';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 
 export default function Chat() {
@@ -35,8 +44,16 @@ export default function Chat() {
 
     const dispatch = useDispatch();
 
-    //const chatContent = useSelector((state) => state.chatContent.content)
-    //const dispatch = useDispatch()
+
+    //Responsive chatlist
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => { setShow(true); console.log('LAUNCH BUTTON CLICKED')}
+
+
+
+
 
     latestChat.current = chat;
 
@@ -181,19 +198,79 @@ export default function Chat() {
     }
 
 
+    const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        + "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+        + "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+
+
+    
+
+
     return (
-        <div className="chat-component-main">
-            <ChatList />
-            <ChatInput sendMessage={sendMessage} />
-            <hr />
-            <p><strong>TestGroupChat</strong></p>
-            <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
-            <hr />
-            <button id="send-join-to-test-group" onClick={joinTestGroup}>Connect to test group</button> <button id="send-leave-to-test-group" onClick={leaveTestGroup}>leave the test group</button>
-            <p>Amount of connected users : {userCount}</p>
-            <ChatWindow chat={chat} />
+
+        <main>
+        <div className="chat-main-component">
+
+
+            <div className="Canvas-chatlist">
+                <Offcanvas show={show} onHide={handleClose} responsive="lg">
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title style={{ fontSize: "20px" }}>Gespreklijst</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+
+                        <Stack gap={2}>
+                            <ChatConstructionButton />
+                            <>
+                                <ChatList />
+                            </>
+                        </Stack>
+
+                    </Offcanvas.Body>
+                </Offcanvas>
+            </div>
+
+
+
+
+            <div className="chat-messaging-component">
+                <Container fluid>
+
+
+
+
+                    <Stack gap={2}>
+
+                        <ListGroup>
+                            <ListGroup.Item active style={{ fontSize: "18px" }} aria-label="Huidige verbonden gesprek kamer"> {currentConnectedRoom.title ?? 'Gesprek aan het laden...'}   </ListGroup.Item>
+                        </ListGroup>
+
+                        <div className="chat-message-list-container">
+                            <ChatWindow chat={chat} />
+                        </div>
+                        <br /><br /><br /><br /><br />
+                        <div className="chat-inputs-container" >
+                            <Stack gap={2}>
+                                <Button variant="primary" className="d-lg-none" onClick={handleShow} style={{ fontSize: "14px" }} aria-label="Lijst van gesprekken">
+                                    Gespreklijst
+                                </Button>
+                                {/*<ChatInput sendMessage={sendMessage} />*/}
+                                {/*<p>Amount of connected users : {userCount}</p>*/}
+                                <TestgroupChatInput messageToBeSent={sendTestgroupMessage} />
+
+
+                                {/*<Button onClick={() => sendMessage("ipsum generator", lorem)}>Lorem Generator</Button>*/}
+                            </Stack >
+                        </div>
+
+                    </Stack>
+                </Container>
+
+            </div>
 
         </div>
+</main>
     );
 };
 

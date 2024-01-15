@@ -40,7 +40,7 @@ namespace WPR23_24B.Data
         public DbSet<ChatBericht> ChatBericht { get; set; } = default!;
         public DbSet<ChatRoom> ChatRoom { get; set; } = default!;
 
-        //public DbSet<ChatDeelnemers> ChatRoomConnections { get; set; } = default!;
+        public DbSet<ChatDeelnemers> ChatRoomConnections { get; set; } = default!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

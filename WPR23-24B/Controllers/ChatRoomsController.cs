@@ -10,6 +10,7 @@ using WPR23_24B.Chat;
 using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Data;
+using WPR23_24B.Models.Authenticatie;
 
 namespace WPR23_24B.Controllers
 {
@@ -32,6 +33,13 @@ namespace WPR23_24B.Controllers
             {
                 return NotFound();
             }
+           
+
+            
+            // Om networklatency na te bootsen
+            //await Task.Delay(5000);
+            
+            
             return await _context.ChatRoom.ToListAsync();
         }
 
@@ -71,7 +79,11 @@ namespace WPR23_24B.Controllers
 
 
             //Retrieve messages as list
-            var MessageList = await _context.ChatBericht.Include(bericht => bericht.verzender).Where(bericht => bericht.room.Id == id).ToListAsync();
+            var MessageList = await 
+                _context.ChatBericht
+                .Include(bericht => bericht.verzender)
+                .Where(bericht => bericht.room.Id == id)
+                .ToListAsync();
 
             //Convert message properties to DTO's to prevent exposing data
             var ConvertededMessageList = new List<ChatBerichtDTO>();
@@ -134,6 +146,67 @@ namespace WPR23_24B.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetChatRoom", new { id = chatRoom.Id }, chatRoom);
+        }
+
+        /// <summary>
+        /// POST method in order to enter a new <see cref="ChatDeelnemers"/> entry in the database, with 2 <see cref="Gebruiker"/>s.
+        /// </summary>
+        /// <param name="chatConstruction"></param>
+        /// <returns></returns>
+        [HttpPost("nieuwgesprek")]
+        public async Task<IActionResult> PostNieuwChatRoomMetGebruikers(ChatConstructionDTO chatConstruction)
+        {
+
+            if (_context.ChatRoom == null)
+            {
+                return Problem("Entity set 'ChatContext.ChatRoom'  is null.");
+            }
+
+            if (chatConstruction.Ervaringsdeskundige == null) { return BadRequest(); }
+            if (chatConstruction.Bedrijf == null) { return BadRequest(); }
+            if (chatConstruction.RoomName == null) { return BadRequest(); }
+            if (chatConstruction.RoomName == "") { return BadRequest(); }
+
+            ChatRoom newChat = new ChatRoom() { Title = chatConstruction.RoomName };
+            Console.WriteLine("------------------");
+            Console.WriteLine( $"A new conversation was started! Title :{newChat}");
+            Console.WriteLine($"Conversation ID : {newChat.Id}");
+            Console.WriteLine($"Bedrijf : {chatConstruction.Bedrijf}");
+            Console.WriteLine($"Gebruiker : {chatConstruction.Ervaringsdeskundige}");
+            Console.WriteLine("------------------");
+
+            await _context.ChatRoom.AddAsync(newChat);
+            await _context.SaveChangesAsync();
+            
+
+            var foundEntity = await _context.ChatRoom.FindAsync(newChat.Id);
+            if (foundEntity == null) { Console.WriteLine("Not found!"); }
+
+            var Ervaring = await _context.Gebruikers.FindAsync(chatConstruction.Ervaringsdeskundige.Id);
+            var Bedrijf = await _context.Bedrijven.FindAsync(chatConstruction.Bedrijf.Id);
+            var Room = await _context.ChatRoom.FindAsync(newChat.Id);
+
+            ChatDeelnemers nieuwGesprekErvaring = new ChatDeelnemers() {
+                GebruikerId = Ervaring.Id,
+                Gebruiker = Ervaring,
+                RoomId = Room.Id,
+                ChatRoom = Room
+            };
+            ChatDeelnemers nieuwGesprekBedrijf = new ChatDeelnemers() {
+                GebruikerId = Bedrijf.Id,
+                Gebruiker = Bedrijf,
+                RoomId = Room.Id,
+                ChatRoom = Room
+            };
+
+            await _context.ChatRoomConnections.AddAsync(nieuwGesprekBedrijf);
+            await _context.ChatRoomConnections.AddAsync(nieuwGesprekErvaring);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(Room);
+
+
         }
 
         // DELETE: api/ChatRooms/5

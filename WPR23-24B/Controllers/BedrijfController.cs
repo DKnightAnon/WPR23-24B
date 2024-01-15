@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Authenticatie.DTOs;
+using WPR23_24B.Models.Authenticatie.Extensions;
 
 namespace WPR23_24B.Controllers
 {
@@ -49,6 +51,29 @@ namespace WPR23_24B.Controllers
 
             return bedrijf;
         }
+
+
+        [HttpGet("names")]
+        public async Task<ActionResult<IEnumerable<GebruikerDTO>>> GetBedrijfNamen() 
+        {
+            if (_context.Bedrijven == null)
+            {
+                return NotFound();
+            }
+
+            var bedrijflijst = await _context.Bedrijven.ToListAsync();
+            var bedrijfnamen = new List<GebruikerDTO>();
+            foreach (var bedrijf in bedrijflijst)
+            {
+                bedrijfnamen.Add(bedrijf.ToDTO());
+            }
+
+            return Ok(bedrijfnamen);
+
+
+        }
+
+
 
         // PUT: api/Bedrijfs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

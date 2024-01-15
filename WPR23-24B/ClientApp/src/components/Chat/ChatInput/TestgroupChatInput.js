@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
+
+import InputGroup from 'react-bootstrap/InputGroup'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+
+
+
 //props are a catch-all for passed in paramteres. Think of it as a list. You can call props.[paramater] to retrieve something.
 export default function ChatInput(props) {
     const [user, setUser] = useState(
 
         {
-            id: "10418506-072b-42f4-ba37-4148b234952e",
+            id: "11185a46-ae89-4003-87d0-7461c8901cd6",
             userName: "Anthony Delgado"
 
         }
@@ -30,7 +38,9 @@ export default function ChatInput(props) {
             console.log('Message contents : ')
             console.log(JSON.stringify(user) + message + JSON.stringify(room))
             props.messageToBeSent(user, message, room);
+            setMessage('');
         }
+
         else {
             alert('Please insert an user and a message.');
         }
@@ -41,23 +51,36 @@ export default function ChatInput(props) {
     }
 
     return (
-        <form className="testgroup-input"
-        
-            //this is called automatically by the button tag because it is in a form? research this.
-            onSubmit={onSubmit}>
-            <label>TestGroup</label>
-          
-            <label htmlFor="message">Message:</label>
-            <br />
-            <input
-                type="text"
-                id="message"
-                name="message"
-                value={message}
-                onChange={onMessageUpdate} />
-            <br /><br />
-            <button>Submit</button>
-        </form>
+
+        <div>
+
+            <Form onSubmit={onSubmit}>
+                <InputGroup>
+                    <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="Typ een bericht..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" style={{ fontSize: "14px" }} />
+                    <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }}>Submit</Button>
+                </InputGroup>
+
+            </Form>
+
+            {/*<form className="testgroup-input"*/}
+
+            {/*    //this is called automatically by the button tag because it is in a form? research this.*/}
+            {/*    onSubmit={onSubmit}>*/}
+            {/*    <label>TestGroup</label>*/}
+
+            {/*    <label htmlFor="message">Message:</label>*/}
+            {/*    <br />*/}
+            {/*    <input*/}
+            {/*        type="text"*/}
+            {/*        id="message"*/}
+            {/*        name="message"*/}
+            {/*        value={message}*/}
+            {/*        onChange={onMessageUpdate} />*/}
+            {/*    <br /><br />*/}
+            {/*    <button>Submit</button>*/}
+            {/*</form>*/}
+
+        </div>
     )
 };
 

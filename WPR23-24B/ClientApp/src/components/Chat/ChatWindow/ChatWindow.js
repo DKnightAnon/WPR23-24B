@@ -10,53 +10,31 @@ export default function ChatWindow(props) {
 
    
 
-    //const chatArray = []
+    //const chat = chatWindowContent
+    //    .map(m => <Message
+    //        key={m.timestamp}
+    //        user={m.user}
+    //        message={m.message}
+    //        timestamp={m.timestamp}
+    //    />);
 
-    //for (var x in chatWindowContent) {
-
-     
-
-    //    chatArray.push(JSON.parse(JSON.stringify(x)))
-    //}
-
-
-   
-
-    const chat = chatWindowContent
-        .map(m => <Message
-            key={m.timestamp}
-            user={m.user}
-            message={m.message}
-            timestamp={m.timestamp}
-        />);
-
-    const chatUnorderedList = chatWindowContent.map((chat) =>
+    const chatUnorderedList = chatWindowContent.map(    (chat) =>
         <ul key={chat.postedAt}>
             {/*{JSON.stringify(chat)}*/}
             <Message
                 user={chat.verzender.userName}
                 message={chat.content}
                 timestamp={chat.postedAt}
-
+                className="chat-message-box"
 
             />
         </ul>)
-    //const chatOrderedList = chatWindowContent.map(chat =>
-    //    <li key={chat.timestamp}>
-    //        <p>{chat.id}</p>
-    //        {/*<p>{chat.timestamp}</p>*/}
-    //        <p>{chat.message}</p>
-    //    </li>)
 
 
 
      useEffect(() => {
          console.log('useEffect in ChatWindow.js was triggered by a change in chatWindowContent(state.chatcontent.content)')
          console.log('chatWindowContent : '); console.log(chatWindowContent)
-         //console.log('chatarray: '); console.log(chatArray)
-
-
-
 
     }, [chatWindowContent]
     )
@@ -65,16 +43,13 @@ export default function ChatWindow(props) {
 
 
     return (
-        <div className="chat-window">
+        <div className="chat-message-list">
             {/*<p>current state of chatwindowcontent: {chatWindowContent}</p>*/}
             {/*{chat}*/}
 
 
             {chatUnorderedList}
 
-
-
-            {/*<p>{chatArray}</p>*/}
         </div>
     )
 };

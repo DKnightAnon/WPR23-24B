@@ -50,10 +50,10 @@
   <ItemGroup>
 
     <Folder Include="ClientApp\src\components\Chat\ChatInput\" />
-    <Folder Include="ClientApp\src\components\Chat\NewFolder\" />
-    <Folder Include="ClientApp\src\components\Chat\TestChatTextFiles\" />
 
     <Folder Include="Migrations\" />
+
+    <Folder Include="Models\Views\" />
 
   </ItemGroup>
 

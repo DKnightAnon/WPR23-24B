@@ -7,7 +7,9 @@
 
         public override string ToString()
         {
-            return new string($"{UserName}");
+            if(UserName == "") { UserName = "UserName was an empty string!"; }
+            if (Id == "") { UserName = "Id was an empty string!"; }
+            return new string($"{UserName ?? "UserName field is empty!"}|{Id ?? "Id field is empty!"}");
         }
     }
 }
