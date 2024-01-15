@@ -44,7 +44,7 @@ const About = () => {
     <div>
       <StyledSection className="container">
         <StyledContainerBox>
-          <StyledH2>Onze missie</StyledH2>
+          <StyledH2 aria-label="Missie van Stichting Accessibility">Onze missie</StyledH2>
           <StyledP>
             Bij Accessibility werken we aan een inclusieve samenleving waarin
             iedereen kan meedoen en tot zijn recht komt. Steeds meer
@@ -76,11 +76,11 @@ const About = () => {
             en inclusieve samenleving. Sluit ook bij ons aan!
           </StyledP>
           <StyledP>
-            <StyledLink href="#">
+            <StyledLink href="#" aria-label="Link naar de website van Stichting Accessibility">
               Wij zijn Accessibility, expert in toegankelijkheid.
             </StyledLink>
           </StyledP>
-          <StyledH2>Achtergrond</StyledH2>
+          <StyledH2 aria-label="Achtergrond Informatie over Stichting Accessibility">Achtergrond</StyledH2>
           <StyledP>
             Begin deze eeuw digitaliseerde de samenleving in een rap tempo. Maar
             waren al die websites en digitale hulpmiddelen wel door iedereen te
@@ -90,10 +90,9 @@ const About = () => {
             beperking.
           </StyledP>
           {/* Add more paragraphs as needed */}
-          <StyledH2>Nieuwsgierig naar onze vacatures?</StyledH2>
+          <StyledH2 aria-label="Vacactures">Nieuwsgierig naar onze vacatures?</StyledH2>
           <StyledP>
-            Bekijk <StyledLink href="#">op deze pagina</StyledLink> de vacatures
-            die we momenteel open hebben staan. We bieden ook stageplekken!
+          Bekijk <StyledLink href="#" aria-label="Bekijk onze vacatures en stageplekken"> hier onze vacatures</StyledLink> die we momenteel open hebben staan. We bieden ook stageplekken!
           </StyledP>
         </StyledContainerBox>
       </StyledSection>
