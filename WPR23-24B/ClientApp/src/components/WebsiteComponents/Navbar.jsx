@@ -165,6 +165,15 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     <li>
+                    <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/news"
+                        >
+                            News
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink
                             className="navbar-link"
                             onClick={() => setOpenMenu(false)}
@@ -173,6 +182,7 @@ const Navbar = () => {
                             Inloggen
                         </NavLink>
                     </li>
+                    
                 </ul>
                 {/* //nav icon */}
                 <div className="mobile-navbar-btn">

@@ -10,6 +10,7 @@ import About from "./About";
 import Contact from "./Contact";
 import Home from "./Home";
 import Services from "./Services";
+import News from "./News";
 import Header from "./components/WebsiteComponents/Header";
 import Footer from "./components/WebsiteComponents/Footer";
 import Error from "./Error";
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Services />} />
+        <Route path="/news" element={<News />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
