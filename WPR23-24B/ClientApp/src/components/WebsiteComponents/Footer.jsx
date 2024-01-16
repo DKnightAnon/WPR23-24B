@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="container grid grid-four-column">
           <div className="footer-about">
             <h3>Stichting Accessibility</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+            {/* <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p> */}
           </div>
 
           {/* 2nd column */}
@@ -53,15 +53,17 @@ const Footer = () => {
           {/* 3rs column  */}
           <div className="footer-social">
             <h3>Volg ons op:</h3>
-            <div className="footer-social--icons">
+            <div className="footer-social--icons" aria-label="Social Media Iconen">
               <div>
+                <a href="https://twitter.com/AccessibilityNL"></a>
                 <FaTwitter className="icons" aria-label="Twitter" />
               </div>
               <div>
+                <a href="https://www.linkedin.com/company/accessibilitynl?originalSubdomain=nl"></a>
                 <FaLinkedin className="icons" aria-label="LinkedIn" />
               </div>
               <div>
-                <a href="" target="_blank">
+                <a href="https://www.youtube.com/channel/UCSFsnRBNIDCgYJEW_ZLfTrg" target="_blank" aria-label="Link naar Youtube Kanaal van Stichting Accessibility">
                   <FaYoutube className="icons" aria-label="Youtube" />
                 </a>
               </div>
@@ -70,9 +72,9 @@ const Footer = () => {
 
           {/* 4th column  */}
           <div className="footer-contact">
-            <h3>Accessibility</h3>
-            <p aria-label="Email">info@accessibility.nl</p>
-            <p>Telefoonnummer:030-2398270</p>
+            <h3 aria-label="Contactgegevens Stichting Accessibility">Accessibility</h3>
+            <p aria-label="Email Stichting Accessibility">info@accessibility.nl</p>
+            <p aria-label="Telefoonnummer Stichting Accessibility">Telefoonnummer:030-2398270</p>
           </div>
         </div>
 
@@ -82,11 +84,14 @@ const Footer = () => {
           <div className="container grid grid-two-column">
             <p>© {new Date().getFullYear()} Stichting Accessibility</p>
             <div>
-              <p href="" aria-label="Privacy Policy">
-                PRIVACY POLICY
-              </p>
-              <p href="" aria-label="Terms & Conditions">
+              <p id="policies" href="/privacy_policies" aria-label="Privacy Policy">
+              <a href="/terms_conditions">
+                PRIVACY POLICIES
+                </a>              </p>
+              <p id="policies"aria-label="Terms & Conditions">
+                <a href="/terms_conditions">
                 TERMS & CONDITIONS
+                </a>
               </p>
             </div>
           </div>
@@ -149,6 +154,10 @@ const Wrapper = styled.section`
         color: ${({ theme }) => theme.colors.hr};
         height: 0.1px;
       }
+      #policies a {
+        text-decoration: underline;
+        color: white;
+      }
     }
   }
 
@@ -176,7 +185,6 @@ const Wrapper = styled.section`
       text-align: left;
       margin-left: 1rem;
     }
-  }
 `;
 
 export default Footer;

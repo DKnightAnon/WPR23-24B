@@ -10,6 +10,7 @@ import About from "./About";
 import Contact from "./Contact";
 import Home from "./Home";
 import Services from "./Services";
+import News from "./News";
 import Header from "./components/WebsiteComponents/Header";
 import Footer from "./components/WebsiteComponents/Footer";
 import Error from "./Error";
@@ -17,11 +18,9 @@ import SignInForm from "./components/SignInComponents/SignInForm";
 import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
-
+// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 import Chat from "./components/Chat/Chat";
 import './ChatStyling.css'
-
-
 import ErvaringsdeskundigePortal from "./components/Dashboards/ErvaringsdeskundigePortal";
 import PrivateRoute from "./Services/Autorisation/PrivateRoute";
 
@@ -57,9 +56,11 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Services />} />
+        <Route path="/news" element={<News />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
+        <Route path="*" element={<Error />} />
         <Route path="/chat" element={<Chat />} />
         <Route
           path="/dashboard"
