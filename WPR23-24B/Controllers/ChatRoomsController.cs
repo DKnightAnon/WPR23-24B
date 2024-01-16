@@ -12,6 +12,7 @@ using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Chat.Models;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Services;
 
 namespace WPR23_24B.Controllers
 {
@@ -62,7 +63,7 @@ namespace WPR23_24B.Controllers
             return chatRoom;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Bedrijf,Ervaringsdeskundige")]
         [HttpGet("berichten/{id}")]
         public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetChatRoomMessages(Guid id)
             {

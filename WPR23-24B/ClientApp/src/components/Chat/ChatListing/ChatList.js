@@ -7,7 +7,10 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { useSelector, useDispatch } from 'react-redux'
 import { clearChat, addConversationContent, printTest } from '../../../store/slices/chatSlice'
 import { setCurrentRoom } from '../../../store/slices/chatroomSlice'
-//Component to represent the list of conversations a user has. 
+//Component to represent the list of conversations a user has.
+
+import AuthUtils from '../../../Services/Authentication/AuthUtils';
+
 export default function ChatList(props) {
 
 
@@ -22,6 +25,7 @@ export default function ChatList(props) {
 
         )
 
+    
 
 
 
@@ -59,13 +63,23 @@ export default function ChatList(props) {
     //const conversationContent = useSelector((state) => state.conversationContent.content)
 
     const dispatch = useDispatch();
-
+    const encodedToken = AuthUtils.getToken();
     const urlBase = process.env.REACT_APP_API_BASE_URL + "ChatRooms/berichten/";
-
+ 
+    const bearerToken = ""
 
     async function fetchListingInfo(prop) {
         try {
-            const response = await fetch(`${urlBase}${prop.id}`)
+            const response =  await fetch(`${urlBase}${prop.id}`,
+                {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${encodedToken}`
+                    }
+                })
                 //.then((result) => result.json())
                 //.then(
                 //    (data) => {
@@ -77,13 +91,14 @@ export default function ChatList(props) {
                 //)
             // console.log(conversationList)
             console.log(response.status)
-            if (
-                !response.ok) {
+            if (!response.ok) {
                 throw new Error(`${response.status} ${response.statusText}`);
-                alert(" HTTP 403 Forbidden");
+                
             }
-            const data = response.json();
-            setConversationContent(data);
+            const data = await response.json();
+            
+            console.log(data)
+             setConversationContent(data);
         } catch (error)
         {
             console.log(error)

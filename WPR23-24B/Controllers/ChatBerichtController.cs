@@ -98,7 +98,7 @@ namespace WPR23_24B.Controllers
         }
 
 
-        [Authorize(Roles = "Ervaringsdeskundige")]
+        [Authorize(Roles = "Ervaringsdeskundige,Bedrijf")]
         [HttpGet("AuthorizeTest")]
         public async Task<string> authorizeTest() 
         {
