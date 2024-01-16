@@ -65,6 +65,7 @@ export default function ChatInput(props) {
                     }
                     }>Test Decode JWT</Button>
                     <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }}>Submit</Button>
+                    <Button variant="secondary" className="me-auto" onClick={() => { } } > Test Authorize Fetch </Button>
                 </InputGroup>
 
             </Form>

@@ -11,6 +11,7 @@ using WPR23_24B.Chat.Models;
 using WPR23_24B.Models.Authenticatie.Extensions;
 using WPR23_24B.Chat.DTO_s;
 using WPR23_24B.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WPR23_24B.Controllers
 {
@@ -50,6 +51,7 @@ namespace WPR23_24B.Controllers
         }
 
         // GET: api/ChatBericht
+        [Authorize(Roles = "Bedrijf")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetAllChatBericht()
         {
@@ -77,6 +79,7 @@ namespace WPR23_24B.Controllers
         }
 
         // GET: api/ChatBericht/5
+        [Authorize(Roles = "Ervaringsdeskundige")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ChatBericht>> GetChatBericht(Guid id)
         {
@@ -92,6 +95,15 @@ namespace WPR23_24B.Controllers
             }
 
             return Ok(chatBericht);
+        }
+
+
+        [Authorize(Roles = "Ervaringsdeskundige")]
+        [HttpGet("AuthorizeTest")]
+        public async Task<string> authorizeTest() 
+        {
+
+            return new string("Authorize werkt correct");
         }
 
 

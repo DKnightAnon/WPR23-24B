@@ -64,17 +64,30 @@ export default function ChatList(props) {
 
 
     async function fetchListingInfo(prop) {
-        fetch(`${urlBase}${prop.id}`)
-            .then((result) => result.json())
-            .then(
-                (data) => {
-                    //console.log(data)
-                    setConversationContent(data)
-                    //console.log(conversationList)
+        try {
+            const response = await fetch(`${urlBase}${prop.id}`)
+                //.then((result) => result.json())
+                //.then(
+                //    (data) => {
+                //        //console.log(data)
+                //        setConversationContent(data)
+                //        //console.log(conversationList)
 
-                }
-            )
-        // console.log(conversationList)
+                //    }
+                //)
+            // console.log(conversationList)
+            console.log(response.status)
+            if (
+                !response.ok) {
+                throw new Error(`${response.status} ${response.statusText}`);
+                alert(" HTTP 403 Forbidden");
+            }
+            const data = response.json();
+            setConversationContent(data);
+        } catch (error)
+        {
+            console.log(error)
+        }
     };
 
 
