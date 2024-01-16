@@ -1,0 +1,92 @@
+/* ResearchList styles */
+.research-list {
+    overflow-y: auto;
+    height: 550px;
+    max-height: 1000px; /* Adjust the max-height as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-right: 1200px;
+    margin-top: 0;
+    border: 1px solid black;
+    border-radius: 5px;
+  
+  }
+  
+  .research-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid black;
+  }
+
+  .research-item .details-button {
+    cursor: pointer;
+    justify-content: space-between;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #108670;
+    color: white;
+  }
+
+  /* Add styles for the "Verwijder onderzoek" button */
+.research-item .delete-button {
+  cursor: pointer;
+  justify-content: space-between;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+}
+
+  .research-item .delete-button:hover {
+    background-color: #ddd;
+    }
+  
+  .research-item button + button {
+    margin-left: 45px; /* Adjust the margin as needed */
+  }
+  
+  .research-item .details-button:hover {
+    background-color: #084A3D;
+  }
+
+  /* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.modal button {
+  background-color: #108670;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.modal button:hover {
+  background-color: #084A3D;
+}
+
+.company-info{
+  display: flex;
+}
+
+
+
