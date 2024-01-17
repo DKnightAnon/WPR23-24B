@@ -5,17 +5,21 @@ import styles from './NewResearchForm.module.css';
 
 const NewResearchForm = ({ addNewResearch, closeModal }) => {
   const [researchData, setResearchData] = useState({
-    title: '',
-    details: '',
-    location: '',
-    disabilityType: '',
+    Id: '',
+    Titel: '',
+    Beschrijving: '',
+    Datum: '',
+    Locatie: '',
+    Status: '',
   });
 
   const [errors, setErrors] = useState({
-    title: '',
-    details: '',
-    location: '',
-    disabilityType: '',
+    Id: '',
+    Titel: '',
+    Beschrijving: '',
+    Datum: '',
+    Locatie: '',
+    Status: '',
   });
 
   const handleChange = (e) => {
@@ -27,29 +31,44 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = { title: '', details: '', location: '', disabilityType: '' };
+    const newErrors = { Id: '',
+    Titel: '',
+    Beschrijving: '',
+    Datum: '',
+    Locatie: '',
+    Status: ''};
 
     // Simple validation - check if the fields are not empty
-    if (!researchData.title.trim()) {
-      newErrors.title = 'Bedrijfsnaam is verplicht';
+    if (!researchData.Id.trim()) {
+      newErrors.Id = 'Id is verplicht';
+      isValid = false;
+    }
+    
+    if (!researchData.Titel.trim()) {
+      newErrors.Titel = 'Titel is verplicht';
       isValid = false;
     }
 
-    if (!researchData.details.trim()) {
-      newErrors.details = 'Details zijn verplicht';
+    if (!researchData.Beschrijving.trim()) {
+      newErrors.Beschrijving = 'Beschrijving verplicht';
       isValid = false;
     }
 
-    if (!researchData.location.trim()) {
-      newErrors.location = 'Locatie is verplicht';
+    if (!researchData.Datum.trim()) {
+      newErrors.Datum = 'Datum is verplicht';
       isValid = false;
     }
 
-    if (!researchData.disabilityType.trim()) {
-      newErrors.disabilityType = 'Beperking type is verplicht';
+    if (!researchData.Locatie.trim()) {
+      newErrors.Locatie = 'Locatie is verplicht';
       isValid = false;
     }
 
+    if (!researchData.Status.trim()) {
+      newErrors.Status = 'Status is verplicht';
+      isValid = false;
+    }
+    
     setErrors(newErrors);
     return isValid;
   };
@@ -71,22 +90,31 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
   return (
     <div className={styles.modal}>
       <div className={styles['modal-content']}>
-        <h2>Nieuw onderzoek aanmaken</h2>
-        <label htmlFor="title">Bedrijfsnaam:</label>
-        <input type="text" name="title" value={researchData.title} onChange={handleChange} placeholder='Vul hier bedrijfsnaam in'/>
-        <span className={styles.error}>{errors.title}</span>
+        <h2>Nieuw onderzoek aanmaken:</h2>
 
-        <label htmlFor="details">Details van het onderzoek:</label>
-        <textarea name="details" value={researchData.details} onChange={handleChange} placeholder='Vul hier de details van het onderzoek in'></textarea>
-        <span className={styles.error}>{errors.details}</span>
+        <label htmlFor="Id">Onderzoeks ID:</label>
+        <input type="text" name="Id" value={researchData.Id} onChange={handleChange} placeholder='Vul hier id van het onderzoek in'/>
+        <span className={styles.error}>{errors.Id}</span>
 
-        <label htmlFor="location">Locatie:</label>
-        <input type="text" name="location" value={researchData.location} onChange={handleChange} placeholder='Vul hier de locatie van het onderzoek in'/>
-        <span className={styles.error}>{errors.location}</span>
+        <label htmlFor="Titel">Titel:</label>
+        <input type="text" name="Titel" value={researchData.Titel} onChange={handleChange} placeholder='Vul hier de titel in'/>
+        <span className={styles.error}>{errors.Titel}</span>
 
-        <label htmlFor="disabilityType">Beperking type:</label>
-        <input type="text" name="disabilityType" value={researchData.disabilityType} onChange={handleChange} placeholder='Vul hier de gewenste beperking voor het onderzoek in'/>
-        <span className={styles.error}>{errors.disabilityType}</span>
+        <label htmlFor="Beschrijving">Beschrijving van het onderzoek:</label>
+        <textarea name="Beschrijving" value={researchData.Beschrijving} onChange={handleChange} placeholder='Vul hier de beschrijving van het onderzoek in'></textarea>
+        <span className={styles.error}>{errors.Beschrijving}</span>
+
+        <label htmlFor="Datum">Datum van het onderzoek:</label>
+        <input type="text" name="Datum" value={researchData.Datum} onChange={handleChange} placeholder='Vul hier de datum van het onderzoek in'/>
+        <span className={styles.error}>{errors.Datum}</span>
+
+        <label htmlFor="Locatie">Locatie:</label>
+        <input type="text" name="Locatie" value={researchData.Locatie} onChange={handleChange} placeholder='Vul hier de locatie van het onderzoek in'/>
+        <span className={styles.error}>{errors.Locatie}</span>
+
+        <label htmlFor="Status">Status:</label>
+        <input type="text" name="Status" value={researchData.Status} onChange={handleChange} placeholder='Vul hier de status van het onderzoek in'/>
+        <span className={styles.error}>{errors.Status}</span>
 
         <div className={styles['button-container']}>
           <button onClick={handleSubmit}>Onderzoek toevoegen</button>
