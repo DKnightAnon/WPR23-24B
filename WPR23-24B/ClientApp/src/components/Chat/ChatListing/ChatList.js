@@ -14,7 +14,8 @@ import AuthUtils from '../../../Services/Authentication/AuthUtils';
 export default function ChatList(props) {
 
 
-
+    const encodedToken = AuthUtils.getToken();
+    const decodedToken = AuthUtils.decodeToken(encodedToken)
     /*----------------------------------------- MAP DATA TO LISTGROUP.ITEM---------------------------------*/
 
     const MappedList = (argument) =>
@@ -29,7 +30,7 @@ export default function ChatList(props) {
 
 
 
-    const url = process.env.REACT_APP_API_BASE_URL + "ChatRooms";
+    const url = ` ${process.env.REACT_APP_API_BASE_URL}ChatRooms/gebruiker/${decodedToken.Id}`;
 
     const [conversationList, setConversationList] = useState([]);
 
@@ -63,7 +64,7 @@ export default function ChatList(props) {
     //const conversationContent = useSelector((state) => state.conversationContent.content)
 
     const dispatch = useDispatch();
-    const encodedToken = AuthUtils.getToken();
+    
     const urlBase = process.env.REACT_APP_API_BASE_URL + "ChatRooms/berichten/";
  
     const bearerToken = ""

@@ -34,15 +34,37 @@ namespace WPR23_24B.Controllers
             if (_context.ChatRoom == null)
             {
                 return NotFound();
-            }
-           
-
-            
+            }                   
             // Om networklatency na te bootsen
             //await Task.Delay(5000);
-            
-            
             return await _context.ChatRoom.ToListAsync();
+        }
+
+        [HttpGet("gebruiker/{id}")]
+        public async Task<ActionResult<IEnumerable<ChatRoom>>> GetChatRoomsForUserAtID(Guid id)
+        {
+            if (_context.ChatRoom == null)
+            {
+                return NotFound();
+            }
+
+            var chatRoomConnections = 
+                await _context.ChatRoomConnections
+                .Include(connection => connection.ChatRoom)
+                //.Include(room => room.Gebruiker)
+                .ToListAsync();
+
+            var chatrooms = 
+                chatRoomConnections
+                .Where( connection => connection.GebruikerId == id.ToString())
+                .Select( room => room.ChatRoom)
+                .ToList();
+
+
+
+            return Ok(chatrooms);
+
+
         }
 
         // GET: api/ChatRooms/5
@@ -66,22 +88,18 @@ namespace WPR23_24B.Controllers
         [Authorize(Roles = "Bedrijf,Ervaringsdeskundige")]
         [HttpGet("berichten/{id}")]
         public async Task<ActionResult<IEnumerable<ChatBerichtDTO>>> GetChatRoomMessages(Guid id)
-            {
+        {
             if (_context.ChatRoom == null)
-            {
-                return NotFound();
-            }
+            { return NotFound(); }
             var chatRoom = await _context.ChatRoom.FindAsync(id);
 
             if (chatRoom == null)
-            {
-                return NotFound();
-            }
+            { return NotFound(); }
 
 
 
             //Retrieve messages as list
-            var MessageList = await 
+            var MessageList = await
                 _context.ChatBericht
                 .Include(bericht => bericht.verzender)
                 .Where(bericht => bericht.room.Id == id)
@@ -90,16 +108,11 @@ namespace WPR23_24B.Controllers
             //Convert message properties to DTO's to prevent exposing data
             var ConvertededMessageList = new List<ChatBerichtDTO>();
             foreach (var message in MessageList)
-            {
-                //Custom extension method for ChatBericht.
+            {   //Custom extension method for ChatBericht.
                 ConvertededMessageList.Add(message.ChildrenToDTO());
             }
 
-
-
             return ConvertededMessageList;
-
-            //return await _context.ChatBericht.Where(berichten => berichten.Id == id).ToListAsync();
 
         }
 
@@ -110,26 +123,18 @@ namespace WPR23_24B.Controllers
         public async Task<IActionResult> PutChatRoom(Guid id, ChatRoom chatRoom)
         {
             if (id != chatRoom.Id)
-            {
-                return BadRequest();
-            }
+            { return BadRequest(); }
 
             _context.Entry(chatRoom).State = EntityState.Modified;
 
             try
-            {
-                await _context.SaveChangesAsync();
-            }
+            { await _context.SaveChangesAsync(); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ChatRoomExists(id))
-                {
-                    return NotFound();
-                }
+                { return NotFound(); }
                 else
-                {
-                    throw;
-                }
+                { throw; }
             }
 
             return NoContent();
