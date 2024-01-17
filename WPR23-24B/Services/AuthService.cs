@@ -76,6 +76,9 @@ namespace WPR23_24B.Services
 
             var claims = new List<Claim>
             {
+                //These two claims caused the AuthServiceTest.GenerateJwtToken_ReturnsValidToken() to fail. Added extra values to the mock user.
+                new Claim("Id", user.Id),
+                new Claim("UserName", user.UserName),
                 new Claim(ClaimTypes.Email, user!.Email!),
                 new Claim(ClaimTypes.Role, await _rolService.GetUserRole(user)),
 
@@ -95,6 +98,33 @@ namespace WPR23_24B.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<RefreshResult> RefreshTokenAsync(string refreshToken)
+        {
+            // var storedToken = await _dbContext.RefreshTokens
+            //     .SingleOrDefaultAsync(t => t.Token == refreshToken);
+
+            // if (storedToken == null || storedToken.Expired)
+            // {
+            //     return new RefreshResult { Success = false };
+            // }
+
+            // // Generate a new access token
+            // var email = _userManager.GetUserId(storedToken.UserId);
+            // var newAccessToken = await GenerateJwtToken(email);
+
+            // // Update the expiration of the refresh token
+            // storedToken.Expires = DateTime.UtcNow.AddMonths(1); // Refresh token expiration
+
+            // // Save changes to the database
+            // await _dbContext.SaveChangesAsync();
+
+            return new RefreshResult
+            {
+                Success = true,
+                // Token = newAccessToken
+            };
         }
     }
 }
