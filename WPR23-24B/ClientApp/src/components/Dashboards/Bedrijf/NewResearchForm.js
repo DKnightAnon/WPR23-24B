@@ -57,7 +57,9 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
   const handleSubmit = () => {
     if (validateForm()) {
       // Form is valid, add the new research
-      addNewResearch(researchData);
+      const researchJSON = JSON.stringify(researchData);
+      console.log('JSON Data: ', researchJSON)// log naar de console
+      addNewResearch(researchJSON);
       closeModal();
     }
   };
