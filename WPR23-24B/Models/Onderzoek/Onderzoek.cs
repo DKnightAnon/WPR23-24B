@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using WPR23_24B.Models.Authenticatie;
 
 namespace WPR23_24B.Models.Onderzoek
@@ -7,6 +8,7 @@ namespace WPR23_24B.Models.Onderzoek
     public class Onderzoek
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Een titel moet ingevuld worden.")]
