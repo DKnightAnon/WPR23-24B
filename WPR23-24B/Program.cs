@@ -2,13 +2,16 @@
 using WPR23_24B.Chat.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WPR23_24B.Controllers;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 
@@ -52,7 +55,30 @@ builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>().Datab
 builder.Services.AddIdentity<Gebruiker, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddAuthentication();
+
+builder.Services.AddAuthentication(opt =>
+    {
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(opt => opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value,
+        ValidAudience = builder.Configuration.GetSection("Jwt").GetSection("Audience").Value,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(
+                builder.Configuration
+                .GetSection("Jwt")
+                .GetSection("Key")
+                .Value
+                ))
+    }
+);
+
+
 
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
@@ -85,7 +111,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()
-            
+
             ;
     });
 });
@@ -117,7 +143,7 @@ if (!app.Environment.IsDevelopment())
     //app.UseHsts();
 
 
-    
+
 
 }
 
