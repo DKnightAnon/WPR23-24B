@@ -137,10 +137,18 @@ namespace WPR.Tests.AuthenticatieTests
                 roleManagerMock.Object,
                 rolServiceMock.Object);
 
-            var userEmail = "test@example.com";
+            string userEmail = "test@example.com";
 
             // Set up FindByEmailAsync method
-            userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(new Gebruiker { Email = userEmail });
+            userManagerMock.
+                Setup(um => um.FindByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new Gebruiker 
+                { 
+                    Email = userEmail, 
+                    UserName = "username",
+                    Id = Guid.NewGuid().ToString(),
+                
+                });
 
             // Set up GetUserRole method
             rolServiceMock.Setup(service => service.GetUserRole(It.IsAny<Gebruiker>())).ReturnsAsync("UserRole");
@@ -151,7 +159,8 @@ namespace WPR.Tests.AuthenticatieTests
             configurationMock.SetupGet(c => c["Jwt:Audience"]).Returns("myAudience");
 
             // Act
-            var token = await authService.GenerateJwtToken(userEmail);
+            var token = await authService.GenerateJwtToken("test@example.com");
+            Console.WriteLine($"token value = {token}");
 
             // Assert
             // Token decoding can be verified if needed
