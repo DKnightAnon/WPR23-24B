@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './NewResearchForm.module.css';
+import { makeApiRequest } from '../../../Services/Utils/ApiHelper';
 
 const NewResearchForm = ({ addNewResearch, closeModal }) => {
   const [researchData, setResearchData] = useState({
@@ -73,13 +74,27 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
     return isValid;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-      // Form is valid, add the new research
-      const researchJSON = JSON.stringify(researchData);
-      console.log('JSON Data: ', researchJSON)// log naar de console
-      addNewResearch(researchJSON);
-      closeModal();
+      try {
+        // Make API request to add new research
+        const endpoint = "Onderzoeks/addNewItem";
+        const method = "POST";
+        const response = await makeApiRequest(endpoint, method, researchData);
+    
+        // Check if the response is successful (status code 2xx)
+        if (response.ok) {
+          console.log('JSON Data: ', researchData);
+    
+          // Add new research locally
+          addNewResearch(researchData);
+          closeModal();
+        } else {
+          console.error('Error submitting research. Server returned:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error submitting research:', error);
+      }
     }
   };
 
@@ -91,10 +106,6 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
     <div className={styles.modal}>
       <div className={styles['modal-content']}>
         <h2>Nieuw onderzoek aanmaken:</h2>
-
-        <label htmlFor="Id">Onderzoeks ID:</label>
-        <input type="text" name="Id" value={researchData.Id} onChange={handleChange} placeholder='Vul hier id van het onderzoek in'/>
-        <span className={styles.error}>{errors.Id}</span>
 
         <label htmlFor="Titel">Titel:</label>
         <input type="text" name="Titel" value={researchData.Titel} onChange={handleChange} placeholder='Vul hier de titel in'/>

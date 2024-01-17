@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Data;
@@ -17,11 +12,13 @@ namespace WPR23_24B.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _manager;
+        private readonly ILogger<OnderzoeksController> _logger;
 
-        public OnderzoeksController(ApplicationDbContext context, UserManager<IdentityUser> manager)
+        public OnderzoeksController(ApplicationDbContext context, UserManager<IdentityUser> manager, ILogger<OnderzoeksController> logger)
         {
             _context = context;
             _manager = manager;
+            _logger = logger;
         }
 
         // GET-Methode om alle onderzoeken op te halen
@@ -94,24 +91,36 @@ namespace WPR23_24B.Controllers
             return NoContent();
         }
 
-        // Methode om een nieuw onderzoek toe te voegen
+        [Route("addNewItem")]
         [HttpPost]
         public async Task<ActionResult<Onderzoek>> PostNieuwOnderzoek(Onderzoek onderzoek)
         {
-            // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoeken == null)
+            try
             {
-                return Problem("Entity set 'OnderzoekContext.Onderzoek' is null.");
+                // Log the received data using ILogger
+                _logger.LogInformation($"Received new research data: {Newtonsoft.Json.JsonConvert.SerializeObject(onderzoek)}");
+
+                // Controleer of de Onderzoek entiteit niet null is
+                if (_context.Onderzoeken == null)
+                {
+                    return Problem("Entity set 'OnderzoekContext.Onderzoek' is null.");
+                }
+
+                // Voeg het nieuwe Onderzoek object toe aan de entiteitset
+                _context.Onderzoeken.Add(onderzoek);
+
+                // Sla wijzigingen op in de database
+                await _context.SaveChangesAsync();
+
+                // Retourneer het aangemaakte Onderzoek object met een 201 Created status
+                return CreatedAtAction("GetOnderzoek", new { id = onderzoek.Id }, onderzoek);
             }
-
-            // Voeg het nieuwe Onderzoek object toe aan de entiteitset
-            _context.Onderzoeken.Add(onderzoek);
-
-            // Sla wijzigingen op in de database
-            await _context.SaveChangesAsync();
-
-            // Retourneer het aangemaakte Onderzoek object met een 201 Created status
-            return CreatedAtAction("GetOnderzoek", new { id = onderzoek.Id }, onderzoek);
+            catch (Exception ex)
+            {
+                // Log the exception using ILogger
+                _logger.LogError($"Error adding new research: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         // DELETE-methode om een onderzoek te verwijderen aan de hand van het Id

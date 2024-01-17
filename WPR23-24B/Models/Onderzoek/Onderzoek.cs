@@ -16,7 +16,7 @@ namespace WPR23_24B.Models.Onderzoek
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Een datum moet ingevuld worden.")]
-        public DateTime Datum { get; set; }
+        public string Datum { get; set; }
 
         [Required(ErrorMessage = "Een locatie moet ingevuld worden.")]
         public string Locatie { get; set; }
