@@ -11,7 +11,7 @@ namespace WPR23_24B.Services
     {
         Task<bool> SignInAsync(SignInDTO model);
         Task<string> GenerateJwtToken(string email);
-        Task<string> GenerateRefreshToken(Gebruiker user);
+        // Task<string> GenerateRefreshToken(Gebruiker user);
         Task<RefreshResult> RefreshTokenAsync(string refreshToken);
     }
 }
