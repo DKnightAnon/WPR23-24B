@@ -126,5 +126,15 @@ namespace WPR23_24B.Services
                 // Token = newAccessToken
             };
         }
+
+        public async Task<string> GenerateRefreshToken(Gebruiker user)
+        {
+            // TODO:
+            // Implement the logic to generate a refresh token here
+            var refreshToken = Guid.NewGuid().ToString();
+
+            return refreshToken;
+
+        }
     }
 }
