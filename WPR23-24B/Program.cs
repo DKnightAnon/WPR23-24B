@@ -9,6 +9,9 @@ using WPR23_24B.Controllers;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 
@@ -17,7 +20,7 @@ using WPR23_24B.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+var JWT_URL = "";
 // Services for registration and authentication purposes
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
@@ -27,6 +30,7 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production"
             builder.Configuration.GetConnectionString("AzureDB") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
+        JWT_URL = Environment.GetEnvironmentVariable("APP_JWT_URL");
 }
 else
 {
@@ -35,6 +39,7 @@ else
             builder.Configuration.GetConnectionString("SQLSERVER") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
+    JWT_URL = builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value;
 }
 
 
@@ -52,7 +57,29 @@ builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>().Datab
 builder.Services.AddIdentity<Gebruiker, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddAuthentication();
+
+builder.Services.AddAuthentication(opt =>
+    {
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(opt => opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer =   JWT_URL,
+        ValidAudience = JWT_URL,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(
+                builder.Configuration
+                .GetSection("Jwt")
+                .GetSection("Key")
+                .Value
+                ))
+    }
+) ;
+
 
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();

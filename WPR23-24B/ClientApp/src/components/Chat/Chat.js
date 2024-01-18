@@ -33,6 +33,8 @@ import Stack from 'react-bootstrap/Stack';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
+import AuthService from '../../Services/Authentication/AuthUtils'
+
 export default function Chat() {
     const [connection, setConnection] = useState(null);
     const [chat, setChat] = useState([]);
@@ -51,8 +53,10 @@ export default function Chat() {
     const handleClose = () => setShow(false);
     const handleShow = () => { setShow(true); console.log('LAUNCH BUTTON CLICKED')}
 
+    const token = AuthService.decodeToken(AuthService.getToken());
+    const role = token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-
+    
 
 
     latestChat.current = chat;
@@ -221,7 +225,7 @@ export default function Chat() {
                     <Offcanvas.Body>
 
                         <Stack gap={2}>
-                            <ChatConstructionButton />
+                                {role =="Ervaringsdeskundige" ? <ChatConstructionButton /> : <></>}
                             <>
                                 <ChatList />
                             </>
