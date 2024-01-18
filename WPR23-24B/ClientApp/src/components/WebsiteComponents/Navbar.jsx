@@ -147,6 +147,15 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     <li>
+                    <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/news"
+                        >
+                            News
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink
                             className="navbar-link"
                             onClick={() => setOpenMenu(false)}
@@ -164,15 +173,7 @@ const Navbar = () => {
                             Chat
                         </NavLink>
                     </li>
-                    <li>
-                    <NavLink
-                            className="navbar-link"
-                            onClick={() => setOpenMenu(false)}
-                            to="/news"
-                        >
-                            News
-                        </NavLink>
-                    </li>
+                    
                     <li>
                         <NavLink
                             className="navbar-link"
@@ -180,6 +181,16 @@ const Navbar = () => {
                             to="/login"
                         >
                             Inloggen
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/BeheerHome"
+                        >
+                            Beheer
                         </NavLink>
                     </li>
                     
