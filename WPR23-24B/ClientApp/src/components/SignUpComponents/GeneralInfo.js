@@ -7,22 +7,16 @@ import { validateGeneralInfo } from "./SignUpValidation";
 const GeneralInfo = ({ onNext, values, handleChange }) => {
   const [validationErrors, setValidationErrors] = useState({}); // Add state for validation errors
 
-  const handleDateChange = (date) => {
-    setStartDate(date);
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;  // Renamed the variable to selectedDate
     handleChange({
       target: {
         name: "Geboortedatum",
-        value: date,
+        value: selectedDate,
       },
     });
   };
 
-  // const formatDate = (date) => {
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
-  //   return `${day}/${month}/${year}`;
-  // };
 
   const handleRadioChange = (e) => {
     handleChange({
@@ -285,19 +279,21 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
           <label style={styles.label} htmlFor="Geboortedatum picker">
             Geboortedatum:
             <div style={styles.label}>
-              <DatePicker
-                name="Geboortedatum"
-                selected={startDate}
-                onChange={handleDateChange}
-                dateFormat="dd/MM/yyyy"
-                isClearable
-                placeholderText="Selecteer een datum"
-                style={styles.label}
-                aria-invalid={!!validationErrors.Geboortedatum}
-                aria-describedby="geboortedatumError"
-              />
+          <input
+            placeholder="Vul hier uw geboortedatum in"
+            type="text"  // Change the type to "text"
+            name="Geboortedatum"
+            value={values.Geboortedatum}
+            onChange={handleDateChange}
+            style={styles.input}
+            aria-invalid={!!validationErrors.Geboortedatum}
+            aria-describedby="geboortedatumError"
+            onClick={(e) => {
+              e.target.type = 'date';
+            }}
+          />
             </div>
-            {/* {validationErrors.Geboortedatum && (
+            {validationErrors.Geboortedatum && (
               <p
                 style={{
                   color: "red",
@@ -310,7 +306,7 @@ const GeneralInfo = ({ onNext, values, handleChange }) => {
               >
                 {validationErrors.Geboortedatum}
               </p>
-            )} */}
+            )}
           </label>
           <label style={styles.label} htmlFor="Telefoonnummer">
             Telefoonnummer:
