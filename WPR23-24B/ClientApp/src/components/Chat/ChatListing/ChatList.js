@@ -7,11 +7,15 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { useSelector, useDispatch } from 'react-redux'
 import { clearChat, addConversationContent, printTest } from '../../../store/slices/chatSlice'
 import { setCurrentRoom } from '../../../store/slices/chatroomSlice'
-//Component to represent the list of conversations a user has. 
+//Component to represent the list of conversations a user has.
+
+import AuthUtils from '../../../Services/Authentication/AuthUtils';
+
 export default function ChatList(props) {
 
 
-
+    const encodedToken = AuthUtils.getToken();
+    const decodedToken = AuthUtils.decodeToken(encodedToken)
     /*----------------------------------------- MAP DATA TO LISTGROUP.ITEM---------------------------------*/
 
     const MappedList = (argument) =>
@@ -22,10 +26,11 @@ export default function ChatList(props) {
 
         )
 
+    
 
 
 
-    const url = process.env.REACT_APP_API_BASE_URL + "ChatRooms";
+    const url = ` ${process.env.REACT_APP_API_BASE_URL}ChatRooms/gebruiker/${decodedToken.Id}`;
 
     const [conversationList, setConversationList] = useState([]);
 
@@ -59,22 +64,46 @@ export default function ChatList(props) {
     //const conversationContent = useSelector((state) => state.conversationContent.content)
 
     const dispatch = useDispatch();
-
+    
     const urlBase = process.env.REACT_APP_API_BASE_URL + "ChatRooms/berichten/";
-
+ 
+    const bearerToken = ""
 
     async function fetchListingInfo(prop) {
-        fetch(`${urlBase}${prop.id}`)
-            .then((result) => result.json())
-            .then(
-                (data) => {
-                    //console.log(data)
-                    setConversationContent(data)
-                    //console.log(conversationList)
+        try {
+            const response =  await fetch(`${urlBase}${prop.id}`,
+                {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${encodedToken}`
+                    }
+                })
+                //.then((result) => result.json())
+                //.then(
+                //    (data) => {
+                //        //console.log(data)
+                //        setConversationContent(data)
+                //        //console.log(conversationList)
 
-                }
-            )
-        // console.log(conversationList)
+                //    }
+                //)
+            // console.log(conversationList)
+            console.log(response.status)
+            if (!response.ok) {
+                throw new Error(`${response.status} ${response.statusText}`);
+                
+            }
+            const data = await response.json();
+            
+            console.log(data)
+             setConversationContent(data);
+        } catch (error)
+        {
+            console.log(error)
+        }
     };
 
 

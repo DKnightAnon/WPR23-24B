@@ -49,6 +49,8 @@
 
   <ItemGroup>
 
+    <Folder Include="ClientApp\cypress\e2e\" />
+
     <Folder Include="ClientApp\src\components\Chat\ChatInput\" />
 
     <Folder Include="Migrations\" />

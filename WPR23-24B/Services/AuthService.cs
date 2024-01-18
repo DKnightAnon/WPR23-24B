@@ -76,7 +76,8 @@ namespace WPR23_24B.Services
 
             var claims = new List<Claim>
             {
-                //These two claims caused the AuthServiceTest.GenerateJwtToken_ReturnsValidToken() to fail. Added extra values to the mock user.
+                //These two claims caused the AuthServiceTest.GenerateJwtToken_ReturnsValidToken() to fail. 
+                //Added extra values to the mock user. Tests now pass.
                 new Claim("Id", user.Id),
                 new Claim("UserName", user.UserName),
                 new Claim(ClaimTypes.Email, user!.Email!),

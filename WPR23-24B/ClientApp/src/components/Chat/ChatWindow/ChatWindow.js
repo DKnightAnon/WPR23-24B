@@ -7,9 +7,9 @@ import Message from './Message/Message';
 export default function ChatWindow(props) {
 
     const chatWindowContent = useSelector( (state) => state.chatcontent.content);
-
+    const [isEmpty, setIsEmpty] = useState(true);
    
-
+    
     //const chat = chatWindowContent
     //    .map(m => <Message
     //        key={m.timestamp}
@@ -32,9 +32,21 @@ export default function ChatWindow(props) {
 
 
 
-     useEffect(() => {
+    useEffect(() => {
+         console.group("ChatWindow useEffect() methode")
          console.log('useEffect in ChatWindow.js was triggered by a change in chatWindowContent(state.chatcontent.content)')
-         console.log('chatWindowContent : '); console.log(chatWindowContent)
+         console.log('chatWindowContent : ');
+        console.log(chatWindowContent);
+        console.groupEnd();
+
+         if (chatWindowContent.length === 0) {
+             setIsEmpty(true)
+             console.log( "ChatWindow Content is leeg!")
+         } else {
+             setIsEmpty(false)
+             console.log("ChatWindow Content heeft berichten!")
+         }
+
 
     }, [chatWindowContent]
     )
@@ -48,7 +60,7 @@ export default function ChatWindow(props) {
             {/*{chat}*/}
 
 
-            {chatUnorderedList}
+            {isEmpty ? <Message user="System" message="Deze chatgroep heeft nog geen berichten!" timestamp={new Date() } />  : chatUnorderedList}
 
         </div>
     )

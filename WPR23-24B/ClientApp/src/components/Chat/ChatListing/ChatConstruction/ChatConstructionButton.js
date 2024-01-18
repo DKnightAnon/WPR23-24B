@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearChat, addConversationContent, printTest } from '../../../../store/slices/chatSlice';
 import { setCurrentRoom } from '../../../../store/slices/chatroomSlice';
 
+import AuthUtils from '../../../../Services/Authentication/AuthUtils';
 
 export default function ChatConstructionButton() 
 {
@@ -45,16 +46,21 @@ export default function ChatConstructionButton()
 
         setValidated(true);
 
-        console.log('ModalForm Submitted : ' + gesprektitel + '|' + bedrijf);
+        console.group('ModalForm Submitted')
+        console.log(`RoomName : ${gesprektitel}`)
+        console.log(`Bedrijf : ${bedrijf}`);
+        console.log(newConversationDetails)
+        console.groupEnd();
+        
         PostNewRoom();
         handleClose();
     }
 
-
+    const token = AuthUtils.decodeToken(AuthUtils.getToken());
     const newConversationDetails =
     {
         RoomName: gesprektitel,
-        Ervaringsdeskundige: { Id:'11185a46-ae89-4003-87d0-7461c8901cd6', UserName:'TestgebruikerVoornaam'},
+        Ervaringsdeskundige: { Id: token.Id, UserName: token.UserName },
         Bedrijf: { Id: bedrijf, UserName:'' }
     }
 

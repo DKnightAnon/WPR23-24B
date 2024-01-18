@@ -9,6 +9,7 @@ using WPR23_24B.Controllers;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Services;
+
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,9 +19,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-
+var JWT_URL = "";
 // Services for registration and authentication purposes
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
@@ -30,6 +32,7 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production"
             builder.Configuration.GetConnectionString("AzureDB") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
+        JWT_URL = Environment.GetEnvironmentVariable("APP_JWT_URL");
 }
 else
 {
@@ -38,6 +41,7 @@ else
             builder.Configuration.GetConnectionString("SQLSERVER") ?? throw new InvalidOperationException("Connection string was nout found.")
             )
         );
+    JWT_URL = builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value;
 }
 
 
@@ -66,8 +70,10 @@ builder.Services.AddAuthentication(opt =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value,
-        ValidAudience = builder.Configuration.GetSection("Jwt").GetSection("Audience").Value,
+
+        ValidIssuer =   JWT_URL,
+        ValidAudience = JWT_URL,
+
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(
                 builder.Configuration
@@ -76,6 +82,7 @@ builder.Services.AddAuthentication(opt =>
                 .Value
                 ))
     }
+
 );
 
 

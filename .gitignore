@@ -13,7 +13,6 @@
 WPR.Tests/bin
 WPR.Tests/obj
 
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -365,4 +364,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/WPR.Tests/WPR.Tests.csproj

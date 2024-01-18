@@ -53,7 +53,7 @@ function News() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const apiKey = '4e310e0c4dad46f2bf7a464bc2cda45d';
+                const apiKey = '14638f8e4ca14306bc9571ac51ab78c8';
                 const apiUrl = 'https://newsapi.org/v2/top-headlines';
 
                 const response = await axios.get(apiUrl, {
