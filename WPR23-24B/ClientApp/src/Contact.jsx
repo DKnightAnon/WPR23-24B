@@ -7,6 +7,7 @@ const Contact = () => {
       <h2 className="common-heading">Contact</h2>
 
       <iframe
+        title="Google Maps"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2450.4074833287327!2d5.118581777101099!3d52.108714266597964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c66f3b97fb2a95%3A0x30cf938aa1cf68a9!2sChristiaan%20Krammlaan%202%2C%203571%20AX%20Utrecht!5e0!3m2!1snl!2snl!4v1704635434033!5m2!1snl!2snl"
         width="100%"
         height="450"
@@ -22,7 +23,7 @@ const Contact = () => {
             <input
               type="email"
               name="email"
-              placeholder="Email adres"
+              placeholder="Voer hier uw emailadres in"
               autoComplete="off"
               required
             />
@@ -33,10 +34,10 @@ const Contact = () => {
               rows="6"
               autoComplete="off"
               required
-              placeholder="Beschrijving"
+              placeholder="Vul hier uw bericht in"
             ></textarea>
 
-            <input type="submit" value="Versturen" alt="Verstuur" />
+            <input type="submit" value="Versturen" alt="Verstuur Bericht" />
           </form>
         </div>
       </div>

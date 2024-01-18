@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ReactDOM from "react-dom";
 import "./custom.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./GlobalStyle";
@@ -19,12 +20,14 @@ import SignInForm from "./components/SignInComponents/SignInForm";
 import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
+
 import BeheerHome from './components/Beheer/BeheerHome';
+
+
+// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 
 import Chat from "./components/Chat/Chat";
 import './ChatStyling.css'
-
-
 import ErvaringsdeskundigePortal from "./components/Dashboards/ErvaringsdeskundigePortal";
 import PrivateRoute from "./Services/Autorisation/PrivateRoute";
 
@@ -64,6 +67,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
+        <Route path="*" element={<Error />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/beheer" element={<BeheerHome />} />
         <Route
