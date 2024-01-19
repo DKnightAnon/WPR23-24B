@@ -95,7 +95,7 @@ namespace WPR23_24B.Services
                 claims: claims,
                 // TODO: Make it configurable?
                 // expires: DateTime.Now.AddHours(Convert.ToDouble(_configuration["Jwt:ExpirationHours"])), 
-                expires: DateTime.Now.AddHours(2),
+                expires: DateTime.Now.AddMicroseconds(500),
                 signingCredentials: creds
             );
 

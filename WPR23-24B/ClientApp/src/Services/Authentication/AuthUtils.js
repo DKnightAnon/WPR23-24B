@@ -25,11 +25,22 @@ const AuthUtils = {
 
     tokenExpired: () => {
 
-        const token = AuthUtils.decodeToken(TokenStorage.getToken());
-        if ((token * 1000) < Date.now()) {
-            return true
-        }
-        return false
+        try {
+            const token = AuthUtils.decodeToken(TokenStorage.getToken());
+
+            if ((!token) || (token === null || undefined)) { return true }
+            else {
+
+                if ((token * 1000) < Date.now()) {
+                    return true
+                }
+            }
+            return false
+}
+        catch (error) {console.log(error) }
+
+
+
     }
 };
 

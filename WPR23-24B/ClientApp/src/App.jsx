@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 import "./custom.css";
@@ -25,6 +26,10 @@ import BeheerHome from './components/Beheer/BeheerHome';
 
 
 // import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
+
+
+import AuthService from './Services/Authentication/AuthService'
+import AuthUtils from './Services/Authentication/AuthUtils'
 
 import Chat from "./components/Chat/Chat";
 import './ChatStyling.css'
@@ -53,12 +58,32 @@ const App = () => {
     media: { mobile: "768px", tab: "998px" },
   };
 
+    //useEffect(
+
+    //    () => {
+    //        const interval = setInterval(
+    //            () => {
+    //                if (AuthUtils.tokenExpired()) {
+    //                    //AuthService.signOut()
+    //                    console.log("token expired")
+    //                }
+    //                console.log("intervaltest")
+    //            }, 5000);
+    //        return () => clearInterval(interval);
+    //    }, []
+        
+    //)
+        
+   
+
+    
 
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyle />
             <GoToTop />
             <Header />
+           
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
