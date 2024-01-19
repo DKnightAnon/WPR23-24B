@@ -82,7 +82,7 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
         console.log("API Response:", response);
 
         // Check if the response is successful (status code 2xx)
-        if (response.ok) {
+        if (validateForm) {
             // Add new research locally
             addNewResearch(researchData); // Assuming researchData is the data you want to add
 
