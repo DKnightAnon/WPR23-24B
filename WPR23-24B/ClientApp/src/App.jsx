@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 import "./custom.css";
@@ -27,6 +28,10 @@ import ResearchPage from "./components/Onderzoek/ResearchPage";
 import ResearchDetailPage from "./components/Onderzoek/ResearchDetailPage";
 // import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 
+
+import AuthService from './Services/Authentication/AuthService'
+import AuthUtils from './Services/Authentication/AuthUtils'
+
 import Chat from "./components/Chat/Chat";
 import "./ChatStyling.css";
 import PrivateRoute from "./Services/Autorisation/PrivateRoute";
@@ -53,39 +58,64 @@ const App = () => {
     media: { mobile: "768px", tab: "998px" },
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <GoToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/service" element={<Services />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<SignInComponent />} />
-        <Route path="/register" element={<SignupForm />} />
-        <Route path="*" element={<Error />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/beheer" element={<BeheerHome />} />
 
-        <Route path="/Onderzoeken" element={<ResearchPage />} />
-        <Route path="/research/:id" element={<ResearchDetailPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute
-              element={ErvaringsdeskundigePortal}
-              roles={["Admin", "Ervaringsdeskundige"]}
-            />
-          }
-        />
-        {/* Voeg hieronder extra privaterouting elementen toe voor andere rollen! */}
-      </Routes>
-      <Footer />
-    </ThemeProvider>
-  );
+
+    //useEffect(
+
+    //    () => {
+    //        const interval = setInterval(
+    //            () => {
+    //                if (AuthUtils.tokenExpired()) {
+    //                    //AuthService.signOut()
+    //                    console.log("token expired")
+    //                }
+    //                console.log("intervaltest")
+    //            }, 5000);
+    //        return () => clearInterval(interval);
+    //    }, []
+        
+    //)
+        
+   
+    return (
+        <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <GoToTop />
+            <Header />
+           
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/service" element={<Services />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<SignInComponent />} />
+                <Route path="/register" element={<SignupForm />} />
+                <Route path="/Onderzoeken" element={<ResearchPage />} />
+                <Route path="/research/:id" element={<ResearchDetailPage />} />
+                <Route path="*" element={<Error />} />
+                <Route
+                    path="/chat"
+                    element={
+                        <PrivateRoute
+                            element={Chat}
+                            roles={"Bedrijf, Ervaringsdeskundige"} />
+                    } />
+                <Route path="/beheer" element={<BeheerHome />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute
+                            element={ErvaringsdeskundigePortal}
+                            roles={["Admin", "Ervaringsdeskundige"]}
+                        />
+                    }
+                />
+                {/* Voeg hieronder extra privaterouting elementen toe voor andere rollen! */}
+            </Routes>
+            <Footer />
+        </ThemeProvider>
+    );
 };
 
 export default App;
