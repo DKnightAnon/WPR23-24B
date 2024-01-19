@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WPR23_24B.Data;
 
@@ -11,9 +12,11 @@ using WPR23_24B.Data;
 namespace WPR23_24B.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240119184737_UpdateDatabase2")]
+    partial class UpdateDatabase2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -364,12 +367,7 @@ namespace WPR23_24B.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("OnderzoekId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OnderzoekId");
 
                     b.ToTable("Beperkingen");
 
@@ -466,6 +464,21 @@ namespace WPR23_24B.Migrations
                     b.ToTable("Onderzoeken");
                 });
 
+            modelBuilder.Entity("WPR23_24B.Models.Onderzoek.OnderzoekBeperking", b =>
+                {
+                    b.Property<int>("OnderzoekId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BeperkingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OnderzoekId", "BeperkingId");
+
+                    b.HasIndex("BeperkingId");
+
+                    b.ToTable("OnderzoekBeperkingen");
+                });
+
             modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek_Resultaat", b =>
                 {
                     b.Property<int>("OnderzoekResultaatId")
@@ -481,6 +494,9 @@ namespace WPR23_24B.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("OnderzoekId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Resultaat")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -488,6 +504,8 @@ namespace WPR23_24B.Migrations
                     b.HasKey("OnderzoekResultaatId");
 
                     b.HasIndex("DeelnemerId");
+
+                    b.HasIndex("OnderzoekId");
 
                     b.ToTable("OnderzoekResultaten");
                 });
@@ -504,7 +522,12 @@ namespace WPR23_24B.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OnderzoekId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OnderzoekId");
 
                     b.ToTable("OnderzoekSoorten");
                 });
@@ -662,13 +685,6 @@ namespace WPR23_24B.Migrations
                         .HasForeignKey("HulpmiddelId");
                 });
 
-            modelBuilder.Entity("WPR23_24B.Models.Medisch.Beperking", b =>
-                {
-                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
-                        .WithMany("BenodigdeBeperkingen")
-                        .HasForeignKey("OnderzoekId");
-                });
-
             modelBuilder.Entity("WPR23_24B.Models.Medisch.ErvaringsdeskundigeBeperking", b =>
                 {
                     b.HasOne("WPR23_24B.Models.Medisch.Beperking", "Beperking")
@@ -695,6 +711,25 @@ namespace WPR23_24B.Migrations
                         .HasForeignKey("ErvaringsdeskundigeId");
                 });
 
+            modelBuilder.Entity("WPR23_24B.Models.Onderzoek.OnderzoekBeperking", b =>
+                {
+                    b.HasOne("WPR23_24B.Models.Medisch.Beperking", "Beperking")
+                        .WithMany()
+                        .HasForeignKey("BeperkingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", "Onderzoek")
+                        .WithMany("OnderzoekBeperkingen")
+                        .HasForeignKey("OnderzoekId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Beperking");
+
+                    b.Navigation("Onderzoek");
+                });
+
             modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek_Resultaat", b =>
                 {
                     b.HasOne("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", "Deelnemer")
@@ -703,7 +738,18 @@ namespace WPR23_24B.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
+                        .WithMany("Resultaten")
+                        .HasForeignKey("OnderzoekId");
+
                     b.Navigation("Deelnemer");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek_Soort", b =>
+                {
+                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
+                        .WithMany("OnderzoekSoorten")
+                        .HasForeignKey("OnderzoekId");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Bedrijf", b =>
@@ -748,7 +794,11 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek", b =>
                 {
-                    b.Navigation("BenodigdeBeperkingen");
+                    b.Navigation("OnderzoekBeperkingen");
+
+                    b.Navigation("OnderzoekSoorten");
+
+                    b.Navigation("Resultaten");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Bedrijf", b =>

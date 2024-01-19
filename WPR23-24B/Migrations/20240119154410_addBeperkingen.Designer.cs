@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WPR23_24B.Data;
 
@@ -11,9 +12,11 @@ using WPR23_24B.Data;
 namespace WPR23_24B.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240119154410_addBeperkingen")]
+    partial class addBeperkingen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,6 +251,9 @@ namespace WPR23_24B.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BeperkingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -311,6 +317,8 @@ namespace WPR23_24B.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BeperkingId");
+
                     b.HasIndex("HulpmiddelId");
 
                     b.HasIndex("NormalizedEmail")
@@ -359,6 +367,9 @@ namespace WPR23_24B.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ErvaringsdeskundigeId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -369,41 +380,11 @@ namespace WPR23_24B.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ErvaringsdeskundigeId");
+
                     b.HasIndex("OnderzoekId");
 
                     b.ToTable("Beperkingen");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Fysiek"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Visueel"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Auditief"
-                        });
-                });
-
-            modelBuilder.Entity("WPR23_24B.Models.Medisch.ErvaringsdeskundigeBeperking", b =>
-                {
-                    b.Property<string>("ErvaringsdeskundigeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BeperkingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ErvaringsdeskundigeId", "BeperkingId");
-
-                    b.HasIndex("BeperkingId");
-
-                    b.ToTable("ErvaringsdeskundigeBeperkingen");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Hulpmiddel", b =>
@@ -481,6 +462,9 @@ namespace WPR23_24B.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("OnderzoekId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Resultaat")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -488,6 +472,8 @@ namespace WPR23_24B.Migrations
                     b.HasKey("OnderzoekResultaatId");
 
                     b.HasIndex("DeelnemerId");
+
+                    b.HasIndex("OnderzoekId");
 
                     b.ToTable("OnderzoekResultaten");
                 });
@@ -504,7 +490,12 @@ namespace WPR23_24B.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OnderzoekId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OnderzoekId");
 
                     b.ToTable("OnderzoekSoorten");
                 });
@@ -532,6 +523,12 @@ namespace WPR23_24B.Migrations
                 {
                     b.HasBaseType("WPR23_24B.Models.Authenticatie.Gebruiker");
 
+                    b.Property<string>("AndereBeperking")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AuditieveBeperkin")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("BenaderingCommercieel")
                         .HasColumnType("bit");
 
@@ -541,10 +538,16 @@ namespace WPR23_24B.Migrations
                     b.Property<bool>("BenaderingTelefonisch")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("FysiekeBeperking")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("GeboorteDatum")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsJongerDan18")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("VisueleBeperking")
                         .HasColumnType("bit");
 
                     b.Property<int?>("VoogdId")
@@ -657,6 +660,10 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Gebruiker", b =>
                 {
+                    b.HasOne("WPR23_24B.Models.Medisch.Beperking", null)
+                        .WithMany("GebruikerList")
+                        .HasForeignKey("BeperkingId");
+
                     b.HasOne("WPR23_24B.Models.Medisch.Hulpmiddel", null)
                         .WithMany("gebruikers")
                         .HasForeignKey("HulpmiddelId");
@@ -664,28 +671,13 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Beperking", b =>
                 {
+                    b.HasOne("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", null)
+                        .WithMany("Beperkingen")
+                        .HasForeignKey("ErvaringsdeskundigeId");
+
                     b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
-                        .WithMany("BenodigdeBeperkingen")
+                        .WithMany("Beperkingen")
                         .HasForeignKey("OnderzoekId");
-                });
-
-            modelBuilder.Entity("WPR23_24B.Models.Medisch.ErvaringsdeskundigeBeperking", b =>
-                {
-                    b.HasOne("WPR23_24B.Models.Medisch.Beperking", "Beperking")
-                        .WithMany("ErvaringsdeskundigeBeperkingen")
-                        .HasForeignKey("BeperkingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", "Ervaringsdeskundige")
-                        .WithMany("ErvaringsdeskundigeBeperkingen")
-                        .HasForeignKey("ErvaringsdeskundigeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Beperking");
-
-                    b.Navigation("Ervaringsdeskundige");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Hulpmiddel", b =>
@@ -703,7 +695,18 @@ namespace WPR23_24B.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
+                        .WithMany("Resultaten")
+                        .HasForeignKey("OnderzoekId");
+
                     b.Navigation("Deelnemer");
+                });
+
+            modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek_Soort", b =>
+                {
+                    b.HasOne("WPR23_24B.Models.Onderzoek.Onderzoek", null)
+                        .WithMany("OnderzoekSoorten")
+                        .HasForeignKey("OnderzoekId");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Bedrijf", b =>
@@ -738,7 +741,7 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Beperking", b =>
                 {
-                    b.Navigation("ErvaringsdeskundigeBeperkingen");
+                    b.Navigation("GebruikerList");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Medisch.Hulpmiddel", b =>
@@ -748,7 +751,11 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Onderzoek.Onderzoek", b =>
                 {
-                    b.Navigation("BenodigdeBeperkingen");
+                    b.Navigation("Beperkingen");
+
+                    b.Navigation("OnderzoekSoorten");
+
+                    b.Navigation("Resultaten");
                 });
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Bedrijf", b =>
@@ -758,7 +765,7 @@ namespace WPR23_24B.Migrations
 
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", b =>
                 {
-                    b.Navigation("ErvaringsdeskundigeBeperkingen");
+                    b.Navigation("Beperkingen");
 
                     b.Navigation("Hulpmiddelen");
                 });
