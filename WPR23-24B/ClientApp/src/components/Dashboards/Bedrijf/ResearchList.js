@@ -19,32 +19,34 @@ const ResearchList = ({ researches, deleteResearch }) => {
     setModalOpen(false);
   };
 
-  const handleDelete = async (id) => {
-    try{{
-      const endpoint = "Onderzoeks/${id}";
+  const handleDelete = async (Id) => {
+    try {
+      console.log("Deleting research with ID:", Id); // Log the ID being deleted
+
+      const endpoint = `Onderzoeks/${Id}`; // Fix the endpoint to include the correct ID
       const method = "DELETE";
       const response = await makeApiRequest(endpoint, method);
 
-      console.log("API Repsonse:", response)
-       // If the deletion is successful, update the state or perform any other necessary actions
-      deleteResearch(id)
-      
-    }} catch(error){
-      console.error("Error submitting research:", error);
-        console.log("API Response status:", error.response?.status);
-        console.log("API Response data:", error.response?.data);
+      console.log("API Response:", response);
+
+      // If the deletion is successful, update the state or perform any other necessary actions
+      deleteResearch(Id);
+    } catch (error) {
+      console.error("Error deleting research:", error);
+      console.log("API Response status:", error.response?.status);
+      console.log("API Response data:", error.response?.data);
     }
-  }
+  };
 
   return (
     <div className={styles['research-list']}>
       {researches.map((research, index) => (
-        <div key={research.id} className={styles['research-item']}>
+        <div key={research.Id} className={styles['research-item']}>
           <h3>{research.Titel}</h3>
           <button className={styles['details-button']} onClick={() => openModal(index)}>
             Bekijk Details
           </button>
-          <button className={styles['delete-button']} onClick={() => handleDelete(research.id)}>
+          <button className={styles['delete-button']} onClick={() => handleDelete(research.Id)}>
             Verwijder onderzoek
           </button>
         </div>
