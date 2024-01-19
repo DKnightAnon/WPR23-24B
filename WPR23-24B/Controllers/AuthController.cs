@@ -63,13 +63,13 @@ namespace WPR23_24B.Controllers
                     Token = token,
                     UserRole = userRole,
                     UserInfo = new
-                    {
-                        UserId = user.Id,
-                        UserName = user.UserName,
-                        Email = user.Email,
-                        Role = userRole, // You can include more user information as needed
-                                         // Include other properties from your user model
-                    }
+//                    {
+//                        UserId = user.Id,
+//                       UserName = user.UserName,
+//                        Email = user.Email,
+//                        Role = userRole, // You can include more user information as needed
+//                                         // Include other properties from your user model
+//                    }
                 });
             }
             else
