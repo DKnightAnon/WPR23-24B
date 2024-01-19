@@ -54,41 +54,42 @@ const App = () => {
   };
 
 
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <GoToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/service" element={<Services />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<SignInComponent />} />
-        <Route path="/register" element={<SignupForm />} />
-        <Route path="*" element={<Error />} />
-        <Route path="/chat"
-                  element={
-                      <PrivateRoute
-                          element={Chat}
-                          roles={"Bedrijf, Ervaringsdeskundige"} />
-                  } />
-        <Route path="/beheer" element={<BeheerHome />} />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute
-              element={ErvaringsdeskundigePortal}
-              roles={["Admin", "Ervaringsdeskundige"]}
-            />
-          }
-        />
-        {/* Voeg hieronder extra privaterouting elementen toe voor andere rollen! */}
-      </Routes>
-      <Footer />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <GoToTop />
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/service" element={<Services />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<SignInComponent />} />
+                <Route path="/register" element={<SignupForm />} />
+                <Route path="*" element={<Error />} />
+                <Route
+                    path="/chat"
+                    element={
+                        <PrivateRoute
+                            element={Chat}
+                            roles={"Bedrijf, Ervaringsdeskundige"} />
+                    } />
+                <Route path="/beheer" element={<BeheerHome />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute
+                            element={ErvaringsdeskundigePortal}
+                            roles={["Admin", "Ervaringsdeskundige"]}
+                        />
+                    }
+                />
+                {/* Voeg hieronder extra privaterouting elementen toe voor andere rollen! */}
+            </Routes>
+            <Footer />
+        </ThemeProvider>
+    );
 
 };
 

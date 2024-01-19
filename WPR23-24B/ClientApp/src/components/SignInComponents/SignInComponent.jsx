@@ -4,12 +4,20 @@ import saLogo from "./signinImages/stichting_accessibility.png";
 import AuthService from "../../Services/Authentication/AuthService";
 import { useNavigate } from "react-router-dom";
 import SignInMessages from "./SignInMessages";
+import { useSelector, useDispatch } from 'react-redux'
+import { setUserLoginStatus } from '../../store/slices/userSlice'
+
+
 
 const SignInComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInMessage, setSignInMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+    const userLoggedIn = useSelector((state) => state.userLoginStatus.userLoginStatus)
+
 
   const handleSignInClick = async () => {
     try {
@@ -18,10 +26,14 @@ const SignInComponent = () => {
         message: "U wordt ingelogd, even geduld aub...",
       });
       const response = await AuthService.signIn(email, password, navigate);
-
+dispatch(setUserLoginStatus(true));
       if (response && response.token) {
-        // Display a success message
-        setSignInMessage(response);
+          // Display a success message
+          
+          setSignInMessage(response);
+          
+          console.log(` Login status : ${userLoggedIn}`)
+
       }
     } catch (error) {
       // Display an error message
