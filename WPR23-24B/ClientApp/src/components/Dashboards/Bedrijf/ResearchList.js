@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import styles from './researchList.module.css';
 import NewResearchForm from './NewResearchForm';
+import { makeApiRequest } from '../../../Services/Utils/ApiHelper';
 
-const ResearchList = ({ researches, showDetails, deleteResearch }) => {
+const ResearchList = ({ researches, deleteResearch }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedResearch, setSelectedResearch] = useState(null);
 
@@ -18,10 +19,22 @@ const ResearchList = ({ researches, showDetails, deleteResearch }) => {
     setModalOpen(false);
   };
 
-  const handleDelete = (index) => {
-    // Call the deleteResearch function passed from App
-    deleteResearch(index);
-  };
+  const handleDelete = async (id) => {
+    try{{
+      const endpoint = "Onderzoeks/${id}";
+      const method = "DELETE";
+      const response = await makeApiRequest(endpoint, method);
+
+      console.log("API Repsonse:", response)
+       // If the deletion is successful, update the state or perform any other necessary actions
+      deleteResearch(id)
+      
+    }} catch(error){
+      console.error("Error submitting research:", error);
+        console.log("API Response status:", error.response?.status);
+        console.log("API Response data:", error.response?.data);
+    }
+  }
 
   return (
     <div className={styles['research-list']}>
@@ -31,7 +44,7 @@ const ResearchList = ({ researches, showDetails, deleteResearch }) => {
           <button className={styles['details-button']} onClick={() => openModal(index)}>
             Bekijk Details
           </button>
-          <button className={styles['delete-button']} onClick={() => handleDelete(index)}>
+          <button className={styles['delete-button']} onClick={() => handleDelete(research.id)}>
             Verwijder onderzoek
           </button>
         </div>
