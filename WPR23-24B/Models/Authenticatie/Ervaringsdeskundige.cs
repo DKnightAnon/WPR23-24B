@@ -17,12 +17,8 @@ namespace WPR23_24B.Models.Authenticatie
         public int? VoogdId { get; set; }
         public Voogd? Voogd { get; set; }
 
-        // Informatie betreffende zijn/haar beperkingen
-        public bool FysiekeBeperking { get; set; }
-        public bool AuditieveBeperkin { get; set; }
-        public bool VisueleBeperking { get; set; }
-        public string? AndereBeperking { get; set; }
-        public List<Beperking> beperkingen { get; set; }
-        public List<Hulpmiddel> hulpmiddellen { get; set; }
+        // Navigation properties for related entities
+        public List<ErvaringsdeskundigeBeperking> ErvaringsdeskundigeBeperkingen { get; set; }
+        public List<Hulpmiddel> Hulpmiddelen { get; set; }
     }
 }
