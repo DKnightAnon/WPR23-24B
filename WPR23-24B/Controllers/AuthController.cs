@@ -62,7 +62,7 @@ namespace WPR23_24B.Controllers
                     Message = "Login Successful",
                     Token = token,
                     UserRole = userRole,
-                    UserInfo = new
+                    //UserInfo = new
 //                    {
 //                        UserId = user.Id,
 //                       UserName = user.UserName,
