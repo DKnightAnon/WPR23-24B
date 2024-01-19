@@ -60,27 +60,27 @@ export default function ChatInput(props) {
             <Form onSubmit={onSubmit}>
                 <InputGroup>
                     <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="Typ een bericht..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" style={{ fontSize: "14px" }} />
-                    <Button variant="secondary" className="me-auto" onClick={() => {console.log(user) } } > Print user </Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => { console.log(token) }} >Test Decode JWT</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => {console.log(role) } } > Print UserRole</Button>
-                    <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }} >Submit</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => { console.log(encodedToken) }} >Encoded Token</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => {
-
-                        //this doesnt work yet
-                        fetch(url, {
-                            method: "GET",
-                            headers: { "Authorization" : `Bearer ${encodedToken}` }
-                        })
-                            .then(response => response.json())
-                            .then(data => console.log(data.stringify()))
-
-
-
-                    }}
-
-                    >
-                        Test Authorize Fetch </Button>
+                    //<Button variant="secondary" className="me-auto" onClick={() => {console.log(user) } } > Print user </Button>
+                  //  <Button variant="secondary" className="me-auto" onClick={() => { console.log(token) }} >Test Decode JWT</Button>
+                //    <Button variant="secondary" className="me-auto" onClick={() => {console.log(role) } } > Print UserRole</Button>
+                  <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }} >Submit</Button>
+   //                 <Button variant="secondary" className="me-auto" onClick={() => { console.log(encodedToken) }} >Encoded Token</Button>
+    //                <Button variant="secondary" className="me-auto" onClick={() => {
+//
+   //                     //this doesnt work yet
+   //                     fetch(url, {
+    //                        method: "GET",
+    //                        headers: { "Authorization" : `Bearer ${encodedToken}` }
+    //                    })
+    //                        .then(response => response.json())
+   //                         .then(data => console.log(data.stringify()))
+//
+//
+//
+  //                  }}
+//
+//                    >
+         //               Test Authorize Fetch </Button>
                 </InputGroup>
 
             </Form>
