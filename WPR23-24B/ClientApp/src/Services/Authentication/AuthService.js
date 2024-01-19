@@ -1,4 +1,5 @@
 // AuthService.js
+import TokenDecoder from "../Autorisation/TokenDecoder";
 import { makeApiRequest } from "../Utils/ApiHelper";
 import AuthUtils from "./AuthUtils";
 
@@ -92,7 +93,17 @@ const AuthService = {
     // console.log("User Authenticated:", isAuthenticated);
 
     return isAuthenticated;
-  },
+    },
+
+    isUserLoggedIn: () => {
+        const token = AuthUtils.getToken();
+
+        if ((token == null) || (AuthUtils.tokenExpired())  )
+        {
+            return false
+        }
+        return true
+    },
 
   // Get the user role from the decoded token
   getUserRole: () => {
