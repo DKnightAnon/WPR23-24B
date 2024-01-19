@@ -5,7 +5,7 @@ import "./custom.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./GlobalStyle";
 import GoToTop from "./components/WebsiteComponents/GoToTop";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Pages
 import About from "./About";
@@ -21,9 +21,10 @@ import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
 
-import BeheerHome from './components/Beheer/BeheerHome';
+import BeheerHome from "./components/Beheer/BeheerHome";
 
-
+import ResearchPage from "./components/Onderzoek/ResearchPage";
+import ResearchDetailPage from "./components/Onderzoek/ResearchDetailPage";
 // import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 
 import Chat from "./components/Chat/Chat";
@@ -68,6 +69,9 @@ const App = () => {
         <Route path="*" element={<Error />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/beheer" element={<BeheerHome />} />
+
+        <Route path="/Onderzoeken" element={<ResearchPage />} />
+        <Route path="/research/:id" element={<ResearchDetailPage />} />
         <Route
           path="/dashboard"
           element={
