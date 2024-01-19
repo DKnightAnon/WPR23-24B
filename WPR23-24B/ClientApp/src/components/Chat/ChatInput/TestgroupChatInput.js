@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-import AuthService from '../../../Services/Authentication/AuthUtils'
+import AuthUtils from '../../../Services/Authentication/AuthUtils'
 
 
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -15,8 +15,8 @@ import Stack from 'react-bootstrap/Stack';
 //props are a catch-all for passed in paramteres. Think of it as a list. You can call props.[paramater] to retrieve something.
 export default function ChatInput(props) {
 
-    const encodedToken = AuthService.getToken();
-    const token = AuthService.decodeToken(encodedToken);
+    const encodedToken = AuthUtils.getToken();
+    const token = AuthUtils.decodeToken(encodedToken);
     const role = token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const [user, setUser] = useState(
         {
@@ -81,6 +81,7 @@ export default function ChatInput(props) {
 
                     >
                         Test Authorize Fetch </Button>
+                    <Button variant="secondary" className="me-auto" onClick={() => { console.log(AuthUtils.tokenExpired()) }} >Print JWT expired</Button>
                 </InputGroup>
 
             </Form>

@@ -68,7 +68,12 @@ const App = () => {
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
         <Route path="*" element={<Error />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat"
+                  element={
+                      <PrivateRoute
+                          element={Chat}
+                          roles={"Bedrijf, Ervaringsdeskundige"} />
+                  } />
         <Route path="/beheer" element={<BeheerHome />} />
         <Route
           path="/dashboard"
