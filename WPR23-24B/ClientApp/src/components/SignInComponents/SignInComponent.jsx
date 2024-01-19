@@ -26,7 +26,7 @@ const SignInComponent = () => {
         message: "U wordt ingelogd, even geduld aub...",
       });
       const response = await AuthService.signIn(email, password, navigate);
-dispatch(setUserLoginStatus(true));
+        dispatch(setUserLoginStatus(true));
       if (response && response.token) {
           // Display a success message
           

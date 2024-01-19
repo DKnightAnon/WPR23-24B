@@ -22,7 +22,7 @@ import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
 
-import BeheerHome from './components/Beheer/BeheerHome';
+import BeheerHome from './components/Dashboards/Beheer/BeheerHome';
 
 
 // import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
