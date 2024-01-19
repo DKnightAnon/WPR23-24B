@@ -27,10 +27,9 @@ import BeheerHome from './components/Beheer/BeheerHome';
 // import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
 
 import Chat from "./components/Chat/Chat";
-import './ChatStyling.css'
-import ErvaringsdeskundigePortal from "./components/Dashboards/ErvaringsdeskundigePortal";
+import "./ChatStyling.css";
 import PrivateRoute from "./Services/Autorisation/PrivateRoute";
-
+import ErvaringsdeskundigePortal from "./components/Dashboards/Ervaringsdeskundige/ErvaringsdeskundigePortal";
 const App = () => {
   const theme = {
     colors: {
@@ -52,7 +51,6 @@ const App = () => {
     },
     media: { mobile: "768px", tab: "998px" },
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,7 +82,6 @@ const App = () => {
       <Footer />
     </ThemeProvider>
   );
-
 };
 
 export default App;
