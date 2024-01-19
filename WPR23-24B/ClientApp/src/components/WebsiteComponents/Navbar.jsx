@@ -196,7 +196,7 @@ const Navbar = () => {
                         <NavLink
                             className="navbar-link"
                             onClick={() => setOpenMenu(false)}
-                            to="/BeheerHome"
+                            to="/beheer"
                         >
                             Beheer
                         </NavLink>
