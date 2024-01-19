@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './researchList.module.css';
+import NewResearchForm from './NewResearchForm';
 
 const ResearchList = ({ researches, showDetails, deleteResearch }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,7 +27,7 @@ const ResearchList = ({ researches, showDetails, deleteResearch }) => {
     <div className={styles['research-list']}>
       {researches.map((research, index) => (
         <div key={research.id} className={styles['research-item']}>
-          <h3>{research.title}</h3>
+          <h3>{research.Titel}</h3>
           <button className={styles['details-button']} onClick={() => openModal(index)}>
             Bekijk Details
           </button>
@@ -41,10 +42,10 @@ const ResearchList = ({ researches, showDetails, deleteResearch }) => {
   {modalOpen && selectedResearch && (
             <div className={styles['modal']}>
               <div className={styles['modal-content']}>
-                <h2>{selectedResearch.title}</h2>
-                <p>{selectedResearch.details}</p>
-                <p><strong>Locatie:</strong> {selectedResearch.location}</p>
-                <p><strong>Beperking type:</strong> {selectedResearch.disabilityType}</p>
+                <h2>{selectedResearch.Titel}</h2>
+                <p>{selectedResearch.Beschrijving}</p>
+                <p><strong>Locatie:</strong> {selectedResearch.Locatie}</p>
+                <p><strong>Datum:</strong> {selectedResearch.Datum}</p>
                 <button onClick={closeModal}>Close</button>
               </div>
             </div>
