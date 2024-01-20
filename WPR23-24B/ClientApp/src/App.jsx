@@ -25,7 +25,9 @@ import BeheerHome from "./components/Beheer/BeheerHome";
 
 import ResearchPage from "./components/Onderzoek/ResearchPage";
 import ResearchDetailPage from "./components/Onderzoek/ResearchDetailPage";
-// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
+import UserInfo from "./components/Dashboards/Ervaringsdeskundige/UserInfo";
+import ClaimedResearchesPage from "./components/Dashboards/Ervaringsdeskundige/ClaimedResearchesPage";
+import LandingPage from "./components/Dashboards/Ervaringsdeskundige/LandingPage";
 
 import Chat from "./components/Chat/Chat";
 import "./ChatStyling.css";
@@ -70,13 +72,20 @@ const App = () => {
         <Route path="/chat" element={<Chat />} />
         <Route path="/beheer" element={<BeheerHome />} />
 
-        <Route path="/Onderzoeken" element={<ResearchPage />} />
+        {/* ROUTING VOOR ERVARINGSDESKUNDIGEN  */}
+        <Route path="/dashboard" element={<ErvaringsdeskundigePortal />} />
+        <Route path="/dashboard/userinfo" element={<UserInfo />} />
+        <Route path="/dashboard/onderzoeken" element={<ResearchPage />} />
         <Route path="/research/:id" element={<ResearchDetailPage />} />
         <Route
-          path="/dashboard"
+          path="/dashboard/claimedresearches"
+          element={<ClaimedResearchesPage />}
+        />
+        <Route
+          path="/dashboard/portaal"
           element={
             <PrivateRoute
-              element={ErvaringsdeskundigePortal}
+              element={LandingPage}
               roles={["Admin", "Ervaringsdeskundige"]}
             />
           }
