@@ -35,6 +35,7 @@ namespace WPR23_24B.Data
         public DbSet<Onderzoek> Onderzoeken { get; set; }
         public DbSet<Onderzoek_Soort> OnderzoekSoorten { get; set; }
         public DbSet<Onderzoek_Resultaat> OnderzoekResultaten { get; set; }
+        public DbSet<ErvaringsdeskundigeOnderzoek> EnrolledErvaringsdeskundigen { get; set; }
 
 
         // Models / Chat
@@ -83,6 +84,19 @@ namespace WPR23_24B.Data
                 .WithMany(b => b.ErvaringsdeskundigeBeperkingen)
                 .HasForeignKey(eb => eb.BeperkingId);
 
+            // Many-to-many relationship between Onderzoek and Ervaringsdeskundige
+            modelBuilder.Entity<ErvaringsdeskundigeOnderzoek>()
+                .HasKey(eo => new { eo.ErvaringsdeskundigeId, eo.OnderzoekId });
+
+            modelBuilder.Entity<ErvaringsdeskundigeOnderzoek>()
+                .HasOne(eo => eo.Ervaringsdeskundige)
+                .WithMany(e => e.EnrolledOnderzoeken)
+                .HasForeignKey(eo => eo.ErvaringsdeskundigeId);
+
+            modelBuilder.Entity<ErvaringsdeskundigeOnderzoek>()
+                .HasOne(eo => eo.Onderzoek)
+                .WithMany(o => o.EnrolledErvaringsdeskundigen)
+                .HasForeignKey(eo => eo.OnderzoekId);
 
             //Fluent API configuration to map a many-to-many relation between Gebruikers en ChatRooms.
             modelBuilder.Entity<ChatDeelnemers>().HasKey(key => new { key.GebruikerId, key.RoomId });
