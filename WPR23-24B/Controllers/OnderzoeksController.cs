@@ -23,17 +23,22 @@ namespace WPR23_24B.Controllers
         }
 
         // GET-Methode om alle onderzoeken op te halen
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
-        {
-            // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoeken == null)
-            {
-                return NotFound();
-            }
-            // Haal alle onderzoeken op uit de database en retourneer ze
-            return await _context.Onderzoeken.ToListAsync();
-        }
+        [Route("getAllItems")]
+[HttpGet]
+public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
+{
+    // Controleer of de Onderzoek entiteit niet null is
+    if (_context.Onderzoeken == null)
+    {
+        return NotFound();
+    }
+
+    // Haal alle onderzoeken op uit de database
+    var onderzoeken = await _context.Onderzoeken.ToListAsync();
+
+    // Return een 200 OK status met de onderzoeken in JSON formaat
+    return Ok(onderzoeken);
+}
 
         // GET-Methode om een specifiek onderzoek op te halen aan de hand van het Id
         [HttpGet("{id}")]
@@ -129,7 +134,7 @@ namespace WPR23_24B.Controllers
         // DELETE-methode om een onderzoek te verwijderen aan de hand van het Id
         [Route("deleteItem")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOnderzoekById(int id)
+        public async Task<IActionResult> DeleteOnderzoekById(int Id)
         {
             // Controleer of de Onderzoek entiteit niet null is
             if (_context.Onderzoeken == null)
@@ -138,7 +143,7 @@ namespace WPR23_24B.Controllers
             }
 
             // Zoek het onderzoek met het opgegeven Id
-            var onderzoek = await _context.Onderzoeken.FindAsync(id);
+            var onderzoek = await _context.Onderzoeken.FindAsync(Id);
 
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
