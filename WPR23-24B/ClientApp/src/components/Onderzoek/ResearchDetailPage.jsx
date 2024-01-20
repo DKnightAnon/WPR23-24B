@@ -1,8 +1,9 @@
-// ResearchDetailPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Container } from "react-bootstrap";
 import { makeApiRequest } from "../../Services/Utils/ApiHelper";
+import styled from "styled-components";
+import DeskundigeNavbar from "../Dashboards/Ervaringsdeskundige/ErvaringsdeskundigeNavbar";
 
 const ResearchDetailPage = () => {
   const { id } = useParams();
@@ -24,26 +25,51 @@ const ResearchDetailPage = () => {
   }, [id]);
 
   if (!research) {
-    return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
+    return <StyledLoading>Loading...</StyledLoading>; // You can replace this with a loading spinner or any other loading indicator
   }
 
   return (
-    <div className="container mt-5">
-      {research ? (
-        <Card>
-          <Card.Body>
-            <Card.Title>{research.titel}</Card.Title>
-            <Card.Text>Location: {research.locatie}</Card.Text>
-            <Card.Text>Date: {research.datum}</Card.Text>
-            <Card.Text>Description: {research.beschrijving}</Card.Text>
-            {/* Add more details as needed */}
-          </Card.Body>
-        </Card>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div>
+      <DeskundigeNavbar />
+      <StyledContainer>
+        {research ? (
+          <StyledCard>
+            <Card.Body>
+              <StyledCardTitle>{research.titel}</StyledCardTitle>
+              <Card.Text>Locatie: {research.locatie}</Card.Text>
+              <Card.Text>Datum: {research.datum}</Card.Text>
+              <Card.Text>
+                Beschrijving van het onderzoek: {research.beschrijving}
+              </Card.Text>
+              {/* Add more details as needed */}
+            </Card.Body>
+          </StyledCard>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </StyledContainer>
     </div>
   );
 };
+
+const StyledContainer = styled(Container)`
+  margin-top: 100px;
+`;
+
+const StyledCard = styled(Card)`
+  border: 2px solid #1ca883;
+  border-radius: 10px;
+`;
+
+const StyledCardTitle = styled(Card.Title)`
+  font-size: 36px;
+  margin-bottom: 20px;
+`;
+
+const StyledLoading = styled.div`
+  text-align: center;
+  margin-top: 50px;
+  font-size: 18px;
+`;
 
 export default ResearchDetailPage;
