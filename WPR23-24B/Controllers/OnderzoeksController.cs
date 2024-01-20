@@ -131,8 +131,7 @@ public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
             }
         }
 
-        // DELETE-methode om een onderzoek te verwijderen aan de hand van het Id
-        [Route("deleteItem")]
+        // DELETE-methode om een onderzoek te verwijderen aan de hand van het ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOnderzoekById(int Id)
         {
