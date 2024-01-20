@@ -62,14 +62,14 @@ namespace WPR23_24B.Controllers
                     Message = "Login Successful",
                     Token = token,
                     UserRole = userRole,
-                    UserInfo = new
-                    {
-                        UserId = user.Id,
-                        UserName = user.UserName,
-                        Email = user.Email,
-                        Role = userRole, // You can include more user information as needed
-                                         // Include other properties from your user model
-                    }
+                    //UserInfo = new
+//                    {
+//                        UserId = user.Id,
+//                       UserName = user.UserName,
+//                        Email = user.Email,
+//                        Role = userRole, // You can include more user information as needed
+//                                         // Include other properties from your user model
+//                    }
                 });
             }
             else

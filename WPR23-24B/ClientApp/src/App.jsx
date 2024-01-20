@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 import "./custom.css";
@@ -28,6 +29,10 @@ import ResearchDetailPage from "./components/Onderzoek/ResearchDetailPage";
 import UserInfo from "./components/Dashboards/Ervaringsdeskundige/UserInfo";
 import ClaimedResearchesPage from "./components/Dashboards/Ervaringsdeskundige/ClaimedResearchesPage";
 import LandingPage from "./components/Dashboards/Ervaringsdeskundige/LandingPage";
+// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
+
+import AuthService from "./Services/Authentication/AuthService";
+import AuthUtils from "./Services/Authentication/AuthUtils";
 
 import Chat from "./components/Chat/Chat";
 import "./ChatStyling.css";
@@ -55,11 +60,28 @@ const App = () => {
     media: { mobile: "768px", tab: "998px" },
   };
 
+  //useEffect(
+
+  //    () => {
+  //        const interval = setInterval(
+  //            () => {
+  //                if (AuthUtils.tokenExpired()) {
+  //                    //AuthService.signOut()
+  //                    console.log("token expired")
+  //                }
+  //                console.log("intervaltest")
+  //            }, 5000);
+  //        return () => clearInterval(interval);
+  //    }, []
+
+  //)
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <GoToTop />
       <Header />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -68,24 +90,24 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<SignInComponent />} />
         <Route path="/register" element={<SignupForm />} />
-        <Route path="*" element={<Error />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/beheer" element={<BeheerHome />} />
-
-        {/* ROUTING VOOR ERVARINGSDESKUNDIGEN  */}
-        <Route path="/dashboard" element={<ErvaringsdeskundigePortal />} />
-        <Route path="/dashboard/userinfo" element={<UserInfo />} />
-        <Route path="/dashboard/onderzoeken" element={<ResearchPage />} />
+        <Route path="/Onderzoeken" element={<ResearchPage />} />
         <Route path="/research/:id" element={<ResearchDetailPage />} />
+        <Route path="*" element={<Error />} />
         <Route
-          path="/dashboard/claimedresearches"
-          element={<ClaimedResearchesPage />}
-        />
-        <Route
-          path="/dashboard/portaal"
+          path="/chat"
           element={
             <PrivateRoute
-              element={LandingPage}
+              element={Chat}
+              roles={"Bedrijf, Ervaringsdeskundige"}
+            />
+          }
+        />
+        <Route path="/beheer" element={<BeheerHome />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute
+              element={ErvaringsdeskundigePortal}
               roles={["Admin", "Ervaringsdeskundige"]}
             />
           }

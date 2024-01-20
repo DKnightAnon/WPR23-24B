@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-import AuthService from '../../../Services/Authentication/AuthUtils'
+import AuthUtils from '../../../Services/Authentication/AuthUtils'
 
 
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -15,8 +15,8 @@ import Stack from 'react-bootstrap/Stack';
 //props are a catch-all for passed in paramteres. Think of it as a list. You can call props.[paramater] to retrieve something.
 export default function ChatInput(props) {
 
-    const encodedToken = AuthService.getToken();
-    const token = AuthService.decodeToken(encodedToken);
+    const encodedToken = AuthUtils.getToken();
+    const token = AuthUtils.decodeToken(encodedToken);
     const role = token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const [user, setUser] = useState(
         {
@@ -60,27 +60,33 @@ export default function ChatInput(props) {
             <Form onSubmit={onSubmit}>
                 <InputGroup>
                     <Form.Control type="text" name="berichtInhoud" className="me-auto" placeholder="Typ een bericht..." value={message} onChange={onMessageUpdate} aria-describedby="Invoerveld voor bericht" style={{ fontSize: "14px" }} />
-                    <Button variant="secondary" className="me-auto" onClick={() => {console.log(user) } } > Print user </Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => { console.log(token) }} >Test Decode JWT</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => {console.log(role) } } > Print UserRole</Button>
-                    <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }} >Submit</Button>
+                    {/*<Button variant="secondary" className="me-auto" onClick={() => {console.log(user) } } > Print user </Button>*/}
+                    {/*<Button variant="secondary" className="me-auto" onClick={() => { console.log(token) }} >Test Decode JWT</Button>*/}
+                    {/*<Button variant="secondary" className="me-auto" onClick={() => {console.log(role) } } > Print UserRole</Button>*/}
+                  <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }} >Submit</Button>
                     <Button variant="secondary" className="me-auto" onClick={() => { console.log(encodedToken) }} >Encoded Token</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => {
+   {/*.             <Button variant="secondary" className="me-auto" onClick={() => {*/}
 
-                        //this doesnt work yet
-                        fetch(url, {
-                            method: "GET",
-                            headers: { "Authorization" : `Bearer ${encodedToken}` }
-                        })
-                            .then(response => response.json())
-                            .then(data => console.log(data.stringify()))
+   {/*                  //this doesnt work yet*/}
+   {/*                  fetch(url, {*/}
+   {/*                     method: "GET",*/}
+   {/*                     headers: { "Authorization" : `Bearer ${encodedToken}` }*/}
+   {/*                 })*/}
+   {/*                     .then(response => response.json())*/}
+   {/*                      .then(data => console.log(data.stringify()))*/}
 
 
 
-                    }}
+   {/*               }}*/}
 
-                    >
-                        Test Authorize Fetch </Button>
+
+                   
+
+{/* <Button variant="secondary" className="me-auto" onClick={() => { console.log(AuthUtils.tokenExpired()) }} >Print JWT expired</Button> */}
+
+   {/*                 >*/}
+   {/*                     Test Authorize Fetch </Button>*/}
+
                 </InputGroup>
 
             </Form>

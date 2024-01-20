@@ -1,4 +1,4 @@
-﻿![Accessibility Logo](https://academy.accessibility.nl/images/website-58/email_logo_1619180488_Accessibility@2x.png)
+![Accessibility Logo](https://academy.accessibility.nl/images/website-58/email_logo_1619180488_Accessibility@2x.png)
 
 <div align="center">
 
@@ -58,9 +58,9 @@ Dit project heeft als doel het ontwikkelen van een geavanceerde en veilige webap
 ## Installatie en Gebruik
 
 1. Kloon de repository.
-2. Voer het commando `npm install` uit in de map `WPR23-24B`.
+2. Voer het commando `npm install` uit in de map `WPR23-24B/ClientApp`.
 3. Voer `dotnet run` uit in de hoofdmap.
-4. Open de applicatie in de browser op `https://localhost:5001`.
+4. Open de applicatie in de browser op `https://localhost:7180`.
 
 ## Contributors
 ...

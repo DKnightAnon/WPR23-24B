@@ -73,10 +73,10 @@ namespace WPR23_24B.Controllers
                 BenaderingCommercieel = ervaringsdeskundige?.BenaderingCommercieel ?? false,
                 IsJongerDan18 = ervaringsdeskundige?.IsJongerDan18 ?? false,
                 VoogdId = ervaringsdeskundige?.VoogdId,
-                // Beperkingen = ervaringsdeskundige?.beperkingen,
-                // Hulpmiddellen = ervaringsdeskundige?.hulpmiddellen,
+                Beperkingen = ervaringsdeskundige?.ErvaringsdeskundigeBeperkingen,
+                Hulpmiddellen = ervaringsdeskundige?.Hulpmiddelen,
             };
-            // Return user information and send a 200 OK back.
+
             return Ok(userInformation);
         }
 

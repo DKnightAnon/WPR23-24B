@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CgMenu, CgCloseR } from "react-icons/cg";
+import AuthService from '../../Services/Authentication/AuthService'
 
 const Nav = styled.nav`
   .navbar-list {
@@ -113,113 +115,120 @@ const Nav = styled.nav`
 `;
 
 const Navbar = () => {
-  const [openMenu, setOpenMenu] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
+    const loginstatus = useSelector((state) => state.userLoginStatus.userLoginStatus)
+    //const userLoggedIn = false;
+    const [userLoggedIn, setUserLoggedIn] = useState(loginstatus)
 
-  return (
-    <Nav>
-      <div className={openMenu ? "menuIcon active" : "menuIcon"}>
-        <ul className="navbar-list">
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/"
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/about"
-            >
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/service"
-            >
-              Services
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/news"
-            >
-              News
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/contact"
-            >
-              Contact
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/chat"
-            >
-              Chat
-            </NavLink>
-          </li>
+    useEffect(() => { setUserLoggedIn(loginstatus) }, [loginstatus])
+    
 
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/login"
-            >
-              Inloggen
-            </NavLink>
-          </li>
+    return (
+        <Nav>
+            <div className={openMenu ? "menuIcon active" : "menuIcon"}>
+                <ul className="navbar-list">
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/"
+                        >
+                            Home
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/about"
+                        >
+                            About
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/service"
+                        >
+                            Services
+                        </NavLink>
+                    </li>
+                    <li>
+                    <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/news"
+                        >
+                            News
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/contact"
+                        >
+                            Contact
+                        </NavLink>
+                    </li>
+                    {userLoggedIn ? < li >
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/chat"
+                        >
+                            Chat
+                        </NavLink>
+                    </li> : null}
+                    
+                    <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/login"
+                        >
+                            Inloggen
+                        </NavLink>
+                    </li>
 
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/BeheerHome"
-            >
-              Beheer
-            </NavLink>
-          </li>
+                    <li>
+                      <NavLink
+                        className="navbar-link"
+                        onClick={() => setOpenMenu(false)}
+                        to="/Onderzoeken"
+                      >
+                        Onderzoek
+                      </NavLink>
+                    </li>
 
-          <li>
-            <NavLink
-              className="navbar-link"
-              onClick={() => setOpenMenu(false)}
-              to="/Onderzoeken"
-            >
-              Onderzoek
-            </NavLink>
-          </li>
-        </ul>
-        {/* //nav icon */}
-        <div className="mobile-navbar-btn">
-          <CgMenu
-            name="menu-outline"
-            className="mobile-nav-icon"
-            onClick={() => setOpenMenu(true)}
-          />
-          <CgCloseR
-            name="close-outline"
-            className="close-outline mobile-nav-icon"
-            onClick={() => setOpenMenu(false)}
-          />
-        </div>
-      </div>
-    </Nav>
-  );
+                    {userLoggedIn ? <li>
+                        <NavLink
+                            className="navbar-link"
+                            onClick={() => setOpenMenu(false)}
+                            to="/BeheerHome"
+                        >
+                            Beheer
+                        </NavLink>
+                    </li> : null}
+                    
+                </ul>
+                {/* //nav icon */}
+                <div className="mobile-navbar-btn">
+                    <CgMenu
+                        name="menu-outline"
+                        className="mobile-nav-icon"
+                        onClick={() => setOpenMenu(true)}
+                    />
+                    <CgCloseR
+                        name="close-outline"
+                        className="close-outline mobile-nav-icon"
+                        onClick={() => setOpenMenu(false)}
+                    />
+                </div>
+            </div>
+        </Nav>
+    );
 };
 
 export default Navbar;
