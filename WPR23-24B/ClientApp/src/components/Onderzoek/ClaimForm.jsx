@@ -32,9 +32,9 @@ const ClaimForm = ({ researchId, onClaimSuccess, onClaimError }) => {
         console.log("Enroll Response:", enrollResponse);
 
         // Check for success in the enroll response
-        if (enrollResponse && enrollResponse.success) {
+        if (enrollResponse) {
           // If successful, call the callback function
-          onClaimSuccess();
+          onClaimSuccess(enrollResponse);
         } else {
           // If there's a specific callback function for error, call it
           onClaimError && onClaimError();

@@ -35,7 +35,7 @@ const ResearchPage = () => {
 
   // Callback function for successful claim
   const handleClaimSuccess = (response) => {
-    if (response.message === "Enrollment successful") {
+    if (response === "Enrollment successful") {
       // Fetch the updated list of available researches
       makeApiRequest("Onderzoeks/available", "GET")
         .then((updatedResearches) => setResearches(updatedResearches))
