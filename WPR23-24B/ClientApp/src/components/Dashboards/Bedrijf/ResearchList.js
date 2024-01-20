@@ -21,7 +21,7 @@ const ResearchList = ({ researches, deleteResearch }) => {
     try {
       console.log("Deleting research with ID:", Id);
 
-      const endpoint = `/Onderzoeks/${Id}`;
+      const endpoint = `Onderzoeks/${Id}`;
       const method = "DELETE";
       const response = await makeApiRequest(endpoint, method);
 
