@@ -15,7 +15,7 @@ namespace WPR23_24B.DTO
         public required string TelefoonNummer { get; set; }
         public bool IsJongerDan18 { get; set; }
         public bool FysiekeBeperking { get; set; }
-        public bool AuditieveBeperkin { get; set; }
+        public bool AuditieveBeperking { get; set; }
         public bool VisueleBeperking { get; set; }
         public string? AndereBeperking { get; set; }
         public bool BenaderingTelefonisch { get; set; }

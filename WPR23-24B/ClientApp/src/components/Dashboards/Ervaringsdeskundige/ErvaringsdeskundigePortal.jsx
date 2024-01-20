@@ -2,50 +2,60 @@
 import { makeApiRequest } from "../../../Services/Utils/ApiHelper";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import UserInfo from "./UserInfo";
+import DeskundigeNavbar from "./ErvaringsdeskundigeNavbar";
 
 const ErvaringsdeskundigePortal = () => {
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({});
   const [editableUserInfo, setEditableUserInfo] = useState({});
+  const navigate = useNavigate();
 
   const handleEditClick = () => {
     setEditMode(true);
   };
 
+  const handleGoBack = () => {
+    // Navigeer terug naar het dashboard
+    navigate("/dashboard");
+  };
+
   const handleSaveClick = async () => {
-    console.log("Saving user information:", editableUserInfo);
     try {
+      console.log("Editable User Info:", editableUserInfo);
+
       // Validate required fields before saving
+      // You can add your validation logic here if needed
 
       const endpoint = `User/updateuserinfo`;
       const method = "PUT";
 
       // Sending only the necessary data to the server
-      const { Naam, Emailadres, ...userInfo } = editableUserInfo;
+      const { naam, emailadres, ...userInfo } = editableUserInfo;
       const response = await makeApiRequest(endpoint, method, {
-        Naam,
-        Emailadres,
-        userInfo,
+        naam,
+        emailadres,
+        ...userInfo, // Include other user information properties
       });
 
+      // Update state with the response from the server
       setUserData(response);
+
+      // Exit edit mode after successfully saving
       setEditMode(false);
+
+      // You can also show a success message or perform other actions as needed
+      console.log("User information saved successfully:", response);
     } catch (error) {
       console.error("Error saving user information:", error);
+      // You can handle errors and display error messages if needed
     }
   };
 
   return (
     <Container>
-      <Navbar>
-        <NavLinks>
-          <NavLink to="/dashboard">Gebruiker Gegevens</NavLink>
-          <NavLink to="/onderzoeken">Onderzoeken</NavLink>
-          {/* Add more navigation links */}
-        </NavLinks>
-      </Navbar>
+      <DeskundigeNavbar />
       <ContentContainer>
         <MainContent>
           <UserInfoContainer>
@@ -53,11 +63,16 @@ const ErvaringsdeskundigePortal = () => {
           </UserInfoContainer>
           <ButtonContainer>
             {!editMode ? (
-              <Button onClick={handleEditClick}>Edit</Button>
+              <Button onClick={handleEditClick}>Wijzig Gegevens</Button>
             ) : (
               <>
-                <Button onClick={handleSaveClick}>Save</Button>
-                <Button onClick={() => setEditMode(false)}>Cancel</Button>
+                <Button onClick={handleSaveClick}>Opslaan</Button>
+                <CancelButton
+                  className="cancel"
+                  onClick={() => setEditMode(false)}
+                >
+                  Cancel
+                </CancelButton>
               </>
             )}
           </ButtonContainer>
@@ -123,7 +138,20 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.btn};
+  background-color: green;
+  color: ${({ theme }) => theme.colors.white};
+  padding: 0.8rem 1.2rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.shadow};
+  }
+`;
+
+const CancelButton = styled.button`
+  background-color: red;
   color: ${({ theme }) => theme.colors.white};
   padding: 0.8rem 1.2rem;
   border: none;

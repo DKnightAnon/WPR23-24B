@@ -192,6 +192,16 @@ const Navbar = () => {
                         </NavLink>
                     </li>
 
+                    <li>
+                      <NavLink
+                        className="navbar-link"
+                        onClick={() => setOpenMenu(false)}
+                        to="/Onderzoeken"
+                      >
+                        Onderzoek
+                      </NavLink>
+                    </li>
+
                     {userLoggedIn ? <li>
                         <NavLink
                             className="navbar-link"

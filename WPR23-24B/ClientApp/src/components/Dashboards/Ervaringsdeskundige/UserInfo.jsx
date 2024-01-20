@@ -1,8 +1,7 @@
-// UserInfo.jsx
-
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { makeApiRequest } from "../../../Services/Utils/ApiHelper";
+import DeskundigeNavbar from "./ErvaringsdeskundigeNavbar";
 
 const predefinedHulpmiddelen = [
   "Schermlezer",
@@ -71,7 +70,7 @@ const UserInfo = ({ gebruiker, editMode }) => {
             <UserInfoValue>
               <Input
                 type="text"
-                defaultValue={userInfo.naam}
+                value={editableUserInfo.naam || ""}
                 onChange={(e) => handleUserInfoChange("naam", e.target.value)}
                 disabled={!editMode}
               />

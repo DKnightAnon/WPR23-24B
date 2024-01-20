@@ -35,6 +35,37 @@ namespace WPR23_24B.Controllers
             return await _context.Onderzoeken.ToListAsync();
         }
 
+        [HttpGet("available")]
+        public async Task<ActionResult<IEnumerable<Onderzoek>>> GetAvailableOnderzoeken()
+        {
+            var userId = User.FindFirst("Id")?.Value;
+
+            // Retrieve the list of claimed researches
+            var claimedOnderzoeken = await _context.EnrolledErvaringsdeskundigen
+                .Select(e => e.OnderzoekId)
+                .ToListAsync();
+
+            // Retrieve the list of available researches excluding those claimed by any user
+            var availableOnderzoeken = await _context.Onderzoeken
+                .Where(o => !claimedOnderzoeken.Contains(o.Id))
+                .ToListAsync();
+
+            return availableOnderzoeken;
+        }
+
+
+        // GET-Methode om geclaimde onderzoeken voor een specifieke expert op te halen
+        [HttpGet("claimed/{userId}")]
+        public async Task<ActionResult<IEnumerable<Onderzoek>>> GetClaimedOnderzoeken(string userId)
+        {
+            var claimedOnderzoeken = await _context.EnrolledErvaringsdeskundigen
+                .Where(e => e.ErvaringsdeskundigeId == userId)
+                .Select(e => e.Onderzoek)
+                .ToListAsync();
+
+            return claimedOnderzoeken;
+        }
+
         // GET-Methode om een specifiek onderzoek op te halen aan de hand van het Id
         [HttpGet("{id}")]
         public async Task<ActionResult<Onderzoek>> GetOnderzoekById(int id)
@@ -135,6 +166,7 @@ namespace WPR23_24B.Controllers
             {
                 return NotFound();
             }
+            _logger.LogInformation($"Deleting research with ID: {id}");
 
             // Zoek het onderzoek met het opgegeven Id
             var onderzoek = await _context.Onderzoeken.FindAsync(id);
@@ -142,6 +174,8 @@ namespace WPR23_24B.Controllers
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
             {
+                _logger.LogWarning($"Research with ID {id} not found.");
+
                 return NotFound();
             }
 

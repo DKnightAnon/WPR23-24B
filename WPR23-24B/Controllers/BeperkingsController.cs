@@ -46,13 +46,13 @@ namespace WPR23_24B.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Beperking>>> GetAllBeperkingen()
         {
-             // Controleer of de Beperkingen-entiteit niet null is
-                     if (_context.Beperkingen == null)
+            // Controleer of de Beperkingen-entiteit niet null is
+            if (_context.Beperkingen == null)
             {
                 return NotFound();
             }
-            
-                        // Haal alle beperkingen op en sla deze op in een List
+
+            // Haal alle beperkingen op en sla deze op in een List
 
             var beperkingen = await _context.Beperkingen.ToListAsync();
 
@@ -84,26 +84,6 @@ namespace WPR23_24B.Controllers
             }
 
             return Ok(beperking);
-        }
-
-        // Haalt Beperkingen op die zijn gekoppeld aan de gebruiker via GebruikerList.
-        [HttpGet("gebruiker/{gebruikerId}")]
-        public async Task<ActionResult<Beperking>> GetBeperkingenVanGebruiker(string gebruikerId)
-        {
-            // Zoek de gebruiker op basis van het opgegeven gebruikerId
-            var gebruiker = await _manager.FindByIdAsync(gebruikerId.ToString());
-
-            if (gebruiker == null)
-            {
-                return NotFound($"Gebruiker met {gebruikerId} niet gevonden.");
-            }
-
-            // Haal Beperkingen op die gekoppeld zijn aan de gebruiker via GebruikerList
-            var beperkingen = _context.Beperkingen
-                .Where(b => b.GebruikerList.Any(g => g.Id.Contains(gebruikerId)))
-                .ToList();
-
-            return Ok(beperkingen);
         }
         // PUT-methode voor het bijwerken van een bestaande Beperking.
         // PUT: api/Beperkings/5
