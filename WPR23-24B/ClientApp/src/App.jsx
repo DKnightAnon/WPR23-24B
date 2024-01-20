@@ -103,11 +103,19 @@ const App = () => {
           }
         />
         <Route path="/beheer" element={<BeheerHome />} />
+        <Route path="/dashboard" element={<ErvaringsdeskundigePortal />} />
+        <Route path="/dashboard/userinfo" element={<UserInfo />} />
+        <Route path="/dashboard/onderzoeken" element={<ResearchPage />} />
+        <Route path="/research/:id" element={<ResearchDetailPage />} />
         <Route
-          path="/dashboard"
+          path="/dashboard/claimedresearches"
+          element={<ClaimedResearchesPage />}
+        />
+        <Route
+          path="/dashboard/portaal"
           element={
             <PrivateRoute
-              element={ErvaringsdeskundigePortal}
+              element={LandingPage}
               roles={["Admin", "Ervaringsdeskundige"]}
             />
           }

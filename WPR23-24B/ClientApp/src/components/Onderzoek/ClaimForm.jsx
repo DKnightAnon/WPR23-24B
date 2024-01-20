@@ -9,25 +9,48 @@ const ClaimForm = ({ researchId, onClaimSuccess, onClaimError }) => {
 
   const handleClaimResearch = async () => {
     try {
-      // Make API request to validate email and password
-      const response = await makeApiRequest("Auth/claim-research", "POST", {
-        email,
-        password,
-      });
+      // Validate user credentials using the SignIn endpoint
+      const signInResponse = await makeApiRequest(
+        "auth/claim-research",
+        "POST",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
-      console.log("API Response:", response);
+      console.log("SignIn Response:", signInResponse);
 
       // Check for success in the response
-      if (response && response.success) {
-        // If successful, call the callback function
-        onClaimSuccess();
+      if (signInResponse) {
+        // If successful, call the enroll-in-onderzoek endpoint
+        const enrollResponse = await makeApiRequest(
+          `User/enroll-in-onderzoek/${researchId}`,
+          "POST"
+        );
+
+        console.log("Enroll Response:", enrollResponse);
+
+        // Check for success in the enroll response
+        if (enrollResponse && enrollResponse.success) {
+          // If successful, call the callback function
+          onClaimSuccess();
+        } else {
+          // If there's a specific callback function for error, call it
+          onClaimError && onClaimError();
+
+          // Set the error message from the enroll response if available
+          setErrorMessage(
+            enrollResponse ? enrollResponse.message : "Unknown error occurred."
+          );
+        }
       } else {
         // If there's a specific callback function for error, call it
         onClaimError && onClaimError();
 
-        // Set the error message from the response if available
+        // Set the error message from the sign-in response if available
         setErrorMessage(
-          response ? response.message : "Unknown error occurred."
+          signInResponse ? signInResponse.error : "Invalid email or password."
         );
       }
     } catch (error) {

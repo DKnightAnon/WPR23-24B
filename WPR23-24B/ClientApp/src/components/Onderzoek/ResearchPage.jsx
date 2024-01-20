@@ -34,24 +34,29 @@ const ResearchPage = () => {
   }, []);
 
   // Callback function for successful claim
-  const handleClaimSuccess = () => {
-    // Fetch the updated list of available researches
-    makeApiRequest("Onderzoeks/available", "GET")
-      .then((response) => setResearches(response))
-      .catch((error) =>
-        console.error("Fout bij het ophalen van onderzoeken:", error)
-      );
+  const handleClaimSuccess = (response) => {
+    if (response.message === "Enrollment successful") {
+      // Fetch the updated list of available researches
+      makeApiRequest("Onderzoeks/available", "GET")
+        .then((updatedResearches) => setResearches(updatedResearches))
+        .catch((error) =>
+          console.error("Fout bij het ophalen van onderzoeken:", error)
+        );
 
-    // Reset the selectedResearchId after successful claim
-    setSelectedResearchId(null);
+      // Reset the selectedResearchId after successful claim
+      setSelectedResearchId(null);
 
-    // Set the claim success message
-    setClaimMessage("Onderzoek succesvol geclaimd");
-    setShowClaimModal(false);
+      // Set the claim success message
+      setClaimMessage("Onderzoek succesvol geclaimd");
+      setShowClaimModal(false);
+    } else {
+      // Handle unexpected success response
+      console.error("Unexpected success response:", response);
+    }
   };
 
-  const handleClaimError = () => {
-    // Handle errors if needed
+  const handleClaimError = (error) => {
+    console.error("Error claiming research:", error);
     setClaimMessage("Fout bij het claimen van onderzoek. Probeer het opnieuw.");
   };
 
