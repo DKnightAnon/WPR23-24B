@@ -1,5 +1,3 @@
-// ResearchList.js
-
 import React, { useState } from 'react';
 import styles from './researchList.module.css';
 import NewResearchForm from './NewResearchForm';
@@ -21,16 +19,19 @@ const ResearchList = ({ researches, deleteResearch }) => {
 
   const handleDelete = async (Id) => {
     try {
-      console.log("Deleting research with ID:", Id); // Log the ID being deleted
+      console.log("Deleting research with ID:", Id);
 
-      const endpoint = `Onderzoeks/${Id}`; // Fix the endpoint to include the correct ID
+      const endpoint = `Onderzoeks/${Id}`;
       const method = "DELETE";
       const response = await makeApiRequest(endpoint, method);
 
       console.log("API Response:", response);
 
-      // If the deletion is successful, update the state or perform any other necessary actions
-      deleteResearch(Id);
+      if (response.status >= 200 && response.status < 300) {
+        deleteResearch(Id);
+      } else {
+        console.error("Error deleting research. Status:", response.status);
+      }
     } catch (error) {
       console.error("Error deleting research:", error);
       console.log("API Response status:", error.response?.status);
@@ -52,19 +53,17 @@ const ResearchList = ({ researches, deleteResearch }) => {
         </div>
       ))}
 
-
-
-  {modalOpen && selectedResearch && (
-            <div className={styles['modal']}>
-              <div className={styles['modal-content']}>
-                <h2>{selectedResearch.Titel}</h2>
-                <p>{selectedResearch.Beschrijving}</p>
-                <p><strong>Locatie:</strong> {selectedResearch.Locatie}</p>
-                <p><strong>Datum:</strong> {selectedResearch.Datum}</p>
-                <button onClick={closeModal}>Close</button>
-              </div>
-            </div>
-          )}
+      {modalOpen && selectedResearch && (
+        <div className={styles['modal']}>
+          <div className={styles['modal-content']}>
+            <h2>{selectedResearch.Titel}</h2>
+            <p>{selectedResearch.Beschrijving}</p>
+            <p><strong>Locatie:</strong> {selectedResearch.Locatie}</p>
+            <p><strong>Datum:</strong> {selectedResearch.Datum}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

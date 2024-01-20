@@ -36,7 +36,7 @@ return (
 
         
         <div className={styles['input-group']}>
-        <label htmlFor='name'>Bedrijfsnaam: </label>
+        <label className={styles['input-group-label']} htmlFor='name'>Bedrijfsnaam: </label>
         <br />
         <input
             className={styles['input-fields']}
@@ -48,7 +48,7 @@ return (
     </div>
 
         <div className={styles['input-group']}>
-        <label htmlFor='name'>Contactpersoon: </label>
+        <label className={styles['input-group-label']} htmlFort='name'>Contactpersoon: </label>
         <br />
         <input
             className={styles['input-fields']}
@@ -59,11 +59,11 @@ return (
         />
     </div>
 
-      <div className={styles['input-group']}>
-        <label htmlFor='name'>Email: </label>
+      <div className={styles['input-group-email']}>
+        <label className={styles['input-group-label']} htmlFor='name'>Email: </label>
         <br />
         <input
-            className={styles['input-fields']}
+            className={styles['input-field-email']}
             type='text'
             id='email'
             placeholder='Wijzig je email-adres'
@@ -72,7 +72,7 @@ return (
     </div>
 
       <div className={styles['input-group']}>
-        <label htmlFor='address'>Telefoonnummer </label>
+        <label className={styles['input-group-label']} htmlFor='address'>Telefoonnummer </label>
         <br />
         <input
             className={styles['input-fields']}
@@ -84,7 +84,7 @@ return (
     </div>
 
     <div className={styles['input-group']}>
-        <label htmlFor='address'>Adres: </label>
+        <label className={styles['input-group-label']} htmlFor='address'>Adres: </label>
         <br />
         <input
             className={styles['input-fields']}
