@@ -119,5 +119,30 @@ namespace WPR23_24B.Controllers
 
             return Ok(new { Email = user.Email, Role = userRole });
         }
+
+        [AllowAnonymous]
+        [HttpPost("claim-research")]
+        public async Task<IActionResult> ClaimResearch([FromBody] SignInDTO model)
+        {
+            _logger.LogInformation($"Attempting research claim for email: {model.Email}");
+
+            if (model == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.SignInAsync(model);
+
+            if (result)
+            {
+                // Additional logic if needed
+
+                return Ok(new { Message = "Research claimed successfully" });
+            }
+            else
+            {
+                return BadRequest(new { error = "Invalid email or password" });
+            }
+        }
     }
 }
