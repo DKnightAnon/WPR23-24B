@@ -78,13 +78,13 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
         const method = "POST";
         const response = await makeApiRequest(endpoint, method, researchData);
 
-        // Log the response for debugging
+       
         console.log("API Response:", response);
 
-        // Check if the response is successful (status code 2xx)
+        // Check if the response is successful 
         if (validateForm) {
-            // Add new research locally
-            addNewResearch(researchData); // Assuming researchData is the data you want to add
+            // Add new research 
+            addNewResearch(researchData); 
 
             closeModal();
         } else {

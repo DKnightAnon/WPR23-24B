@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './researchList.module.css';
 import NewResearchForm from './NewResearchForm';
 import { makeApiRequest } from '../../../Services/Utils/ApiHelper';
@@ -21,7 +21,7 @@ const ResearchList = ({ researches, deleteResearch }) => {
     try {
       console.log("Deleting research with ID:", Id);
 
-      const endpoint = `Onderzoeks/${Id}`;
+      const endpoint = `/Onderzoeks/${Id}`;
       const method = "DELETE";
       const response = await makeApiRequest(endpoint, method);
 
