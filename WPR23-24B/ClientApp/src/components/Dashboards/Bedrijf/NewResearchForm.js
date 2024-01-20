@@ -83,6 +83,7 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
 
         // Check if the response is successful 
         if (validateForm) {
+            researchData.Id = response.onderzoekId;
             // Add new research 
             addNewResearch(researchData); 
 

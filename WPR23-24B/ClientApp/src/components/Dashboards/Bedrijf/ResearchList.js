@@ -21,7 +21,7 @@ const ResearchList = ({ researches, deleteResearch }) => {
     try {
       console.log("Deleting research with ID:", Id);
 
-      const endpoint = `/Onderzoeks/${Id}`;
+      const endpoint = `Onderzoeks/${Id}`;
       const method = "DELETE";
       const response = await makeApiRequest(endpoint, method);
 
@@ -47,9 +47,10 @@ const ResearchList = ({ researches, deleteResearch }) => {
           <button className={styles['details-button']} onClick={() => openModal(index)}>
             Bekijk Details
           </button>
-          <button className={styles['delete-button']} onClick={() => handleDelete(research.Id)}>
+              <button className={styles['delete-button']} onClick={() => { handleDelete(research.Id); /*console.log(research.Id)*/ }}>
             Verwijder onderzoek
-          </button>
+              </button>
+              <p>{research.Id}</p>
         </div>
       ))}
 
