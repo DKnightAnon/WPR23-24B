@@ -62,12 +62,8 @@ namespace WPR23_24B.Controllers
                 BenaderingCommercieel = ervaringsdeskundige?.BenaderingCommercieel ?? false,
                 IsJongerDan18 = ervaringsdeskundige?.IsJongerDan18 ?? false,
                 VoogdId = ervaringsdeskundige?.VoogdId,
-                FysiekeBeperking = ervaringsdeskundige?.FysiekeBeperking ?? false,
-                AuditieveBeperkin = ervaringsdeskundige?.AuditieveBeperkin ?? false,
-                VisueleBeperking = ervaringsdeskundige?.VisueleBeperking ?? false,
-                AndereBeperking = ervaringsdeskundige?.AndereBeperking,
-                Beperkingen = ervaringsdeskundige?.beperkingen,
-                Hulpmiddellen = ervaringsdeskundige?.hulpmiddellen,
+                Beperkingen = ervaringsdeskundige?.ErvaringsdeskundigeBeperkingen,
+                Hulpmiddellen = ervaringsdeskundige?.Hulpmiddelen,
             };
 
             return Ok(userInformation);
