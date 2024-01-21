@@ -1,9 +1,8 @@
-// ResearchList.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './researchList.module.css';
+import { makeApiRequest } from '../../../Services/Utils/ApiHelper';
 
-const ResearchList = ({ researches, showDetails, deleteResearch }) => {
+const ResearchList = ({ researches, deleteResearch}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedResearch, setSelectedResearch] = useState(null);
 
@@ -17,38 +16,54 @@ const ResearchList = ({ researches, showDetails, deleteResearch }) => {
     setModalOpen(false);
   };
 
-  const handleDelete = (index) => {
-    // Call the deleteResearch function passed from App
-    deleteResearch(index);
+  const handleDelete = async (Id) => {
+    try {
+      console.log("Deleting research with ID:", Id);
+
+      const endpoint = `Onderzoeks/${Id}`;
+      const method = "DELETE";
+      const response = await makeApiRequest(endpoint, method);
+
+      console.log("API Response:", response);
+
+      if (response.status >= 200 && response.status < 300) {
+        deleteResearch(Id);
+      } else {
+        console.error("Error deleting research. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error deleting research:", error);
+      console.log("API Response status:", error.response?.status);
+      console.log("API Response data:", error.response?.data);
+    }
   };
 
   return (
     <div className={styles['research-list']}>
       {researches.map((research, index) => (
-        <div key={research.id} className={styles['research-item']}>
-          <h3>{research.title}</h3>
+        <div key={research.Id} className={styles['research-item']}>
+          <h3>{research.Titel}</h3>
           <button className={styles['details-button']} onClick={() => openModal(index)}>
             Bekijk Details
           </button>
-          <button className={styles['delete-button']} onClick={() => handleDelete(index)}>
+              <button className={styles['delete-button']} onClick={() => { handleDelete(research.Id); /*console.log(research.Id)*/ }}>
             Verwijder onderzoek
-          </button>
+              </button>
+              <p>{research.Id}</p>
         </div>
       ))}
 
-
-
-  {modalOpen && selectedResearch && (
-            <div className={styles['modal']}>
-              <div className={styles['modal-content']}>
-                <h2>{selectedResearch.title}</h2>
-                <p>{selectedResearch.details}</p>
-                <p><strong>Locatie:</strong> {selectedResearch.location}</p>
-                <p><strong>Beperking type:</strong> {selectedResearch.disabilityType}</p>
-                <button onClick={closeModal}>Close</button>
-              </div>
-            </div>
-          )}
+      {modalOpen && selectedResearch && (
+        <div className={styles['modal']}>
+          <div className={styles['modal-content']}>
+            <h2>{selectedResearch.Titel}</h2>
+            <p>{selectedResearch.Beschrijving}</p>
+            <p><strong>Locatie:</strong> {selectedResearch.Locatie}</p>
+            <p><strong>Datum:</strong> {selectedResearch.Datum}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

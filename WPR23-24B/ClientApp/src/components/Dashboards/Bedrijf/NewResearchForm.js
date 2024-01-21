@@ -73,31 +73,31 @@ const NewResearchForm = ({ addNewResearch, closeModal }) => {
     console.log("State before API request:", researchData);
 
     try {
-      // Make API request to add new research
-      const endpoint = "Onderzoeks/addNewItem";
-      const method = "POST";
-      const response = await makeApiRequest(endpoint, method, researchData);
+        // Make API request to add new research
+        const endpoint = "Onderzoeks/addNewItem";
+        const method = "POST";
+        const response = await makeApiRequest(endpoint, method, researchData);
 
-      // Log the response for debugging
-      console.log("API Response:", response);
+       
+        console.log("API Response:", response);
 
-      // Check if the response is successful (status code 2xx)
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("JSON Data:", responseData);
+        // Check if the response is successful 
+        if (validateForm) {
+            researchData.Id = response.onderzoekId;
+            // Add new research 
+            researchData.Id = response.onderzoekId;
+            addNewResearch(researchData); 
 
-        // Add new research locally
-        addNewResearch(responseData);
-        closeModal();
-      } else {
-        console.error("Error submitting research.");
-      }
+            closeModal();
+        } else {
+            console.error("Error submitting research.");
+        }
     } catch (error) {
-      console.error("Error submitting research:", error);
-      console.log("API Response status:", error.response?.status);
-      console.log("API Response data:", error.response?.data);
+        console.error("Error submitting research:", error);
+        console.log("API Response status:", error.response?.status);
+        console.log("API Response data:", error.response?.data);
     }
-  };
+};
 
   const handleCancel = () => {
     closeModal();

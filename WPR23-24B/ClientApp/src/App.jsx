@@ -22,22 +22,29 @@ import SignupForm from "./components/SignUpComponents/SignUpForm";
 import SignInComponent from "./components/SignInComponents/SignInComponent";
 import UserOrCompanyChoice from "./components/SignUpComponents/UserOrCompanyChoice";
 
+// BEHEERDERS PORTAAL
 import BeheerHome from "./components/Beheer/BeheerHome";
 
+// ERVARINGSDESKUNDIGE PORTAAL
 import ResearchPage from "./components/Onderzoek/ResearchPage";
 import ResearchDetailPage from "./components/Onderzoek/ResearchDetailPage";
 import UserInfo from "./components/Dashboards/Ervaringsdeskundige/UserInfo";
 import ClaimedResearchesPage from "./components/Dashboards/Ervaringsdeskundige/ClaimedResearchesPage";
 import LandingPage from "./components/Dashboards/Ervaringsdeskundige/LandingPage";
-// import ProfilePage from "./components/Dashboards/Bedrijf/InfoPage";
+import ErvaringsdeskundigePortal from "./components/Dashboards/Ervaringsdeskundige/ErvaringsdeskundigePortal";
+import BedrijfsPortal from "./components/Dashboards/Bedrijf/BedrijfsPortal"
 
+// AUTHENTICATIE
 import AuthService from "./Services/Authentication/AuthService";
 import AuthUtils from "./Services/Authentication/AuthUtils";
 
+// CHAT
 import Chat from "./components/Chat/Chat";
 import "./ChatStyling.css";
+
+// AUTORISATIE
 import PrivateRoute from "./Services/Autorisation/PrivateRoute";
-import ErvaringsdeskundigePortal from "./components/Dashboards/Ervaringsdeskundige/ErvaringsdeskundigePortal";
+
 const App = () => {
   const theme = {
     colors: {
@@ -110,7 +117,8 @@ const App = () => {
         <Route
           path="/dashboard/claimedresearches"
           element={<ClaimedResearchesPage />}
-        />
+              />
+              <Route path="/dashboard/bedrijfportaal" element={<PrivateRoute element={BedrijfsPortal} roles={["Admin", "Bedrijf"]} />  } />
         <Route
           path="/dashboard/portaal"
           element={

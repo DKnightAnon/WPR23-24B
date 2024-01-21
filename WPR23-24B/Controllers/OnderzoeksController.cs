@@ -23,17 +23,22 @@ namespace WPR23_24B.Controllers
         }
 
         // GET-Methode om alle onderzoeken op te halen
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
-        {
-            // Controleer of de Onderzoek entiteit niet null is
-            if (_context.Onderzoeken == null)
-            {
-                return NotFound();
-            }
-            // Haal alle onderzoeken op uit de database en retourneer ze
-            return await _context.Onderzoeken.ToListAsync();
-        }
+        [Route("getAllItems")]
+[HttpGet]
+public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
+{
+    // Controleer of de Onderzoek entiteit niet null is
+    if (_context.Onderzoeken == null)
+    {
+        return NotFound();
+    }
+
+    // Haal alle onderzoeken op uit de database
+    var onderzoeken = await _context.Onderzoeken.ToListAsync();
+
+    // Return een 200 OK status met de onderzoeken in JSON formaat
+    return Ok(onderzoeken);
+}
 
         [HttpGet("available")]
         public async Task<ActionResult<IEnumerable<Onderzoek>>> GetAvailableOnderzoeken()
@@ -157,24 +162,23 @@ namespace WPR23_24B.Controllers
             }
         }
 
-        // DELETE-methode om een onderzoek te verwijderen aan de hand van het Id
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOnderzoekById(int id)
+        public async Task<IActionResult> DeleteOnderzoekById(int Id)
         {
             // Controleer of de Onderzoek entiteit niet null is
             if (_context.Onderzoeken == null)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Deleting research with ID: {id}");
+            _logger.LogInformation($"Deleting research with ID: {Id}");
 
             // Zoek het onderzoek met het opgegeven Id
-            var onderzoek = await _context.Onderzoeken.FindAsync(id);
+            var onderzoek = await _context.Onderzoeken.FindAsync(Id);
 
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
             {
-                _logger.LogWarning($"Research with ID {id} not found.");
+                _logger.LogWarning($"Research with ID {Id} not found.");
 
                 return NotFound();
             }
