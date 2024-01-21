@@ -170,7 +170,7 @@ public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Deleting research with ID: {id}");
+            _logger.LogInformation($"Deleting research with ID: {Id}");
 
             // Zoek het onderzoek met het opgegeven Id
             var onderzoek = await _context.Onderzoeken.FindAsync(Id);
@@ -178,7 +178,7 @@ public async Task<ActionResult<IEnumerable<Onderzoek>>> GetOnderzoek()
             // Return 404 als het onderzoek niet is gevonden
             if (onderzoek == null)
             {
-                _logger.LogWarning($"Research with ID {id} not found.");
+                _logger.LogWarning($"Research with ID {Id} not found.");
 
                 return NotFound();
             }

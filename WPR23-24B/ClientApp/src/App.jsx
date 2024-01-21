@@ -32,6 +32,7 @@ import UserInfo from "./components/Dashboards/Ervaringsdeskundige/UserInfo";
 import ClaimedResearchesPage from "./components/Dashboards/Ervaringsdeskundige/ClaimedResearchesPage";
 import LandingPage from "./components/Dashboards/Ervaringsdeskundige/LandingPage";
 import ErvaringsdeskundigePortal from "./components/Dashboards/Ervaringsdeskundige/ErvaringsdeskundigePortal";
+import BedrijfsPortal from "./components/Dashboards/Bedrijf/BedrijfsPortal"
 
 // AUTHENTICATIE
 import AuthService from "./Services/Authentication/AuthService";
@@ -116,7 +117,8 @@ const App = () => {
         <Route
           path="/dashboard/claimedresearches"
           element={<ClaimedResearchesPage />}
-        />
+              />
+              <Route path="/dashboard/bedrijfportaal" element={<PrivateRoute element={BedrijfsPortal} roles={["Admin", "Bedrijf"]} />  } />
         <Route
           path="/dashboard/portaal"
           element={

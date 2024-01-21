@@ -50,7 +50,8 @@ const AuthService = {
     const userRole = AuthService.getUserRole();
     if (userRole && navigate) {
       const roleRedirectMap = {
-        Ervaringsdeskundige: "/dashboard/portaal",
+          Ervaringsdeskundige: "/dashboard/portaal",
+        Bedrijf: "/dashboard/bedrijfportaal",
         AnotherUserRole: "/anotherRoute",
         // Add more mappings for future user roles
       };
