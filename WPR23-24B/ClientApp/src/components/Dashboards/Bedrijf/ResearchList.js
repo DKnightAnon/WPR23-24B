@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './researchList.module.css';
-import NewResearchForm from './NewResearchForm';
 import { makeApiRequest } from '../../../Services/Utils/ApiHelper';
 
-const ResearchList = ({ researches, deleteResearch }) => {
+const ResearchList = ({ researches, deleteResearch}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedResearch, setSelectedResearch] = useState(null);
 
