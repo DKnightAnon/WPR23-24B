@@ -2,16 +2,18 @@
 using WPR23_24B.Chat.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WPR23_24B.Controllers;
 using WPR23_24B.Data;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 
 
@@ -68,8 +70,10 @@ builder.Services.AddAuthentication(opt =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+
         ValidIssuer =   JWT_URL,
         ValidAudience = JWT_URL,
+
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(
                 builder.Configuration
@@ -78,7 +82,9 @@ builder.Services.AddAuthentication(opt =>
                 .Value
                 ))
     }
-) ;
+
+);
+
 
 
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
@@ -112,7 +118,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()
-            
+
             ;
     });
 });
@@ -144,7 +150,7 @@ if (!app.Environment.IsDevelopment())
     //app.UseHsts();
 
 
-    
+
 
 }
 

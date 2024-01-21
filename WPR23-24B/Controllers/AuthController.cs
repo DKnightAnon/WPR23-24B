@@ -54,9 +54,23 @@ namespace WPR23_24B.Controllers
                 // Get user role
                 var user = await _userManager.FindByEmailAsync(model.Email!);
                 var userRole = await _rolService.GetUserRole(user!);
+                var refreshToken = await _authService.GenerateRefreshToken(user);
 
-                return Ok(new { Message = "Login Succesfull", Token = token, UserRole = userRole });
-
+                return Ok(new
+                {
+                    RefreshToken = refreshToken,
+                    Message = "Login Successful",
+                    Token = token,
+                    UserRole = userRole,
+                    //UserInfo = new
+//                    {
+//                        UserId = user.Id,
+//                       UserName = user.UserName,
+//                        Email = user.Email,
+//                        Role = userRole, // You can include more user information as needed
+//                                         // Include other properties from your user model
+//                    }
+                });
             }
             else
             {
@@ -64,6 +78,26 @@ namespace WPR23_24B.Controllers
 
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDTO model)
+        {
+            // Validate the refresh token and generate a new access token
+            var result = await _authService.RefreshTokenAsync(model.RefreshToken);
+
+            if (result.Success)
+            {
+                return Ok(new
+                {
+                    Token = result.Token,
+                    // Other information if needed
+                });
+            }
+
+            return BadRequest(new { error = "Invalid refresh token" });
+        }
+
 
         [AllowAnonymous]
         [HttpGet("checkrole")]
@@ -84,6 +118,31 @@ namespace WPR23_24B.Controllers
             var userRole = await _rolService.GetUserRole(user);
 
             return Ok(new { Email = user.Email, Role = userRole });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("claim-research")]
+        public async Task<IActionResult> ClaimResearch([FromBody] SignInDTO model)
+        {
+            _logger.LogInformation($"Attempting research claim for email: {model.Email}");
+
+            if (model == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.SignInAsync(model);
+
+            if (result)
+            {
+                // Additional logic if needed
+
+                return Ok(new { Message = "Research claimed successfully" });
+            }
+            else
+            {
+                return BadRequest(new { error = "Invalid email or password" });
+            }
         }
     }
 }

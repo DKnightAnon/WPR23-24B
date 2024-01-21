@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using WPR23_24B.Data;
 using WPR23_24B.DTO;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Medisch;
 
 namespace WPR23_24B.Services
 {
@@ -14,15 +16,18 @@ namespace WPR23_24B.Services
         private readonly UserManager<Gebruiker> _userManager;
         private readonly IRolService _rolService;
         private readonly ILogger<RegistrationService> _logger;
+        private readonly ApplicationDbContext _context;
 
         public RegistrationService(
             UserManager<Gebruiker> userManager,
             IRolService rolService,
-            ILogger<RegistrationService> logger)
+            ILogger<RegistrationService> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _rolService = rolService;
             _logger = logger;
+            _context = context;
         }
 
         public async Task<IdentityResult> RegisterUnder18Async(RegisterUnder18DTO model)
@@ -37,12 +42,6 @@ namespace WPR23_24B.Services
                 GeboorteDatum = model.GeboorteDatum,
                 IsJongerDan18 = true,
                 TelefoonNummer = model.TelefoonNummer,
-
-                FysiekeBeperking = model.FysiekeBeperking,
-                AuditieveBeperkin = model.AuditieveBeperkin,
-                VisueleBeperking = model.VisueleBeperking,
-                AndereBeperking = model.AndereBeperking,
-
                 BenaderingCommercieel = model.BenaderingCommercieel,
                 BenaderingPortal = model.BenaderingPortal,
                 BenaderingTelefonisch = model.BenaderingTelefonisch
@@ -52,9 +51,9 @@ namespace WPR23_24B.Services
             {
                 var voogd = new Voogd
                 {
-                    Naam = model.Naam,
-                    Email = model.Email,
-                    TelefoonNummer = model.TelefoonNummer
+                    Naam = model.VoogdNaam,
+                    Email = model.VoogdEmail,
+                    TelefoonNummer = model.VoogdTelNummer
                 };
 
                 user.Voogd = voogd;
@@ -65,6 +64,33 @@ namespace WPR23_24B.Services
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Ervaringsdeskundige");
+
+                // Associate disabilities with the user
+                if (model.FysiekeBeperking || model.AuditieveBeperking || model.VisueleBeperking || !string.IsNullOrEmpty(model.AndereBeperking))
+                {
+                    var beperkingen = new List<ErvaringsdeskundigeBeperking>();
+
+                    if (model.FysiekeBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 1 }); // 1 is de ID voor "Fysiek"
+
+                    if (model.AuditieveBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 3 }); // 3 is de ID voor "Auditief"
+
+                    if (model.VisueleBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 2 }); // 2 is de ID voor "Visueel"
+
+                    if (!string.IsNullOrEmpty(model.AndereBeperking))
+                    {
+                        // Voeg de "AndereBeperking" toe aan de database en haal de gegenereerde ID op
+                        var andereBeperking = new Beperking { Name = model.AndereBeperking };
+                        _context.Beperkingen.Add(andereBeperking);
+                        await _context.SaveChangesAsync();
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = andereBeperking.Id });
+                    }
+
+                    _context.ErvaringsdeskundigeBeperkingen.AddRange(beperkingen);
+                    await _context.SaveChangesAsync();
+                }
             }
 
             return result;
@@ -81,35 +107,44 @@ namespace WPR23_24B.Services
                 Postcode = model.Postcode,
                 GeboorteDatum = model.GeboorteDatum,
                 IsJongerDan18 = false,
-
                 TelefoonNummer = model.TelefoonNummer,
-                FysiekeBeperking = model.FysiekeBeperking,
-                AuditieveBeperkin = model.AuditieveBeperkin,
-                VisueleBeperking = model.VisueleBeperking,
-                AndereBeperking = model.AndereBeperking,
-
                 BenaderingCommercieel = model.BenaderingCommercieel,
                 BenaderingPortal = model.BenaderingPortal,
                 BenaderingTelefonisch = model.BenaderingTelefonisch
             };
-
-            if (!model.IsJongerDan18 && model.Naam != null && model.TelefoonNummer != null && model.Email != null)
-            {
-                var voogd = new Voogd
-                {
-                    Naam = model.Naam,
-                    Email = model.Email,
-                    TelefoonNummer = model.TelefoonNummer
-                };
-
-                user.Voogd = voogd;
-            }
 
             var result = await _userManager.CreateAsync(user, model.Wachtwoord);
 
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Ervaringsdeskundige");
+
+                // Associate disabilities with the user
+                if (model.FysiekeBeperking || model.AuditieveBeperking || model.VisueleBeperking || !string.IsNullOrEmpty(model.AndereBeperking))
+                {
+                    var beperkingen = new List<ErvaringsdeskundigeBeperking>();
+
+                    if (model.FysiekeBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 1 }); // 1 is de ID voor "Fysiek"
+
+                    if (model.AuditieveBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 3 }); // 3 is de ID voor "Auditief"
+
+                    if (model.VisueleBeperking)
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = 2 }); // 2 is de ID voor "Visueel"
+
+                    if (!string.IsNullOrEmpty(model.AndereBeperking))
+                    {
+                        // Voeg de "AndereBeperking" toe aan de database en haal de gegenereerde ID op
+                        var andereBeperking = new Beperking { Name = model.AndereBeperking };
+                        _context.Beperkingen.Add(andereBeperking);
+                        await _context.SaveChangesAsync();
+                        beperkingen.Add(new ErvaringsdeskundigeBeperking { ErvaringsdeskundigeId = user.Id, BeperkingId = andereBeperking.Id });
+                    }
+
+                    _context.ErvaringsdeskundigeBeperkingen.AddRange(beperkingen);
+                    await _context.SaveChangesAsync();
+                }
             }
 
             return result;
