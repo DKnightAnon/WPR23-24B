@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Onderzoek;
 
 namespace WPR23_24B.Models.Medisch
 {
@@ -10,8 +11,10 @@ namespace WPR23_24B.Models.Medisch
 
         [Required(ErrorMessage = "Een beperking moet een naam hebben.")]
         [StringLength(100)]
-        public string Name { get; set; }    
-        public List<Gebruiker> GebruikerList { get; set; }
+        public string Name { get; set; }
+
+        // Navigation property for related entities
+        public List<ErvaringsdeskundigeBeperking> ErvaringsdeskundigeBeperkingen { get; set; }
 
     }
 }

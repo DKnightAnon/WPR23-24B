@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CgMenu, CgCloseR } from "react-icons/cg";
+import AuthService from '../../Services/Authentication/AuthService'
 
 const Nav = styled.nav`
   .navbar-list {
@@ -114,6 +116,12 @@ const Nav = styled.nav`
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
+    const loginstatus = useSelector((state) => state.userLoginStatus.userLoginStatus)
+    //const userLoggedIn = false;
+    const [userLoggedIn, setUserLoggedIn] = useState(loginstatus)
+
+    useEffect(() => { setUserLoggedIn(loginstatus) }, [loginstatus])
+    
 
     return (
         <Nav>
@@ -164,7 +172,7 @@ const Navbar = () => {
                             Contact
                         </NavLink>
                     </li>
-                    <li>
+                    {userLoggedIn ? < li >
                         <NavLink
                             className="navbar-link"
                             onClick={() => setOpenMenu(false)}
@@ -172,7 +180,7 @@ const Navbar = () => {
                         >
                             Chat
                         </NavLink>
-                    </li>
+                    </li> : null}
                     
                     <li>
                         <NavLink
@@ -185,6 +193,16 @@ const Navbar = () => {
                     </li>
 
                     <li>
+                      <NavLink
+                        className="navbar-link"
+                        onClick={() => setOpenMenu(false)}
+                        to="/Onderzoeken"
+                      >
+                        Onderzoek
+                      </NavLink>
+                    </li>
+
+                    {userLoggedIn ? <li>
                         <NavLink
                             className="navbar-link"
                             onClick={() => setOpenMenu(false)}
@@ -192,7 +210,7 @@ const Navbar = () => {
                         >
                             Beheer
                         </NavLink>
-                    </li>
+                    </li> : null}
                     
                 </ul>
                 {/* //nav icon */}

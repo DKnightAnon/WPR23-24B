@@ -1,3 +1,5 @@
+import AuthUtils from "../Authentication/AuthUtils";
+
 // Get the base URL from the environment variable
 const apiURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -8,12 +10,17 @@ const makeApiRequest = (endpoint, method, body) => {
   // Construct the full URL by combining the base API URL and the provided endpoint
   const fullUrl = `${apiURL}${endpoint}`;
 
+  // Get the authorization token from wherever it is stored (e.g., localStorage)
+  const authToken = AuthUtils.getToken();
+
   // Configure the Fetch API options for the request
   const requestOptions = {
     method,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       Accept: "application/json",
+      // Include authorization token if available
+      Authorization: authToken ? `Bearer ${authToken}` : undefined,
     },
     body: JSON.stringify(body),
   };

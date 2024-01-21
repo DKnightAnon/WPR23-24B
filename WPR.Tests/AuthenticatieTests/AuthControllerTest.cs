@@ -49,7 +49,7 @@ namespace WPR.Tests.AuthenticatieTests
             // Assert
             // Verify that the action returns the expected OkObjectResult with correct properties
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Login Succesfull", okResult.Value.GetType().GetProperty("Message").GetValue(okResult.Value));
+            Assert.Equal("Login Successful", okResult.Value.GetType().GetProperty("Message").GetValue(okResult.Value));
             Assert.Equal("fakeToken", okResult.Value.GetType().GetProperty("Token").GetValue(okResult.Value));
             Assert.Equal("UserRole", okResult.Value.GetType().GetProperty("UserRole").GetValue(okResult.Value));
         }

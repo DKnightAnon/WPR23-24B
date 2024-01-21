@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 
-import * as SignalR from '@microsoft/signalr'; 
+
 
 //Chat modules
 import ChatWindow from './ChatWindow/ChatWindow';
-import ChatInput from './ChatInput/ChatInput';
+
 import TestgroupChatInput from './ChatInput/TestgroupChatInput';
 
 
@@ -33,7 +33,7 @@ import Stack from 'react-bootstrap/Stack';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-import AuthService from '../../Services/Authentication/AuthUtils'
+import AuthUtils from '../../Services/Authentication/AuthUtils'
 
 export default function Chat() {
     const [connection, setConnection] = useState(null);
@@ -53,7 +53,7 @@ export default function Chat() {
     const handleClose = () => setShow(false);
     const handleShow = () => { setShow(true); console.log('LAUNCH BUTTON CLICKED')}
 
-    const token = AuthService.decodeToken(AuthService.getToken());
+    const token = AuthUtils.decodeToken(AuthUtils.getToken());
     const role = token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
     
