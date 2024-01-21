@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WPR23_24B.Data;
 
@@ -11,9 +12,11 @@ using WPR23_24B.Data;
 namespace WPR23_24B.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240121191938_addHulpmiddelen1")]
+    partial class addHulpmiddelen1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,12 +474,17 @@ namespace WPR23_24B.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ErvaringsdeskundigeId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ErvaringsdeskundigeId");
 
                     b.ToTable("Hulpmiddelen");
 
@@ -824,6 +832,13 @@ namespace WPR23_24B.Migrations
                     b.Navigation("Hulpmiddel");
                 });
 
+            modelBuilder.Entity("WPR23_24B.Models.Medisch.Hulpmiddel", b =>
+                {
+                    b.HasOne("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", null)
+                        .WithMany("Hulpmiddelen")
+                        .HasForeignKey("ErvaringsdeskundigeId");
+                });
+
             modelBuilder.Entity("WPR23_24B.Models.Onderzoek.ErvaringsdeskundigeOnderzoek", b =>
                 {
                     b.HasOne("WPR23_24B.Models.Authenticatie.Ervaringsdeskundige", "Ervaringsdeskundige")
@@ -928,6 +943,8 @@ namespace WPR23_24B.Migrations
                     b.Navigation("ErvaringsdeskundigeBeperkingen");
 
                     b.Navigation("ErvaringsdeskundigeHulpmiddelen");
+
+                    b.Navigation("Hulpmiddelen");
                 });
 #pragma warning restore 612, 618
         }
