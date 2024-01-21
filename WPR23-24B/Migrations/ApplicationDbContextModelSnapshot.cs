@@ -217,6 +217,53 @@ namespace WPR23_24B.Migrations
                     b.ToTable("ChatRoom");
                 });
 
+            modelBuilder.Entity("WPR23_24B.DTO.LogDTO.RegistrationLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RegistrationLogs");
+                });
+
+            modelBuilder.Entity("WPR23_24B.DTO.LogDTO.UnsubscribeLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ResearchId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UnsubscribeLogs");
+                });
+
             modelBuilder.Entity("WPR23_24B.Models.Authenticatie.Contactpersoon_Bedrijf", b =>
                 {
                     b.Property<int>("Id")
