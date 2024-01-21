@@ -12,10 +12,8 @@ namespace WPR23_24B.Models.Medisch
         [StringLength(100)]
         public string Name { get; set; }
 
-        [StringLength(100)]
-        public string Doel { get; set; }
-
-
         public List<Gebruiker> gebruikers { get; set; }
+        public List<ErvaringsdeskundigeHulpmiddel> ErvaringsdeskundigeHulpmiddelen { get; set; }
+
     }
 }

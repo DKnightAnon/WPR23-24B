@@ -22,14 +22,11 @@ namespace WPR23_24B.Controllers
         }
 
         // GET: api/Hulpmiddels
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hulpmiddel>>> GetHulpmiddel()
+        [HttpGet("predefinedHulpmiddelen")]
+        public IActionResult GetPredefinedHulpmiddelen()
         {
-            if (_context.Hulpmiddelen == null)
-            {
-                return NotFound();
-            }
-            return await _context.Hulpmiddelen.ToListAsync();
+            var predefinedHulpmiddelen = _context.Hulpmiddelen.Select(h => new { Id = h.Id, Name = h.Name }).ToList();
+            return Ok(predefinedHulpmiddelen);
         }
 
         // GET: api/Hulpmiddels/5

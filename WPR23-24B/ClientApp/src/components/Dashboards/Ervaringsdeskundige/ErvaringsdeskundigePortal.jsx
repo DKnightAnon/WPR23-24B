@@ -23,30 +23,20 @@ const ErvaringsdeskundigePortal = () => {
 
   const handleSaveClick = async () => {
     try {
-      console.log("Editable User Info:", editableUserInfo);
+      // const endpoint = `User/updateuserinfo`;
+      // const method = "PUT";
 
-      // Validate required fields before saving
-      // You can add your validation logic here if needed
+      // // Sending only the necessary data to the server
+      // const { naam, emailadres, ...userInfo } = editableUserInfo;
+      // const response = await makeApiRequest(endpoint, method, {
+      //   ...userInfo, // Include other user information properties
+      // });
 
-      const endpoint = `User/updateuserinfo`;
-      const method = "PUT";
-
-      // Sending only the necessary data to the server
-      const { naam, emailadres, ...userInfo } = editableUserInfo;
-      const response = await makeApiRequest(endpoint, method, {
-        naam,
-        emailadres,
-        ...userInfo, // Include other user information properties
-      });
-
-      // Update state with the response from the server
-      setUserData(response);
+      // // Update state with the response from the server
+      // setUserData(response);
 
       // Exit edit mode after successfully saving
       setEditMode(false);
-
-      // You can also show a success message or perform other actions as needed
-      console.log("User information saved successfully:", response);
     } catch (error) {
       console.error("Error saving user information:", error);
       // You can handle errors and display error messages if needed

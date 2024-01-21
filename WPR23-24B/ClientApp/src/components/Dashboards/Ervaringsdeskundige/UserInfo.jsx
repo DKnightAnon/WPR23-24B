@@ -3,19 +3,6 @@ import styled from "styled-components";
 import { makeApiRequest } from "../../../Services/Utils/ApiHelper";
 import DeskundigeNavbar from "./ErvaringsdeskundigeNavbar";
 
-const predefinedHulpmiddelen = [
-  "Schermlezer",
-  "Brailleleesregel",
-  "Spraakherkenning",
-  "Vergrootglas",
-  "Aangepast Toetsenbord",
-  "Muisaanpassingen",
-  "Tekst-naar-spraak",
-  "Daisy-speler",
-  "Brailleschrijfmachine",
-  "Ergonomische stoel",
-];
-
 const UserInfo = ({ gebruiker, editMode }) => {
   const [selectedHulpmiddelen, setSelectedHulpmiddelen] = useState(
     gebruiker.hulpmiddelen || []
@@ -23,23 +10,29 @@ const UserInfo = ({ gebruiker, editMode }) => {
 
   const [userInfo, setUserInfo] = useState({});
   const [editableUserInfo, setEditableUserInfo] = useState({});
+  const [hulpmiddelenData, setHulpmiddelenData] = useState([]);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
+    const fetchData = async () => {
       try {
-        const endpoint = `User/userinfo`;
-        const method = "GET";
-        const response = await makeApiRequest(endpoint, method);
+        const userInfoEndpoint = `User/userinfo`;
+        const hulpmiddelenEndpoint = `Hulpmiddels/predefinedHulpmiddelen`;
 
-        setUserInfo(response);
-        // Only update editableUserInfo when user information is fetched
-        setEditableUserInfo(response);
+        const userInfoResponse = await makeApiRequest(userInfoEndpoint, "GET");
+        const hulpmiddelenResponse = await makeApiRequest(
+          hulpmiddelenEndpoint,
+          "GET"
+        );
+
+        setUserInfo(userInfoResponse);
+        setEditableUserInfo(userInfoResponse);
+        setHulpmiddelenData(hulpmiddelenResponse);
       } catch (error) {
-        console.error("Error fetching user information:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchUserInfo();
+    fetchData();
   }, [gebruiker.id, gebruiker.role]);
 
   const handleHulpmiddelChange = (hulpmiddel) => {
@@ -202,15 +195,15 @@ const UserInfo = ({ gebruiker, editMode }) => {
         <HulpmiddelenSection>
           <h4>Hulpmiddelen</h4>
           <HulpmiddelenList>
-            {predefinedHulpmiddelen.map((hulpmiddel) => (
-              <HulpmiddelItem key={hulpmiddel}>
+            {hulpmiddelenData.map((hulpmiddel) => (
+              <HulpmiddelItem key={hulpmiddel.id}>
                 <Checkbox
                   type="checkbox"
-                  checked={selectedHulpmiddelen.includes(hulpmiddel)}
-                  onChange={() => handleHulpmiddelChange(hulpmiddel)}
+                  checked={selectedHulpmiddelen.includes(hulpmiddel.id)}
+                  onChange={() => handleHulpmiddelChange(hulpmiddel.id)}
                   disabled={!editMode}
                 />
-                {hulpmiddel}
+                {hulpmiddel.name}
               </HulpmiddelItem>
             ))}
           </HulpmiddelenList>

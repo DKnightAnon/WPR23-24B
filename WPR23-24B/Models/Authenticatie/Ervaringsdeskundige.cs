@@ -20,8 +20,8 @@ namespace WPR23_24B.Models.Authenticatie
 
         // Navigation properties for related entities
         public List<ErvaringsdeskundigeBeperking> ErvaringsdeskundigeBeperkingen { get; set; }
-        public List<Hulpmiddel> Hulpmiddelen { get; set; }
         public List<ErvaringsdeskundigeOnderzoek> EnrolledOnderzoeken { get; set; }
+        public List<ErvaringsdeskundigeHulpmiddel> ErvaringsdeskundigeHulpmiddelen { get; set; }
 
     }
 }

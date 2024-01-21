@@ -31,6 +31,7 @@ namespace WPR23_24B.Data
         public DbSet<Hulpmiddel> Hulpmiddelen { get; set; }
         public DbSet<Beperking> Beperkingen { get; set; }
         public DbSet<ErvaringsdeskundigeBeperking> ErvaringsdeskundigeBeperkingen { get; set; }
+        public DbSet<ErvaringsdeskundigeHulpmiddel> ErvaringsdeskundigeHulpmiddelen { get; set; }
 
         // Models / Onderzoek
         public DbSet<Onderzoek> Onderzoeken { get; set; }
@@ -106,6 +107,20 @@ namespace WPR23_24B.Data
             modelBuilder.Entity<ChatDeelnemers>().HasKey(key => new { key.GebruikerId, key.RoomId });
             modelBuilder.Entity<ChatRoom>().HasMany(x => x.gebruikers).WithMany(x => x.Gesprekken).UsingEntity<ChatDeelnemers>();
 
+            // Many-to-many relationship between Ervaringsdeskundige and Hulpmiddel
+            modelBuilder.Entity<ErvaringsdeskundigeHulpmiddel>()
+                .HasKey(eh => new { eh.ErvaringsdeskundigeId, eh.HulpmiddelId });
+
+            modelBuilder.Entity<ErvaringsdeskundigeHulpmiddel>()
+                .HasOne(eh => eh.Ervaringsdeskundige)
+                .WithMany(e => e.ErvaringsdeskundigeHulpmiddelen)
+                .HasForeignKey(eh => eh.ErvaringsdeskundigeId);
+
+            modelBuilder.Entity<ErvaringsdeskundigeHulpmiddel>()
+                .HasOne(eh => eh.Hulpmiddel)
+                .WithMany(h => h.ErvaringsdeskundigeHulpmiddelen)
+                .HasForeignKey(eh => eh.HulpmiddelId);
+
             SeedData(modelBuilder);
 
         }
@@ -118,6 +133,32 @@ namespace WPR23_24B.Data
                 new Beperking { Id = 2, Name = "Visueel" },
                 new Beperking { Id = 3, Name = "Auditief" }
             );
+
+            // Seed predefined Hulpmiddelen
+            var predefinedHulpmiddelen = new List<string>
+            {
+                "Schermlezer",
+                "Brailleleesregel",
+                "Spraakherkenning",
+                "Vergrootglas",
+                "Aangepast Toetsenbord",
+                "Muisaanpassingen",
+                "Tekst-naar-spraak",
+                "Daisy-speler",
+                "Brailleschrijfmachine",
+                "Ergonomische stoel"
+            };
+
+            foreach (var hulpmiddelData in predefinedHulpmiddelen)
+            {
+                modelBuilder.Entity<Hulpmiddel>().HasData(
+                    new Hulpmiddel
+                    {
+                        Id = predefinedHulpmiddelen.IndexOf(hulpmiddelData) + 1,
+                        Name = hulpmiddelData
+                    }
+                );
+            }
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
