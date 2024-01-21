@@ -64,7 +64,7 @@ export default function ChatInput(props) {
                     {/*<Button variant="secondary" className="me-auto" onClick={() => { console.log(token) }} >Test Decode JWT</Button>*/}
                     {/*<Button variant="secondary" className="me-auto" onClick={() => {console.log(role) } } > Print UserRole</Button>*/}
                   <Button variant="secondary" type="submit" size='lg' style={{ fontSize: "14px" }} >Submit</Button>
-                    <Button variant="secondary" className="me-auto" onClick={() => { console.log(encodedToken) }} >Encoded Token</Button>
+                    {/*<Button variant="secondary" className="me-auto" onClick={() => { console.log(encodedToken) }} >Encoded Token</Button>*/}
    {/*.             <Button variant="secondary" className="me-auto" onClick={() => {*/}
 
    {/*                  //this doesnt work yet*/}
