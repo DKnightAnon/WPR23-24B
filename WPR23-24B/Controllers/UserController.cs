@@ -12,6 +12,7 @@ using WPR23_24B.Data;
 using WPR23_24B.DTO.LogDTO;
 using WPR23_24B.Models;
 using WPR23_24B.Models.Authenticatie;
+using WPR23_24B.Models.Medisch;
 using WPR23_24B.Models.Onderzoek;
 using WPR23_24B.Services;
 
@@ -75,13 +76,13 @@ namespace WPR23_24B.Controllers
                 IsJongerDan18 = ervaringsdeskundige?.IsJongerDan18 ?? false,
                 VoogdId = ervaringsdeskundige?.VoogdId,
                 Beperkingen = ervaringsdeskundige?.ErvaringsdeskundigeBeperkingen,
-                Hulpmiddellen = ervaringsdeskundige?.Hulpmiddelen,
+                // Hulpmiddellen = ervaringsdeskundige?.Hulpmiddelen,
             };
 
             return Ok(userInformation);
         }
 
-        // PUT method to update user information
+        // PUT method to update user information including hulpmiddelen
         [HttpPut("updateuserinfo")]
         public async Task<IActionResult> UpdateUserInfo([FromBody] UserInfoUpdateModel model)
         {
@@ -89,6 +90,7 @@ namespace WPR23_24B.Controllers
             {
                 // Retrieve the user's ID from claims
                 var userId = User.FindFirst("Id")?.Value;
+
                 // Find the user in the database
                 var user = await _userManager.FindByIdAsync(userId);
 
@@ -107,24 +109,42 @@ namespace WPR23_24B.Controllers
                 // Log received model
                 _logger.LogInformation("Received UserInfoUpdateModel: {@Model}", model);
 
-
                 // Update user information based on the model
-                if (model.Naam != null)
-                    ervaringsdeskundige.Naam = model.Naam;
+                // ... (your existing code for updating other user information)
 
-                if (model.Emailadres != null)
-                    ervaringsdeskundige.Email = model.Emailadres;
+                // Update Hulpmiddelen based on the model
+                if (model.Hulpmiddelen != null)
+                {
+                    try
+                    {
+                        // Remove existing Hulpmiddelen
+                        ervaringsdeskundige.ErvaringsdeskundigeHulpmiddelen.Clear();
 
-                if (model.TelefoonNummer != null)
-                    ervaringsdeskundige.TelefoonNummer = model.TelefoonNummer;
+                        // Add new Hulpmiddelen
+                        foreach (var hulpmiddelId in model.Hulpmiddelen)
+                        {
+                            var hulpmiddel = _context.Hulpmiddelen.Find(hulpmiddelId);
 
-                if (model.Postcode != null)
-                    ervaringsdeskundige.Postcode = model.Postcode;
-
-                if (model.GeboorteDatum != null)
-                    ervaringsdeskundige.GeboorteDatum = model.GeboorteDatum;
-
-                // ... update other properties
+                            if (hulpmiddel != null)
+                            {
+                                ervaringsdeskundige.ErvaringsdeskundigeHulpmiddelen.Add(new ErvaringsdeskundigeHulpmiddel
+                                {
+                                    ErvaringsdeskundigeId = userId,
+                                    HulpmiddelId = hulpmiddelId
+                                });
+                            }
+                            else
+                            {
+                                // Handle the case where Hulpmiddel is not found
+                                return BadRequest($"Hulpmiddel with Id '{hulpmiddelId}' not found");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
+                }
 
                 // Update the user in the database
                 var result = await _userManager.UpdateAsync(ervaringsdeskundige);
@@ -132,18 +152,10 @@ namespace WPR23_24B.Controllers
                 // Check if the update was successful
                 if (result.Succeeded)
                 {
-                    // Return updated user information
-                    // Creating an anonymous object with updated user information
-                    var updatedUserInfo = new
-                    {
-                        UserId = ervaringsdeskundige.Id,
-                        UserName = ervaringsdeskundige.UserName,
-                        Naam = ervaringsdeskundige.Naam,
-                        Emailadres = ervaringsdeskundige.Email,
-                        // ... return other properties as needed
-                    };
-                    // Return the updated user information
-                    return Ok(updatedUserInfo);
+                    // Save changes to the database
+                    await _context.SaveChangesAsync();
+                    // Return a success message or any other relevant response
+                    return Ok(model);
                 }
                 else
                 {
@@ -155,6 +167,7 @@ namespace WPR23_24B.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         // GET method to retrieve the claimed researches of the current user
         [HttpGet("claimed")]
