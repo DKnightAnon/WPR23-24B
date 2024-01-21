@@ -27,9 +27,11 @@ namespace WPR23_24B.Models.Onderzoek
 
 
         // Relationship with Onderzoek_soort
-        public List<Onderzoek_Soort> OnderzoekSoorten { get; set; }
+        public List<Onderzoek_Soort>? OnderzoekSoorten { get; set; }
 
-        public List<Onderzoek_Resultaat> Resultaten { get; set; }
+        public List<Onderzoek_Resultaat>? Resultaten { get; set; }
+
+        public List<ErvaringsdeskundigeOnderzoek>? EnrolledErvaringsdeskundigen { get; set; }
 
     }
 }

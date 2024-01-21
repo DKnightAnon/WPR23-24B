@@ -40,7 +40,7 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
             <input
               type="checkbox"
               name="FysiekeBeperking"
-              checked={values.VFysiekeBeperking}
+              checked={values.FysiekeBeperking}
               onChange={handleChange}
               style={styles.checkbox}
               id="fysiekeBeperkingCheckbox"
@@ -86,21 +86,39 @@ const DisabilityType = ({ onNext, onPrev, values, handleChange }) => {
               aria-describedby="overigeBeperkingError"
               onKeyDown={handleRadioKeyDown} // Add keydown event listener
             >
-              <option value="" aria-label="Selecteer een beperking" onKeyDown={handleRadioKeyDown} // Add keydown event listener
->
+              <option
+                value=""
+                aria-label="Selecteer een beperking"
+                onKeyDown={handleRadioKeyDown} // Add keydown event listener
+              >
                 Selecteer
               </option>
-              <option value="mobility" aria-label="Beperkte mobiliteit" onKeyDown={handleRadioKeyDown} // Add keydown event listener
->
+              <option
+                value="mobility"
+                aria-label="Beperkte mobiliteit"
+                onKeyDown={handleRadioKeyDown} // Add keydown event listener
+              >
                 Beperkte mobiliteit
               </option>
-              <option value="cognitive" aria-label="Cognitieve beperking" onKeyDown={handleRadioKeyDown}>
+              <option
+                value="cognitive"
+                aria-label="Cognitieve beperking"
+                onKeyDown={handleRadioKeyDown}
+              >
                 Cognitieve beperking
               </option>
-              <option value="psychiatric" aria-label="Psychiatrische beperking" onKeyDown={handleRadioKeyDown}>
+              <option
+                value="psychiatric"
+                aria-label="Psychiatrische beperking"
+                onKeyDown={handleRadioKeyDown}
+              >
                 Psychiatrische beperking
               </option>
-              <option value="prothese" aria-label="Prothese van arm of been" onKeyDown={handleRadioKeyDown}>
+              <option
+                value="prothese"
+                aria-label="Prothese van arm of been"
+                onKeyDown={handleRadioKeyDown}
+              >
                 Prothese van arm of been
               </option>
               {/* Add more options as needed */}

@@ -42,14 +42,16 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\cypress\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\cypress\**" />
+    <EmbeddedResource Remove="ClientApp\cypress\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\cypress\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-
-    <Folder Include="ClientApp\cypress\e2e\" />
 
     <Folder Include="ClientApp\src\components\Chat\ChatInput\" />
 
