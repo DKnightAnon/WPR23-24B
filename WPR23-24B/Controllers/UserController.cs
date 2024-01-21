@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Data;
+using WPR23_24B.DTO.LogDTO;
 using WPR23_24B.Models;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Models.Onderzoek;
@@ -194,12 +195,55 @@ namespace WPR23_24B.Controllers
                 return NotFound("Onderzoek not found in claimed list");
             }
 
-            // Remove the enrollment and save changes to the database
+            // Log the unsubscribe action
+            var unsubscribeLog = new UnsubscribeLog
+            {
+                UserId = userId,
+                ResearchId = onderzoekId,
+                Timestamp = DateTime.UtcNow
+            };
+            _context.UnsubscribeLogs.Add(unsubscribeLog);
+
             _context.EnrolledErvaringsdeskundigen.Remove(enrollment);
             await _context.SaveChangesAsync();
 
             // Return a successful response
             return NoContent();
+        }
+
+        [HttpPost("logUnsubscribe")]
+        public async Task<IActionResult> LogUnsubscribe([FromBody] UnsubscribeLog unsubscribeLog)
+        {
+            try
+            {
+                // Ensure the provided user ID is valid (you may add additional validation logic)
+                if (string.IsNullOrEmpty(unsubscribeLog.UserId))
+                {
+                    return BadRequest("Invalid user ID");
+                }
+
+                _context.UnsubscribeLogs.Add(unsubscribeLog);
+                await _context.SaveChangesAsync();
+
+                return Ok("Unsubscribe logged successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("unsubscribe-user-id")]
+        public IActionResult GetUserIdForUnsubscribe()
+        {
+            var userId = User.FindFirst("Id")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID not found");
+            }
+
+            return Ok(new { UserId = userId });
         }
 
         // POST method to enroll the current user in a specified onderzoek

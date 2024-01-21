@@ -10,6 +10,7 @@ const ClaimedResearchesPage = () => {
   // State variable to manage claimed research data
   const navigate = useNavigate();
   const [claimedResearches, setClaimedResearches] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     // Fetch claimed researches when the component mounts
@@ -27,7 +28,21 @@ const ClaimedResearchesPage = () => {
 
   const handleRemoveResearch = async (researchId) => {
     try {
+      const response = await makeApiRequest("User/unsubscribe-user-id", "GET");
+      const userId = response.userId;
+
       await makeApiRequest(`User/claimed/${researchId}`, "DELETE");
+
+      // Log the action on the frontend
+      const unsubscribeLog = {
+        userId: userId,
+        researchId: researchId,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Send the log to your backend for further processing
+      // await makeApiRequest("User/logUnsubscribe", "POST", unsubscribeLog);
+
       setClaimedResearches((prevResearches) =>
         prevResearches.filter((research) => research.id !== researchId)
       );

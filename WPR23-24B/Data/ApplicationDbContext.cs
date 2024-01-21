@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WPR23_24B.Chat.Models;
+using WPR23_24B.DTO.LogDTO;
 using WPR23_24B.Models.Authenticatie;
 using WPR23_24B.Models.Medisch;
 using WPR23_24B.Models.Onderzoek;
@@ -44,6 +45,9 @@ namespace WPR23_24B.Data
 
         public DbSet<ChatDeelnemers> ChatRoomConnections { get; set; } = default!;
 
+        // LOGGING
+        public DbSet<UnsubscribeLog> UnsubscribeLogs { get; set; }
+        public DbSet<RegistrationLog> RegistrationLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -114,6 +118,58 @@ namespace WPR23_24B.Data
                 new Beperking { Id = 2, Name = "Visueel" },
                 new Beperking { Id = 3, Name = "Auditief" }
             );
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            // Step 1: Retrieve the entities being added or modified in the current DbContext session.
+            var newOrModifiedUsers = ChangeTracker.Entries<Gebruiker>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+                .ToList();
+
+            // Step 2: Iterate through each new or modified entity to handle registration logging.
+            foreach (var entry in newOrModifiedUsers)
+            {
+                // Step 3: Check if the entity is being added or modified.
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    // Step 4: Check if there is an existing registration log for the user.
+                    var existingLog = RegistrationLogs
+                        .SingleOrDefault(log => log.UserId == entry.Entity.Id && log.Email == entry.Entity.Email);
+
+                    // Step 5: If an existing log is found, update the Timestamp property to the current UTC time.
+                    if (existingLog != null)
+                    {
+                        // Step 6: Update existing log
+                        existingLog.Timestamp = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        // Step 7: If no existing log is found, create a new registration log for the user.
+                        // Add new log
+                        RegistrationLogs.Add(new RegistrationLog
+                        {
+                            Email = entry.Entity.Email,
+                            UserId = entry.Entity.Id,
+                            Timestamp = DateTime.UtcNow
+                        });
+                    }
+                }
+            }
+
+            // Step 8: Call the base SaveChangesAsync to persist changes to the database.
+
+            // Explanation:
+            // By overriding the base SaveChangesAsync, we can customize how changes are saved.
+            // Here, we're adding extra steps before saving to handle user registration logging.
+
+            // When we call the base SaveChangesAsync, it ensures our custom logic is integrated
+            // with the usual database-saving process. It's like adding our own twist to the recipe.
+
+            // The method's result indicates how many changes were successfully written to the database.
+            // This helps the calling code know if the overall save operation was successful or not.
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
